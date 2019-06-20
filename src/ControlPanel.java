@@ -6,10 +6,12 @@ import java.awt.*;
 import java.util.Vector;
 
 public class ControlPanel extends JPanel {
-    public static final int heightDefault = 25;
-    public static final int widthDefault = 100;
-    public static final int imageSizeSmall = 30;
-    public static final int imageSizeBig = 90;
+
+    private final int heightDefault = 25;
+    private final int widthDefault = 100;
+    private final int imageSizeSmall = 30;
+    private final int imageSizeBig = 90;
+
 
     public ControlPanel() {
         this.setBackground(new Color(0x636363));
@@ -76,7 +78,8 @@ public class ControlPanel extends JPanel {
         playList.setBorder(new EmptyBorder(heightDefault, 0, 0, 0));
         try {
             Image img2 = ImageIO.read(getClass().getResource("/musicplaylist.png"));
-            Image image = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+
+            Image image = img2.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             playList.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);

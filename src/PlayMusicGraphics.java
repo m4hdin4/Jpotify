@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+
 public class PlayMusicGraphics extends JPanel {
     public static final int imageSizeSmall = 30;
     public static final int imageSizeBig = 60;
@@ -18,7 +23,7 @@ public class PlayMusicGraphics extends JPanel {
     private JButton shuffleBtn;
     private JLabel timePassed;
     private JLabel timeSong;
-    private JPanel songData;
+
     private JLabel songAuthorName;
     private JLabel songAlbumName;
     private JPanel centerButtons;
@@ -26,9 +31,20 @@ public class PlayMusicGraphics extends JPanel {
     private JPanel soundBar;
     private JButton soundIcon;
     private JSlider soundSlider;
+
+
+
+
+    private SongProfile songData;
+
+
+    private int soundSliderValue;
+
+
     private int shuffleCounter;
     private int playPauseCounter;
     private int repeatCounter;
+    private int soundCounter;
 
 
 
@@ -38,16 +54,7 @@ public class PlayMusicGraphics extends JPanel {
         centerButtons = new JPanel();
         centerButtons.setOpaque(false);
         centerButtons.setLayout(new FlowLayout());
-        songData = new JPanel();
-        songData.setOpaque(false);
-        songData.setLayout(new BorderLayout());
-        songAuthorName = new JLabel("Author name");
-        songAuthorName.setOpaque(false);
-        songAlbumName = new JLabel("Album name");
-        songAuthorName.setFont(new Font("BOLD" , Font.BOLD , 20));
-        songAlbumName.setOpaque(false);
-        songData.add(songAuthorName , BorderLayout.NORTH);
-        songData.add(songAlbumName , BorderLayout.CENTER);
+        songData = new SongProfile("", "");
         this.add(songData , BorderLayout.WEST);
         JLabel space = new JLabel("                              ");
         space.setOpaque(false);
@@ -198,6 +205,8 @@ public class PlayMusicGraphics extends JPanel {
         this.add(centerButtons , BorderLayout.CENTER);
         musicSlider = new JSlider();
         musicSlider.setOpaque(false);
+        musicSlider.setMinimum(0);
+        musicSlider.setValue(0);
         musicSlider.setBorder(new EmptyBorder(0,0,10,0));
         this.add(musicSlider , BorderLayout.SOUTH);
         soundBar = new JPanel();
@@ -213,8 +222,192 @@ public class PlayMusicGraphics extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
         soundSlider = new JSlider();
         soundSlider.setOpaque(false);
+
+        soundIcon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (soundCounter % 2 == 0 && soundSliderValue!=0){
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                    soundSlider.setValue(0);
+                    soundCounter++;
+                }
+                else if (soundSliderValue!=0){
+                    if (soundSliderValue<=50) {
+                        try {
+                            Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                            soundIcon.setIcon(new ImageIcon(image));
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+                        soundSlider.setValue(soundSliderValue);
+                    }
+                    else {
+                        try {
+                            Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
+                            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                            soundIcon.setIcon(new ImageIcon(image));
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+                        soundSlider.setValue(soundSliderValue);
+                    }
+                    soundCounter++;
+                }
+            }
+        });
+        soundSlider = new JSlider();
+        soundSlider.setOpaque(false);
+        soundSlider.setMaximum(100);
+        soundSlider.setMinimum(0);
+        soundSlider.setValue(50);
+        soundSliderValue = 50;
+        soundSlider.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                soundSliderValue = soundSlider.getValue();
+                if (soundSliderValue>50) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+
+                }
+                else if(soundSliderValue >0) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                soundSliderValue = soundSlider.getValue();
+                if (soundSliderValue>50) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+
+                }
+                else if(soundSliderValue >0) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                soundSliderValue = soundSlider.getValue();
+                if (soundSliderValue>50) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+
+                }
+                else if(soundSliderValue >0) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                soundSliderValue = soundSlider.getValue();
+                if (soundSliderValue>50) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+
+                }
+                else if(soundSliderValue >0) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         soundBar.add(soundIcon , BorderLayout.CENTER);
         soundBar.add(soundSlider , BorderLayout.EAST);
         this.add(soundBar , BorderLayout.EAST);

@@ -5,13 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.File;
+
 public class Search extends JPanel  {
-    JTextField searchArea;
-    JButton search;
-    JButton profile;
+    private final int imageSizeSmall = 30;
+    private JTextField searchArea;
+    private JButton search;
+    private static JButton profile;
+    ProfileSettings profileSettings;
 
     public Search() {
         super();
+        profileSettings = new ProfileSettings();
+
         this.setBackground(new Color(0x676767));
 
         search = new JButton("search");
@@ -26,7 +32,10 @@ public class Search extends JPanel  {
         });
         try {
             Image img = ImageIO.read(getClass().getResource("/Search.png"));
-            Image image = img.getScaledInstance(ControlPanel.imageSizeSmall, ControlPanel.imageSizeSmall, Image.SCALE_SMOOTH);
+
+
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+
             search.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -42,7 +51,9 @@ public class Search extends JPanel  {
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProfileSettings profileSettings = new ProfileSettings();
+
+
+
                 profileSettings.setVisible();
 
             }
@@ -50,7 +61,9 @@ public class Search extends JPanel  {
 
         try {
             Image img = ImageIO.read(getClass().getResource("/user.png"));
-            Image image = img.getScaledInstance(ControlPanel.imageSizeSmall, ControlPanel.imageSizeSmall, Image.SCALE_SMOOTH);
+
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+
             profile.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -72,6 +85,8 @@ public class Search extends JPanel  {
             }
         });
     }
+
+
 
 
 
