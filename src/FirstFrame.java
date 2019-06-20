@@ -23,7 +23,7 @@ public class FirstFrame extends JFrame {
         setVisible(true);
         TimeUnit.SECONDS.sleep(3);
         this.dispose();
-        JpotifyFrame jpotifyFrame = new JpotifyFrame();
+        SignPage signPage = new SignPage();
 
 
 

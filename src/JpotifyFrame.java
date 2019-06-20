@@ -53,14 +53,13 @@ public class JpotifyFrame extends JFrame {
     public void setSongProfile(){
 
     }
-
-
     public void setVisible(){
         this.setVisible(true);
     }
 
     public static void main(String[] args) throws InterruptedException {
         FirstFrame firstFrame = new FirstFrame();
+
 
     }
 }
