@@ -1,10 +1,13 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 public class FirstFrame extends JFrame {
 
-    public FirstFrame(){
+    public FirstFrame() throws InterruptedException {
         this.setSize(400 , 400);
         JLabel jLabel = new JLabel();
         try {
@@ -18,5 +21,11 @@ public class FirstFrame extends JFrame {
         this.add(jLabel , BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
         setVisible(true);
+        TimeUnit.SECONDS.sleep(3);
+        this.dispose();
+        JpotifyFrame jpotifyFrame = new JpotifyFrame();
+
+
+
     }
 }

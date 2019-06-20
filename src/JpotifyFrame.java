@@ -31,7 +31,7 @@ public class JpotifyFrame extends JFrame {
         this.add(centerScroll ,BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setVisible(false);
+        this.setVisible(true);
         this.setResizable(false);
 
     }
@@ -39,8 +39,9 @@ public class JpotifyFrame extends JFrame {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        TimeHandler timeHandler = new TimeHandler();
+    public static void main(String[] args) throws InterruptedException {
+       FirstFrame firstFrame = new FirstFrame();
+
 
 
 
