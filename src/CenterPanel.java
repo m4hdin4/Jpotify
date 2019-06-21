@@ -33,9 +33,10 @@ public class CenterPanel extends JPanel {
     SingleTrack singleTrack26;
     SingleTrack singleTrack27;
     SingleTrack singleTrack28;
+
     public CenterPanel (){
         singleTrack = new SingleTrack("/camera.png" , " g"  ,"d" , "o");
-        singleTrack1 = new SingleTrack("/camera.png" , " l"  ,"s" , "q");
+        singleTrack1 = new SingleTrack("/camera.png" , " g"  ,"s" , "q");
         singleTrack2 = new SingleTrack("/camera.png" , " g"  ,"g" , "t");
         singleTrack3 = new SingleTrack("/camera.png" , " g"  ,"d" , "o");
         singleTrack4 = new SingleTrack("/camera.png" , " g"  ,"d" , "o");
