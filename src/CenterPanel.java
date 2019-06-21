@@ -1,14 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
 import com.mpatric.mp3agic.* ;
 
 
-
-public class CenterPanel extends JPanel implements PhotoAndMusicLinker {
+public class CenterPanel extends JPanel implements ProfilePhotoLinker1 {
 
     private int musicCounter;
     private int MAXMusicCounter = 1000;
@@ -28,16 +28,31 @@ public class CenterPanel extends JPanel implements PhotoAndMusicLinker {
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
         Mp3File mp3file = new Mp3File(f);
-        if (mp3file.hasId3v1Tag()) {
-            ID3v1 id3v1Tag = mp3file.getId3v1Tag();
-            addTrack[musicCounter].setOptions("play.png" , id3v1Tag.getArtist()+" " , id3v1Tag.getTrack()+" " , id3v1Tag.getAlbum()+ " " , mp3file);
-            addTrack[musicCounter].setVisible(true);
-            //addNewTrack(addTrack);
+        String songArtist;
+        String songName;
+        String albumName;
+        Image image;
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getArtist() != null && !mp3file.getId3v1Tag().getArtist().equals(""))
+            songArtist = mp3file.getId3v1Tag().getArtist();
+        else
+            songArtist = "UNKNOWN";
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getTrack() != null && !mp3file.getId3v1Tag().getTrack().equals(""))
+            songName = mp3file.getId3v1Tag().getTrack();
+        else
+            songName = "UNKNOWN";
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals(""))
+            albumName = mp3file.getId3v1Tag().getAlbum();
+        else
+            albumName = "UNKNOWN";
+        if (mp3file.getId3v2Tag().getAlbumImage()!=null ){
+            image = ImageIO.read(new ByteArrayInputStream(mp3file.getId3v2Tag().getAlbumImage()));
         }
         else{
-            addTrack[musicCounter].setOptions("play.png" , " " , " " , " " , mp3file);
-            addTrack[musicCounter].setVisible(true);
+            image = ImageIO.read(getClass().getResource("/singer.png"));
         }
+        addTrack[musicCounter].setOptions(songArtist , songName , albumName , image , f);
+        addTrack[musicCounter].setVisible(true);
+
         musicCounter++;
     }
 

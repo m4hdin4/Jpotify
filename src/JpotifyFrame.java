@@ -2,18 +2,20 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class JpotifyFrame extends JFrame {
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility{
     private final int WIDTH = 1000, HEIGHT = 700;
     private final String WINDOWS_TITLE = "Jpotify";
     private ControlPanel controlPanel;
     private Search search;
     private PlayMusicGraphics playMusic;
     private CenterPanel centerPanel;
+
     public JpotifyFrame() {
         super();
         this.setSize(WIDTH, HEIGHT);
         this.setTitle(WINDOWS_TITLE);
-        this.setMinimumSize(new Dimension(WIDTH , HEIGHT));
+        this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        this.setVisible(false);
 
         controlPanel = new ControlPanel();
         search = new Search();
@@ -26,18 +28,17 @@ public class JpotifyFrame extends JFrame {
         JScrollPane jScrollPane = new JScrollPane(controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         this.add(jScrollPane, BorderLayout.WEST);
-        this.add(search , BorderLayout.NORTH);
+        this.add(search, BorderLayout.NORTH);
         playMusic = new PlayMusicGraphics();
-        this.add(playMusic , BorderLayout.SOUTH);
-        JScrollPane centerScroll = new JScrollPane(centerPanel , JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(playMusic, BorderLayout.SOUTH);
+        JScrollPane centerScroll = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.add(centerScroll ,BorderLayout.CENTER);
+        this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
         //this.setResizable(false);
-        this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        //this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
+        //this.setVisible(true);
         //this.setResizable(false);
 
     }
@@ -53,17 +54,18 @@ public class JpotifyFrame extends JFrame {
     public PlayMusicGraphics getPlayMusic() {
         return playMusic;
     }
-    public void setSongProfile(){
 
+    public CenterPanel getCenterPanel() {
+        return centerPanel;
     }
 
-
-    public void setVisible(){
+    @Override
+    public void showFrame() {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        FirstFrame firstFrame = new FirstFrame();
-
+    @Override
+    public void changeVisibility(boolean b) {
+        setVisible(b);
     }
 }

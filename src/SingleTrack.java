@@ -6,9 +6,8 @@ import java.awt.*;
 import java.io.File;
 
 public class SingleTrack extends JPanel {
-    Mp3File singleTrack ;
+    File singleTrack ;
 
-    private String photoAddress ;
     private String singerName ;
     private String trackName ;
     private String albumName ;
@@ -36,25 +35,23 @@ public class SingleTrack extends JPanel {
         this.add(box);
     }
 
-    public Mp3File getSingleTrack() {
+    public File getSingleTrack() {
         return singleTrack;
     }
 
-    public void setOptions(String photoAddress , String singerName , String trackName , String albumName , Mp3File mp3File){
+    public void setOptions(String singerName , String trackName , String albumName , Image songIcon , File mp3File){
         this.singleTrack = mp3File;
-        this.photoAddress =photoAddress;
         this.singerName = singerName;
         this.trackName = trackName;
         this.albumName = albumName;
         singer_Name.setText(singerName);
         album_Name.setText(albumName);
         track_Name.setText(trackName);
-//        try {
-//            Image img2 = ImageIO.read(getClass().getResource(this.photoAddress));
-//            Image image = img2.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-//            singer_Photo.setIcon(new ImageIcon(image));
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
+        try {
+            Image image = songIcon.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            singer_Photo.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 }

@@ -6,37 +6,58 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-
-import sun.java2d.cmm.Profile;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 
-public class ProfileSettings extends JFrame {
+public class ProfileSettings extends JFrame implements UsernameLinker {
+    public JPanel getPhoto() {
+        return photo;
+    }
+
+    public JLabel getUserPhoto() {
+        return userPhoto;
+    }
+
+
+    public JButton getChangeName() {
+        return changeName;
+    }
+
+    public JLabel getUserNameText() {
+        return userNameText;
+    }
+
     private final int imageSize = 60;
 
-    private final int WIDTH = 210, HEIGHT = 180;
+    private final int WIDTH = 210, HEIGHT = 200;
     private final String WINDOWS_TITLE = "Profile";
     private JPanel photo;
     private JLabel userPhoto;
-    private JLabel name;
+    private JLabel userNameText;
     private JButton changeName;
+    private JButton camera;
 
-    PhotoAndMusicLinker changePhoto;
+    private JButton signOut;
 
-    private Image personalImage;
+    public JButton getCamera() {
+        return camera;
+    }
 
+    private ProfilePhotoLinker1 changePhoto1;
+    private ProfilePhotoLinker2 changePhoto2;
 
+    private JpotifyVisibility jpotifyVisibility;
+    private SignpageVisibility signpageVisibility;
 
-    public ProfileSettings (){
+    public void setJpotifyVisibility(JpotifyVisibility jpotifyVisibility) {
+        this.jpotifyVisibility = jpotifyVisibility;
+    }
+
+    public void setSignpageVisibility(SignpageVisibility signpageVisibility) {
+        this.signpageVisibility = signpageVisibility;
+    }
+
+    public ProfileSettings() {
         super();
 
 
@@ -45,7 +66,7 @@ public class ProfileSettings extends JFrame {
         this.setSize(WIDTH, HEIGHT);
         this.setTitle(WINDOWS_TITLE);
         this.setVisible(false);
-        this.setLayout(new GridLayout(2 , 1));
+        this.setLayout(new GridLayout(2, 1));
 
 
         photo = new JPanel();
@@ -62,7 +83,7 @@ public class ProfileSettings extends JFrame {
             System.out.println(ex);
         }
 
-        JButton camera = new JButton();
+        camera = new JButton();
         camera.setOpaque(false);
         camera.setContentAreaFilled(false);
         camera.setBorderPainted(false);
@@ -90,10 +111,10 @@ public class ProfileSettings extends JFrame {
                     System.out.println(photoChooser.getSelectedFile().getPath());
                     try {
                         Image img = ImageIO.read(photoChooser.getSelectedFile());
-                        personalImage = img;
                         Image image = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
                         userPhoto.setIcon(new ImageIcon(image));
-                        changePhoto.linker(photoChooser.getSelectedFile());
+                        changePhoto1.linker(photoChooser.getSelectedFile());
+                        changePhoto2.linker(photoChooser.getSelectedFile());
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
@@ -111,13 +132,13 @@ public class ProfileSettings extends JFrame {
 
         JPanel userName = new JPanel();
         userName.setBackground(new Color(0x595B5D));
-        userName.setLayout(new GridLayout(2,1));
+        userName.setLayout(new GridLayout(3, 1));
 
         this.setLocationRelativeTo(null);
 
-        name = new JLabel();
-        name.setOpaque(false);
-        name.setText("tuem");
+        userNameText = new JLabel();
+        userNameText.setOpaque(false);
+        //userNameText.setText("tuem");
 
         changeName = new JButton("Change Your Name");
         changeName.setBackground(new Color(0));
@@ -126,24 +147,48 @@ public class ProfileSettings extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane newNameDialog = new JOptionPane();
-                String newNameText = newNameDialog.showInputDialog(name , "new name");
-                if (newNameText != null && !newNameText .equals(""))
-                    name.setText(newNameText);
+                String newNameText = newNameDialog.showInputDialog(userNameText, "new name");
+                if (newNameText != null && !newNameText.equals(""))
+                    userNameText.setText(newNameText);
             }
         });
-        userName.add(name);
-        userName.add(changeName);
 
+        signOut = new JButton("sign out");
+        signOut.setOpaque(false);
+        signOut.setBackground(new Color(0));
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                jpotifyVisibility.changeVisibility(false);
+                signpageVisibility.changeVisibility(true);
+            }
+        });
+
+        userName.add(userNameText);
+        userName.add(changeName);
+        userName.add(signOut);
         this.add(userName);
+
+
         this.setResizable(false);
         this.setBackground(new Color(0x410717));
     }
 
-    public void setChangePhoto(PhotoAndMusicLinker changePhoto) {
-        this.changePhoto = changePhoto;
+    public void setChangePhoto(ProfilePhotoLinker1 changePhoto) {
+        this.changePhoto1 = changePhoto;
     }
 
-    public void setVisible(){
-        this.setVisible(true);
+    public void setChangePhoto2(ProfilePhotoLinker2 changePhoto2) {
+        this.changePhoto2 = changePhoto2;
     }
+
+    @Override
+    public void linker(String newName) {
+        if (newName != null && !newName.equals(""))
+            this.getUserNameText().setText(newName+ " ");
+        else
+            this.getUserNameText().setText("tuem");
+    }
+
 }

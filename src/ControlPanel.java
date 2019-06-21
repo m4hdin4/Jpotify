@@ -29,7 +29,7 @@ public class ControlPanel extends JPanel {
     JButton addPlay;
     JList<String> playlist;
 
-    PhotoAndMusicLinker musicLinker;
+    ProfilePhotoLinker1 musicLinker;
 
 
     public ControlPanel() {
@@ -91,6 +91,12 @@ public class ControlPanel extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        allSongs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Songs songs = new Songs();
+            }
+        });
 
 
         albums = new JButton();
@@ -187,7 +193,7 @@ public class ControlPanel extends JPanel {
 
     }
 
-    public void setMusicLinker(PhotoAndMusicLinker musicLinker) {
+    public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
     }
 }

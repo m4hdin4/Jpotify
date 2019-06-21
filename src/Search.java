@@ -1,13 +1,27 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.File;
 
-public class Search extends JPanel implements PhotoAndMusicLinker {
+public class Search extends JPanel implements ProfilePhotoLinker1 {
+    public JTextField getSearchArea() {
+        return searchArea;
+    }
+
+    public JButton getSearch() {
+        return search;
+    }
+
+    public JButton getProfile() {
+        return profile;
+    }
+
+    public ProfileSettings getProfileSettings() {
+        return profileSettings;
+    }
 
     private final int imageSizeSmall = 30;
     private JTextField searchArea;
@@ -50,7 +64,7 @@ public class Search extends JPanel implements PhotoAndMusicLinker {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                profileSettings.setVisible();
+                profileSettings.setVisible(true);
 
             }
         });
@@ -94,4 +108,5 @@ public class Search extends JPanel implements PhotoAndMusicLinker {
             System.out.println(ex);
        }
     }
+
 }
