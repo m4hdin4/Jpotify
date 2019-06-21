@@ -9,11 +9,12 @@ public class JpotifyFrame extends JFrame {
     private Search search;
     private PlayMusicGraphics playMusic;
     private CenterPanel centerPanel;
+
     public JpotifyFrame() {
         super();
         this.setSize(WIDTH, HEIGHT);
         this.setTitle(WINDOWS_TITLE);
-        this.setMinimumSize(new Dimension(WIDTH , HEIGHT));
+        this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
         controlPanel = new ControlPanel();
         search = new Search();
@@ -24,12 +25,12 @@ public class JpotifyFrame extends JFrame {
         JScrollPane jScrollPane = new JScrollPane(controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         this.add(jScrollPane, BorderLayout.WEST);
-        this.add(search , BorderLayout.NORTH);
+        this.add(search, BorderLayout.NORTH);
         playMusic = new PlayMusicGraphics();
-        this.add(playMusic , BorderLayout.SOUTH);
-        JScrollPane centerScroll = new JScrollPane(centerPanel , JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(playMusic, BorderLayout.SOUTH);
+        JScrollPane centerScroll = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.add(centerScroll ,BorderLayout.CENTER);
+        this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -51,15 +52,18 @@ public class JpotifyFrame extends JFrame {
     public PlayMusicGraphics getPlayMusic() {
         return playMusic;
     }
-    public void setSongProfile(){
+
+    public void setSongProfile() {
 
     }
-    public void setVisible(){
+
+    public void setVisible() {
         this.setVisible(true);
     }
 
     public static void main(String[] args) throws InterruptedException {
-        FirstFrame firstFrame = new FirstFrame();
+       // FirstFrame firstFrame = new FirstFrame();
+        Songs songs = new Songs();
 
 
     }

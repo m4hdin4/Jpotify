@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class FirstFrame extends JFrame {
 
     public FirstFrame() throws InterruptedException {
-        this.setSize(400 , 400);
+        this.setSize(400, 400);
         JLabel jLabel = new JLabel();
         try {
             Image img = ImageIO.read(getClass().getResource("/logoo.jpg"));
@@ -18,13 +18,13 @@ public class FirstFrame extends JFrame {
             System.out.println(ex);
         }
         this.setLayout(new BorderLayout());
-        this.add(jLabel , BorderLayout.CENTER);
+        this.add(jLabel, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
         setVisible(true);
+        this.setResizable(false);
         TimeUnit.SECONDS.sleep(3);
         this.dispose();
         SignPage signPage = new SignPage();
-
 
 
     }
