@@ -3,6 +3,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 public class ControlPanel extends JPanel {
@@ -49,6 +51,12 @@ public class ControlPanel extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        allSongs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Songs songs = new Songs();
+            }
+        });
 
 
         JButton albums = new JButton();

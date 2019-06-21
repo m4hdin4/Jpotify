@@ -62,8 +62,8 @@ public class JpotifyFrame extends JFrame {
     }
 
     public static void main(String[] args) throws InterruptedException {
-       // FirstFrame firstFrame = new FirstFrame();
-        Songs songs = new Songs();
+        FirstFrame firstFrame = new FirstFrame();
+       // Songs songs = new Songs();
 
 
     }
