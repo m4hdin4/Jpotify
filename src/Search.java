@@ -7,16 +7,20 @@ import java.awt.event.ActionListener;
 
 import java.io.File;
 
-public class Search extends JPanel  {
+public class Search extends JPanel implements ChangeProfileJpotifyFrame {
+
     private final int imageSizeSmall = 30;
     private JTextField searchArea;
     private JButton search;
-    private static JButton profile;
-    ProfileSettings profileSettings;
+    private JButton profile;
+    private ProfileSettings profileSettings;
+
+
 
     public Search() {
         super();
         profileSettings = new ProfileSettings();
+        profileSettings.setChangePhoto(this);
 
         this.setBackground(new Color(0x676767));
 
@@ -52,8 +56,6 @@ public class Search extends JPanel  {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-
-
                 profileSettings.setVisible();
 
             }
@@ -87,7 +89,15 @@ public class Search extends JPanel  {
     }
 
 
+    @Override
+    public void changeProfileJpotifyFrame(Image newIcon) {
+        try {
+            Image image = newIcon.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+            profile.setIcon(new ImageIcon(image));
 
-
-
+        } catch (Exception ex) {
+            System.out.println(ex);
+       }
+        System.out.println("print");
+    }
 }

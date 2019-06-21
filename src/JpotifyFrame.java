@@ -16,16 +16,17 @@ public class JpotifyFrame extends JFrame {
         this.setMinimumSize(new Dimension(WIDTH , HEIGHT));
 
         controlPanel = new ControlPanel();
+        search = new Search();
+        centerPanel = new CenterPanel();
+
         this.setLayout(new BorderLayout());
         //JScrollPane jScrollPane = new JScrollPane(controlPanel);
         JScrollPane jScrollPane = new JScrollPane(controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         this.add(jScrollPane, BorderLayout.WEST);
-        search = new Search();
         this.add(search , BorderLayout.NORTH);
         playMusic = new PlayMusicGraphics();
         this.add(playMusic , BorderLayout.SOUTH);
-        centerPanel = new CenterPanel();
         JScrollPane centerScroll = new JScrollPane(centerPanel , JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         this.add(centerScroll ,BorderLayout.CENTER);

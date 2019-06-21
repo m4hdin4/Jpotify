@@ -24,20 +24,18 @@ public class PlayMusicGraphics extends JPanel {
     private JLabel timePassed;
     private JLabel timeSong;
 
-    private JLabel songAuthorName;
-    private JLabel songAlbumName;
+    public SongProfile getSongData() {
+        return songData;
+    }
+
+
+    private SongProfile songData;
+
     private JPanel centerButtons;
     private JSlider musicSlider;
     private JPanel soundBar;
     private JButton soundIcon;
     private JSlider soundSlider;
-
-
-
-
-    private SongProfile songData;
-
-
     private int soundSliderValue;
 
 

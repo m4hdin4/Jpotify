@@ -30,6 +30,10 @@ public class ProfileSettings extends JFrame {
     private JLabel name;
     private JButton changeName;
 
+    ChangeProfileJpotifyFrame changePhoto;
+
+    private Image personalImage;
+
 
 
     public ProfileSettings (){
@@ -86,10 +90,12 @@ public class ProfileSettings extends JFrame {
                     System.out.println(jfc.getSelectedFile().getPath());
                     try {
                         Image img = ImageIO.read(jfc.getSelectedFile());
+                        personalImage = img;
                         Image image = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
                         userPhoto.setIcon(new ImageIcon(image));
+                        changePhoto.changeProfileJpotifyFrame(img);
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        System.out.println("error");
                     }
 
                 }
@@ -111,7 +117,7 @@ public class ProfileSettings extends JFrame {
 
         name = new JLabel();
         name.setOpaque(false);
-        name.setText("mohammad");
+        name.setText("tuem");
 
         changeName = new JButton("Change Your Name");
         changeName.setBackground(new Color(0));
@@ -132,8 +138,12 @@ public class ProfileSettings extends JFrame {
         this.setResizable(false);
         this.setBackground(new Color(0x410717));
     }
+
+    public void setChangePhoto(ChangeProfileJpotifyFrame changePhoto) {
+        this.changePhoto = changePhoto;
+    }
+
     public void setVisible(){
         this.setVisible(true);
     }
-
 }
