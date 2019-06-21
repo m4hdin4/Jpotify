@@ -19,6 +19,8 @@ public class JpotifyFrame extends JFrame {
         search = new Search();
         centerPanel = new CenterPanel();
 
+        controlPanel.setMusicLinker(centerPanel);
+
         this.setLayout(new BorderLayout());
         //JScrollPane jScrollPane = new JScrollPane(controlPanel);
         JScrollPane jScrollPane = new JScrollPane(controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

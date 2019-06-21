@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import java.io.File;
 
-public class Search extends JPanel implements ChangeProfileJpotifyFrame {
+public class Search extends JPanel implements PhotoAndMusicLinker {
 
     private final int imageSizeSmall = 30;
     private JTextField searchArea;
@@ -28,12 +28,6 @@ public class Search extends JPanel implements ChangeProfileJpotifyFrame {
         search.setOpaque(false);
         search.setContentAreaFilled(false);
         search.setBorderPainted(false);
-        search.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         try {
             Image img = ImageIO.read(getClass().getResource("/Search.png"));
 
@@ -90,14 +84,14 @@ public class Search extends JPanel implements ChangeProfileJpotifyFrame {
 
 
     @Override
-    public void changeProfileJpotifyFrame(Image newIcon) {
+    public void linker(File imageFile) {
         try {
-            Image image = newIcon.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+            Image img = ImageIO.read(imageFile);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, img.SCALE_SMOOTH);
             profile.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
             System.out.println(ex);
        }
-        System.out.println("print");
     }
 }

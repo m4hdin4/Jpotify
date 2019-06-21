@@ -30,7 +30,7 @@ public class ProfileSettings extends JFrame {
     private JLabel name;
     private JButton changeName;
 
-    ChangeProfileJpotifyFrame changePhoto;
+    PhotoAndMusicLinker changePhoto;
 
     private Image personalImage;
 
@@ -79,23 +79,23 @@ public class ProfileSettings extends JFrame {
         camera.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                jfc.setDialogTitle("Select an image");
-                jfc.setAcceptAllFileFilterUsed(false);
+                JFileChooser photoChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                photoChooser.setDialogTitle("Select an image");
+                photoChooser.setAcceptAllFileFilterUsed(false);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG and JPG images", "png", "jpg");
-                jfc.addChoosableFileFilter(filter);
+                photoChooser.addChoosableFileFilter(filter);
 
-                int returnValue = jfc.showOpenDialog(null);
+                int returnValue = photoChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    System.out.println(jfc.getSelectedFile().getPath());
+                    System.out.println(photoChooser.getSelectedFile().getPath());
                     try {
-                        Image img = ImageIO.read(jfc.getSelectedFile());
+                        Image img = ImageIO.read(photoChooser.getSelectedFile());
                         personalImage = img;
                         Image image = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
                         userPhoto.setIcon(new ImageIcon(image));
-                        changePhoto.changeProfileJpotifyFrame(img);
+                        changePhoto.linker(photoChooser.getSelectedFile());
                     } catch (Exception ex) {
-                        System.out.println("error");
+                        System.out.println(ex);
                     }
 
                 }
@@ -139,7 +139,7 @@ public class ProfileSettings extends JFrame {
         this.setBackground(new Color(0x410717));
     }
 
-    public void setChangePhoto(ChangeProfileJpotifyFrame changePhoto) {
+    public void setChangePhoto(PhotoAndMusicLinker changePhoto) {
         this.changePhoto = changePhoto;
     }
 
