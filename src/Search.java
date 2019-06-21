@@ -4,18 +4,24 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
 
-public class Search extends JPanel  {
+public class Search extends JPanel implements ChangeProfileJpotifyFrame {
+
     private final int imageSizeSmall = 30;
     private JTextField searchArea;
     private JButton search;
-    private static JButton profile;
-    ProfileSettings profileSettings;
+    private JButton profile;
+    private ProfileSettings profileSettings;
+
+
 
     public Search() {
         super();
         profileSettings = new ProfileSettings();
+        profileSettings.setChangePhoto(this);
+
         this.setBackground(new Color(0x676767));
 
         search = new JButton("search");
@@ -30,7 +36,10 @@ public class Search extends JPanel  {
         });
         try {
             Image img = ImageIO.read(getClass().getResource("/Search.png"));
+
+
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+
             search.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -46,13 +55,17 @@ public class Search extends JPanel  {
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 profileSettings.setVisible();
+
             }
         });
 
         try {
             Image img = ImageIO.read(getClass().getResource("/user.png"));
+
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+
             profile.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -75,13 +88,16 @@ public class Search extends JPanel  {
         });
     }
 
-    public static void changeProfilePhoto(File imageFile){
+
+    @Override
+    public void changeProfileJpotifyFrame(Image newIcon) {
         try {
-            Image img = ImageIO.read(imageFile);
-            Image image = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            Image image = newIcon.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             profile.setIcon(new ImageIcon(image));
+
         } catch (Exception ex) {
             System.out.println(ex);
-        }
+       }
+        System.out.println("print");
     }
 }

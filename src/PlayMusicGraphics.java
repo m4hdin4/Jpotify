@@ -6,8 +6,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 
 public class PlayMusicGraphics extends JPanel {
     public static final int imageSizeSmall = 30;
@@ -30,7 +33,6 @@ public class PlayMusicGraphics extends JPanel {
 
     private JPanel centerButtons;
     private JSlider musicSlider;
-
     private JPanel soundBar;
     private JButton soundIcon;
     private JSlider soundSlider;
@@ -41,6 +43,7 @@ public class PlayMusicGraphics extends JPanel {
     private int playPauseCounter;
     private int repeatCounter;
     private int soundCounter;
+
 
 
     public PlayMusicGraphics(){
@@ -217,6 +220,10 @@ public class PlayMusicGraphics extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
+        soundSlider = new JSlider();
+        soundSlider.setOpaque(false);
+
         soundIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

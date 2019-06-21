@@ -1,3 +1,12 @@
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+
 import sun.java2d.cmm.Profile;
 
 import javax.imageio.ImageIO;
@@ -21,17 +30,28 @@ public class ProfileSettings extends JFrame {
     private JLabel name;
     private JButton changeName;
 
+    ChangeProfileJpotifyFrame changePhoto;
+
+    private Image personalImage;
+
+
 
     public ProfileSettings (){
         super();
+
+
         this.setDefaultCloseOperation(ProfileSettings.HIDE_ON_CLOSE);
+
         this.setSize(WIDTH, HEIGHT);
         this.setTitle(WINDOWS_TITLE);
         this.setVisible(false);
         this.setLayout(new GridLayout(2 , 1));
+
+
         photo = new JPanel();
         photo.setLayout(new FlowLayout());
         userPhoto = new JLabel("    \n");
+
         userPhoto.setOpaque(false);
 
         try {
@@ -54,6 +74,8 @@ public class ProfileSettings extends JFrame {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
+
         camera.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,17 +90,20 @@ public class ProfileSettings extends JFrame {
                     System.out.println(jfc.getSelectedFile().getPath());
                     try {
                         Image img = ImageIO.read(jfc.getSelectedFile());
+                        personalImage = img;
                         Image image = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
                         userPhoto.setIcon(new ImageIcon(image));
+                        changePhoto.changeProfileJpotifyFrame(img);
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        System.out.println("error");
                     }
-                    Search.changeProfilePhoto(jfc.getSelectedFile());
+
                 }
 
 
             }
         });
+
         photo.setBackground(new Color(0x636363));
         photo.add(userPhoto);
         photo.add(camera);
@@ -87,9 +112,12 @@ public class ProfileSettings extends JFrame {
         JPanel userName = new JPanel();
         userName.setBackground(new Color(0x595B5D));
         userName.setLayout(new GridLayout(2,1));
+
+        this.setLocationRelativeTo(null);
+
         name = new JLabel();
         name.setOpaque(false);
-        name.setText("mohammad");
+        name.setText("tuem");
 
         changeName = new JButton("Change Your Name");
         changeName.setBackground(new Color(0));
@@ -105,12 +133,17 @@ public class ProfileSettings extends JFrame {
         });
         userName.add(name);
         userName.add(changeName);
+
         this.add(userName);
         this.setResizable(false);
         this.setBackground(new Color(0x410717));
     }
+
+    public void setChangePhoto(ChangeProfileJpotifyFrame changePhoto) {
+        this.changePhoto = changePhoto;
+    }
+
     public void setVisible(){
         this.setVisible(true);
     }
-
 }
