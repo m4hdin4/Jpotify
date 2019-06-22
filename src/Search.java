@@ -1,32 +1,53 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Search extends JPanel  {
-    JTextField searchArea;
-    JButton search;
-    JButton profile;
+import java.io.File;
+
+public class Search extends JPanel implements ProfilePhotoLinker1 {
+    public JTextField getSearchArea() {
+        return searchArea;
+    }
+
+    public JButton getSearch() {
+        return search;
+    }
+
+    public JButton getProfile() {
+        return profile;
+    }
+
+    public ProfileSettings getProfileSettings() {
+        return profileSettings;
+    }
+
+    private final int imageSizeSmall = 30;
+    private JTextField searchArea;
+    private JButton search;
+    private JButton profile;
+    private ProfileSettings profileSettings;
+
+
 
     public Search() {
         super();
+        profileSettings = new ProfileSettings();
+        profileSettings.setChangePhoto(this);
+
         this.setBackground(new Color(0x676767));
 
         search = new JButton("search");
         search.setOpaque(false);
         search.setContentAreaFilled(false);
         search.setBorderPainted(false);
-        search.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         try {
             Image img = ImageIO.read(getClass().getResource("/Search.png"));
-            Image image = img.getScaledInstance(ControlPanel.imageSizeSmall, ControlPanel.imageSizeSmall, Image.SCALE_SMOOTH);
+
+
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+
             search.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -42,15 +63,17 @@ public class Search extends JPanel  {
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProfileSettings profileSettings = new ProfileSettings();
-                profileSettings.setVisible();
+
+                profileSettings.setVisible(true);
 
             }
         });
 
         try {
             Image img = ImageIO.read(getClass().getResource("/user.png"));
-            Image image = img.getScaledInstance(ControlPanel.imageSizeSmall, ControlPanel.imageSizeSmall, Image.SCALE_SMOOTH);
+
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+
             profile.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -74,5 +97,16 @@ public class Search extends JPanel  {
     }
 
 
+    @Override
+    public void linker(File imageFile) {
+        try {
+            Image img = ImageIO.read(imageFile);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, img.SCALE_SMOOTH);
+            profile.setIcon(new ImageIcon(image));
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+       }
+    }
 
 }
