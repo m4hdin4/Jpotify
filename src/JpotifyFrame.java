@@ -1,8 +1,24 @@
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility{
+
+    //private String username ;
+
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+
     private final int WIDTH = 1000, HEIGHT = 700;
     private final String WINDOWS_TITLE = "Jpotify";
     private ControlPanel controlPanel;
@@ -17,9 +33,15 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
         this.setVisible(false);
 
+        //username = "tuem";
+
         controlPanel = new ControlPanel();
         search = new Search();
         centerPanel = new CenterPanel();
+
+        //saveAccount = new SaveAccount( this);
+//        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Sasy.mp3"));
+//        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Lady Gaga.mp3"));
 
         controlPanel.setMusicLinker(centerPanel);
 
@@ -68,4 +90,5 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     public void changeVisibility(boolean b) {
         setVisible(b);
     }
+
 }

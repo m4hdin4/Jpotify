@@ -1,6 +1,3 @@
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.UnsupportedTagException;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,11 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisibility {
-    public void setChangeName(UsernameLinker changeName) {
-        this.changeName = changeName;
+    public void setChangeName(UsernameLinker1 changeName) {
+        this.changeName1 = changeName;
     }
 
     private JButton profilePhoto;
@@ -20,7 +16,13 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
     private JButton signIn;
     private JTextField nameField;
 
-    private UsernameLinker changeName;
+    private UsernameLinker1 changeName1;
+    private UsernameLinker2 changeName2;
+
+    public void setChangeName2(UsernameLinker2 changeName2) {
+        this.changeName2 = changeName2;
+    }
+
     private ShowNextFrame show;
 
     public void setShow(ShowNextFrame show) {
@@ -78,7 +80,9 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
         signIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                changeName.linker(nameField.getText());
+                changeName1.linker(nameField.getText());
+                changeName2.linker(nameField.getText());
+                nameField.setText("");
                 show.showFrame();
                 hideFrame();
             }

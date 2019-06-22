@@ -13,25 +13,37 @@ public class CenterPanel extends JPanel implements ProfilePhotoLinker1 {
     private int musicCounter;
     private int MAXMusicCounter = 1000;
 
-    private SingleTrack[] addTrack;
+    private SingleTrack[] tracks;
+    
+    
 
     public CenterPanel (){
         this.setLayout(new WrapLayout(WrapLayout.LEFT));
-        addTrack = new SingleTrack[MAXMusicCounter];
+        tracks = new SingleTrack[MAXMusicCounter];
         for (int i = 0; i < 1000; i++) {
-            addTrack[i] = new SingleTrack();
-            addTrack[i].setVisible(false);
-            this.add(addTrack[i]);
+            tracks[i] = new SingleTrack();
+            tracks[i].setVisible(false);
+            this.add(tracks[i]);
         }
     }
 
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
+        
         Mp3File mp3file = new Mp3File(f);
         String songArtist;
         String songName;
         String albumName;
         Image image;
+        boolean flag = true;
+        for (int i = 0; i < musicCounter; i++) {
+            if (tracks[i].getSingleTrack().equals(f)) {
+                flag = false;
+                break;
+            }
+        }
+        if (!flag)
+            return;
         if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getArtist() != null && !mp3file.getId3v1Tag().getArtist().equals(""))
             songArtist = mp3file.getId3v1Tag().getArtist();
         else
@@ -50,10 +62,16 @@ public class CenterPanel extends JPanel implements ProfilePhotoLinker1 {
         else{
             image = ImageIO.read(getClass().getResource("/singer.png"));
         }
-        addTrack[musicCounter].setOptions(songArtist , songName , albumName , image , f);
-        addTrack[musicCounter].setVisible(true);
+        tracks[musicCounter].setOptions(songArtist , songName , albumName , image , f);
+        tracks[musicCounter].setVisible(true);
 
         musicCounter++;
+    }
+    public void counterPlus(){
+        musicCounter++;
+    }
+    public void counterMinus(){
+        musicCounter--;
     }
 
 }

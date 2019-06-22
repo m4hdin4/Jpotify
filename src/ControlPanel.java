@@ -30,7 +30,11 @@ public class ControlPanel extends JPanel {
     JList<String> playlist;
 
     ProfilePhotoLinker1 musicLinker;
+    SaveMusicLinker saveMusic;
 
+    public void setSaveMusic(SaveMusicLinker saveMusic) {
+        this.saveMusic = saveMusic;
+    }
 
     public ControlPanel() {
         this.setBackground(new Color(0x636363));
@@ -56,6 +60,7 @@ public class ControlPanel extends JPanel {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     try {
                         musicLinker.linker(musicChooser.getSelectedFile());
+                        saveMusic.linker(musicChooser.getSelectedFile());
                     } catch (InvalidDataException e1) {
                         e1.printStackTrace();
                     } catch (IOException e1) {
