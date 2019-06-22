@@ -1,8 +1,13 @@
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javafx.scene.control.Slider;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +15,13 @@ import java.awt.event.ActionListener;
 import javazoom.jl.player.*;
 import javazoom.jl.decoder.*;
 import javazoom.jl.converter.*;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.awt.event.MouseEvent;
@@ -38,6 +45,8 @@ public class PlayMusicGraphics extends JPanel {
     private JButton shuffleBtn;
     private JLabel timePassed;
     private JLabel timeSong;
+    private Timer myTimer;
+    private Mp3File mp3File;
 
     public SongProfile getSongData() {
         return songData;
@@ -56,16 +65,18 @@ public class PlayMusicGraphics extends JPanel {
 
 
     private int shuffleCounter;
-    private int playPauseCounter ;
+    private int playPauseCounter;
     private int repeatCounter;
     private int soundCounter;
     private final static int NOTSTARTED = 0;
     private final static int PLAYING = 1;
     private final static int PAUSED = 2;
     private final static int FINISHED = 3;
+    private long frameCount;
+    private Long frame;
 
     // the player actually doing all the work
-    private Player player;
+    private AdvancedPlayer player;
 
 
     // locking object used to communicate with player thread
@@ -75,7 +86,7 @@ public class PlayMusicGraphics extends JPanel {
     private int playerStatus = NOTSTARTED;
 
     public void setInputStream(final InputStream inputStreamStreamStream) throws JavaLayerException {
-        this.player = new Player(inputStreamStreamStream);
+        this.player = new AdvancedPlayer(inputStreamStreamStream);
     }
 
     public PlayMusicGraphics() {
@@ -87,7 +98,7 @@ public class PlayMusicGraphics extends JPanel {
         centerButtons.setLayout(new FlowLayout());
 
         songData = new SongProfile("", "");
-        this.add(songData , BorderLayout.WEST);
+        this.add(songData, BorderLayout.WEST);
 
         JLabel space = new JLabel("                              ");
         space.setOpaque(false);
@@ -143,6 +154,42 @@ public class PlayMusicGraphics extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        try {
+            inputStreamStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
+            mp3File = new Mp3File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
+            frame = mp3File.getLengthInSeconds();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedTagException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+
+        musicSlider = new JSlider(0, Math.toIntExact(frame));
+        musicSlider.setOpaque(false);
+        musicSlider.setMinimum(0);
+        musicSlider.setValue(0);
+        musicSlider.setMajorTickSpacing(25);
+        musicSlider.setPaintTicks(true);
+        myTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(musicSlider.getValue()>=frame){
+                    myTimer.stop();
+                    musicSlider.setValue(0);
+                }
+                else
+                    musicSlider.setValue(musicSlider.getValue() + 1);}
+
+        });
+
+        musicSlider.setBorder(new EmptyBorder(0, 0, 10, 0));
+        this.add(musicSlider, BorderLayout.SOUTH);
+
+
         centerButtons.add(lastBtn);
         playPauseBtn = new JButton();
         playPauseBtn.setOpaque(false);
@@ -156,11 +203,6 @@ public class PlayMusicGraphics extends JPanel {
             System.out.println(ex);
         }
 
-        try {
-            inputStreamStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         playPauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,29 +231,25 @@ public class PlayMusicGraphics extends JPanel {
                 try {
                     setInputStream(inputStreamStream);
 
-                    // start playing
 
+                    if (playPauseCounter % 2 != 0) {
 
-                    if (playPauseCounter % 2 != 0 ) {
-                        System.out.println("pa");
                         pause();
+                        myTimer.stop();
                         playPauseCounter++;
-                    }
-                    else  {
-
+                    } else {
                         play();
-                        System.out.println("res");
+                        myTimer.start();
                         playPauseCounter++;
                     }
-
-
-                    //resume();
 
                 } catch (final Exception r) {
                     throw new RuntimeException(r);
                 }
             }
         });
+
+
         centerButtons.add(playPauseBtn);
         nextBtn = new JButton();
         nextBtn.setOpaque(false);
@@ -266,13 +304,6 @@ public class PlayMusicGraphics extends JPanel {
         timeSong.setOpaque(false);
         centerButtons.add(timeSong);
         this.add(centerButtons, BorderLayout.CENTER);
-        musicSlider = new JSlider();
-        musicSlider.setOpaque(false);
-        musicSlider.setMinimum(0);
-        musicSlider.setValue(0);
-
-        musicSlider.setBorder(new EmptyBorder(0, 0, 10, 0));
-        this.add(musicSlider, BorderLayout.SOUTH);
 
 
         soundBar = new JPanel();
@@ -296,7 +327,7 @@ public class PlayMusicGraphics extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (soundCounter % 2 == 0 && soundSliderValue!=0) {
+                if (soundCounter % 2 == 0 && soundSliderValue != 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -307,9 +338,8 @@ public class PlayMusicGraphics extends JPanel {
                     }
                     soundSlider.setValue(0);
                     soundCounter++;
-                }
-                else if (soundSliderValue!=0){
-                    if (soundSliderValue<=50) {
+                } else if (soundSliderValue != 0) {
+                    if (soundSliderValue <= 50) {
 
                         try {
                             Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
@@ -319,8 +349,7 @@ public class PlayMusicGraphics extends JPanel {
                             System.out.println(ex);
                         }
                         soundSlider.setValue(soundSliderValue);
-                    }
-                    else {
+                    } else {
 
                         try {
                             Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
@@ -489,9 +518,9 @@ public class PlayMusicGraphics extends JPanel {
             public void mouseExited(MouseEvent e) {
             }
         });
-        soundBar.add(soundIcon , BorderLayout.CENTER);
-        soundBar.add(soundSlider , BorderLayout.EAST);
-        this.add(soundBar , BorderLayout.EAST);
+        soundBar.add(soundIcon, BorderLayout.CENTER);
+        soundBar.add(soundSlider, BorderLayout.EAST);
+        this.add(soundBar, BorderLayout.EAST);
 
     }
 
@@ -560,7 +589,7 @@ public class PlayMusicGraphics extends JPanel {
     /**
      * Stops playback. If not playing, does nothing
      */
-    public void stop() {
+    public void stop1() {
         synchronized (playerLock) {
             playerStatus = FINISHED;
             playerLock.notifyAll();
@@ -598,6 +627,12 @@ public class PlayMusicGraphics extends JPanel {
                     break;
             }
         }
+    }
+
+    public int getDesiredFrame() {
+        int progress = musicSlider.getValue();
+        double frame = ((double) frameCount * ((double) progress / 100.0));
+        return (int) frame;
     }
 
 
