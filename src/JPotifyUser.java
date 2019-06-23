@@ -49,6 +49,9 @@ public class JPotifyUser {
         jpotifyFrame.getControlPanel().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
         jpotifyFrame.getCenterPanel().getHomePage().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
         jpotifyFrame.getCenterPanel().getHomePage().setSaveMusic(saveAccount);
+//        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().length; i++) {
+//            jpotifyFrame.getCenterPanel().getAllSongs().getTracks()[i].setPlaySingleTrack(jpotifyFrame.getPlayMusic());
+//        }
 
         jpotifyFrame.getSearch().getProfileSettings().setNameLinker(saveAccount);
         try {

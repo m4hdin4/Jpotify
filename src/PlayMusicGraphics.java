@@ -26,7 +26,7 @@ import java.awt.event.MouseListener;
 import java.util.concurrent.ExecutorService;
 
 
-public class PlayMusicGraphics extends JPanel {
+public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
     public static final int imageSizeSmall = 30;
     public static final int imageSizeBig = 60;
 
@@ -69,8 +69,8 @@ public class PlayMusicGraphics extends JPanel {
     private long frameCount;
     private int frame;
     private MusicPlayer musicPlayer;
-    //File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
-    private File file;
+    File file = new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Sasy.mp3");
+    //private File file;
 
     public File getFile() {
         return file;
@@ -148,7 +148,7 @@ public class PlayMusicGraphics extends JPanel {
         }
         Audio.setMasterOutputVolume(1f);
         try {
-            mp3File = new Mp3File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
+            mp3File = new Mp3File(file);
             frame = (int)mp3File.getLengthInSeconds();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -648,6 +648,8 @@ public class PlayMusicGraphics extends JPanel {
     }
 
 
-
-
+//    @Override
+//    public void play(File f) {
+//        file = f;
+//    }
 }

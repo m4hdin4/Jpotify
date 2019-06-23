@@ -3,6 +3,8 @@ import com.mpatric.mp3agic.Mp3File;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class SingleTrack extends JPanel {
@@ -66,7 +68,7 @@ public class SingleTrack extends JPanel {
         this.album_Name = album_Name;
     }
 
-    File singleTrack ;
+    private File singleTrack ;
 
     private String singerName ;
     private String trackName ;
@@ -75,6 +77,12 @@ public class SingleTrack extends JPanel {
     private JLabel singer_Name;
     private JLabel track_Name;
     private JLabel album_Name;
+
+    public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
+        this.playSingleTrack = playSingleTrack;
+    }
+
+    private PlaySingleTrack playSingleTrack;
 
     public SingleTrack (){
 
@@ -87,6 +95,12 @@ public class SingleTrack extends JPanel {
         album_Name = new JLabel("",JLabel.CENTER);
         singer_Photo.setOpaque(false);
         singer_Photo.setBackground(new Color(0xEEEEEE));
+        singer_Photo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //playSingleTrack.play(singleTrack);
+            }
+        });
         Box box = Box.createVerticalBox();
         box.add(singer_Photo);
         box.add(track_Name);
@@ -99,8 +113,7 @@ public class SingleTrack extends JPanel {
         return singleTrack;
     }
 
-    public void setOptions(String singerName , String trackName , String albumName , Image songIcon , File mp3File){
-        this.singleTrack = mp3File;
+    public void setOptions(String singerName , String trackName , String albumName , Image songIcon ){
         this.singerName = singerName;
         this.trackName = trackName;
         this.albumName = albumName;

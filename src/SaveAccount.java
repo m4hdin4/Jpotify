@@ -45,7 +45,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     public void loadAccount() throws IOException, ClassNotFoundException {
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\mm\\Desktop\\saves\\").append(username));
+        String fileName = String.valueOf(new StringBuilder("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\").append(username));
         File f = new File(fileName);
         if (f.exists() && !f.isDirectory()) {
             System.out.println("loading");
@@ -71,7 +71,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         }
         else {
             autoSave();
-            String nameFile = "C:\\Users\\mm\\Desktop\\saves\\null";
+            String nameFile = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\null";
             File file = new File(nameFile);
             file.delete();
         }
@@ -88,7 +88,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
 
     private void autoSave() throws IOException {
         System.out.println("saving");
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\mm\\Desktop\\saves\\").append(username));
+        String fileName = String.valueOf(new StringBuilder("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\").append(username));
         FileOutputStream fileOutputStream = new FileOutputStream(fileName);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(this);
@@ -134,7 +134,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
 
     @Override
     public void nameLinker(String s) {
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\mm\\Desktop\\saves\\").append(username));
+        String fileName = String.valueOf(new StringBuilder("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\").append(username));
         File f = new File(fileName);
         f.delete();
         username = s;
