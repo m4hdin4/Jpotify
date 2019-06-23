@@ -1,8 +1,8 @@
-import javafx.scene.control.Slider;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,15 +45,14 @@ public class PlayMusicGraphics extends JPanel {
     private int soundCounter;
 
 
-
-    public PlayMusicGraphics(){
+    public PlayMusicGraphics() {
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(0x636363));
         centerButtons = new JPanel();
         centerButtons.setOpaque(false);
         centerButtons.setLayout(new FlowLayout());
         songData = new SongProfile("", "");
-        this.add(songData , BorderLayout.WEST);
+        this.add(songData, BorderLayout.WEST);
         JLabel space = new JLabel("                              ");
         space.setOpaque(false);
         centerButtons.add(space);
@@ -67,7 +66,7 @@ public class PlayMusicGraphics extends JPanel {
         shuffleBtn.setBorderPainted(false);
         try {
             Image img = ImageIO.read(getClass().getResource("/unshuffled.png"));
-            Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             shuffleBtn.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -75,20 +74,19 @@ public class PlayMusicGraphics extends JPanel {
         shuffleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (shuffleCounter % 2 == 0){
+                if (shuffleCounter % 2 == 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/shuffled.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
                         shuffleBtn.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
                     shuffleCounter++;
-                }
-                else {
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/unshuffled.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
                         shuffleBtn.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
@@ -104,7 +102,7 @@ public class PlayMusicGraphics extends JPanel {
         lastBtn.setBorderPainted(false);
         try {
             Image img = ImageIO.read(getClass().getResource("/last-track.png"));
-            Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             lastBtn.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -116,7 +114,7 @@ public class PlayMusicGraphics extends JPanel {
         playPauseBtn.setBorderPainted(false);
         try {
             Image img = ImageIO.read(getClass().getResource("/pause.png"));
-            Image image = img.getScaledInstance(imageSizeBig , imageSizeBig ,Image.SCALE_SMOOTH);
+            Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
             playPauseBtn.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -124,20 +122,19 @@ public class PlayMusicGraphics extends JPanel {
         playPauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (playPauseCounter % 2 == 0){
+                if (playPauseCounter % 2 == 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/play.png"));
-                        Image image = img.getScaledInstance(imageSizeBig , imageSizeBig ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
                         playPauseBtn.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
                     playPauseCounter++;
-                }
-                else {
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/pause.png"));
-                        Image image = img.getScaledInstance(imageSizeBig , imageSizeBig ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
                         playPauseBtn.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
@@ -153,7 +150,7 @@ public class PlayMusicGraphics extends JPanel {
         nextBtn.setBorderPainted(false);
         try {
             Image img = ImageIO.read(getClass().getResource("/next-track.png"));
-            Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             nextBtn.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -165,7 +162,7 @@ public class PlayMusicGraphics extends JPanel {
         repeatBtn.setBorderPainted(false);
         try {
             Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
-            Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             repeatBtn.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -173,20 +170,19 @@ public class PlayMusicGraphics extends JPanel {
         repeatBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (repeatCounter % 2 == 0){
+                if (repeatCounter % 2 == 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/repeat.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
                         repeatBtn.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
                     repeatCounter++;
-                }
-                else {
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
                         repeatBtn.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
@@ -200,13 +196,13 @@ public class PlayMusicGraphics extends JPanel {
         timeSong.setEnabled(false);
         timeSong.setOpaque(false);
         centerButtons.add(timeSong);
-        this.add(centerButtons , BorderLayout.CENTER);
+        this.add(centerButtons, BorderLayout.CENTER);
         musicSlider = new JSlider();
         musicSlider.setOpaque(false);
         musicSlider.setMinimum(0);
         musicSlider.setValue(0);
-        musicSlider.setBorder(new EmptyBorder(0,0,10,0));
-        this.add(musicSlider , BorderLayout.SOUTH);
+        musicSlider.setBorder(new EmptyBorder(0, 0, 10, 0));
+        this.add(musicSlider, BorderLayout.SOUTH);
         soundBar = new JPanel();
         soundBar.setLayout(new BorderLayout());
         soundBar.setOpaque(false);
@@ -215,7 +211,7 @@ public class PlayMusicGraphics extends JPanel {
         soundIcon.setBackground(new Color(0x636363));
         try {
             Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
-            Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             soundIcon.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -227,29 +223,19 @@ public class PlayMusicGraphics extends JPanel {
         soundIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (soundCounter % 2 == 0 && soundSliderValue!=0){
+                if (soundCounter % 2 == 0 && soundSliderValue != 0) {
+                    Aud.setMasterOutputVolume(1f);
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall , imageSizeSmall ,Image.SCALE_SMOOTH);
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
                         soundIcon.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
                     soundSlider.setValue(0);
                     soundCounter++;
-                }
-                else if (soundSliderValue!=0){
-                    if (soundSliderValue<=50) {
-                        try {
-                            Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
-                            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-                            soundIcon.setIcon(new ImageIcon(image));
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-                        }
-                        soundSlider.setValue(soundSliderValue);
-                    }
-                    else {
+                } else if (soundCounter % 2 != 0) {
+                    if (soundSliderValue > 50) {
                         try {
                             Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
                             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -257,8 +243,18 @@ public class PlayMusicGraphics extends JPanel {
                         } catch (Exception ex) {
                             System.out.println(ex);
                         }
-                        soundSlider.setValue(soundSliderValue);
+
+                    } else if (soundSliderValue != 0) {
+                        try {
+                            Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                            soundIcon.setIcon(new ImageIcon(image));
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+
                     }
+                    soundSlider.setValue(soundSliderValue);
                     soundCounter++;
                 }
             }
@@ -269,11 +265,12 @@ public class PlayMusicGraphics extends JPanel {
         soundSlider.setMinimum(0);
         soundSlider.setValue(50);
         soundSliderValue = 50;
-        soundSlider.addMouseListener(new MouseListener() {
+        soundSlider.addChangeListener(new ChangeListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                soundSliderValue = soundSlider.getValue();
-                if (soundSliderValue>50) {
+            public void stateChanged(ChangeEvent e) {
+                if (soundSlider.getValue() != 0)
+                    soundSliderValue = soundSlider.getValue();
+                if (soundSlider.getValue() > 50) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -282,8 +279,7 @@ public class PlayMusicGraphics extends JPanel {
                         System.out.println(ex);
                     }
 
-                }
-                else if(soundSliderValue >0) {
+                } else if (soundSlider.getValue() > 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -291,8 +287,39 @@ public class PlayMusicGraphics extends JPanel {
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
+                } else {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
                 }
-                else {
+            }
+        });
+        soundSlider.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                soundSliderValue = soundSlider.getValue();
+                if (soundSliderValue > 50) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+
+                } else if (soundSliderValue > 0) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        soundIcon.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -306,7 +333,7 @@ public class PlayMusicGraphics extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 soundSliderValue = soundSlider.getValue();
-                if (soundSliderValue>50) {
+                if (soundSliderValue > 50) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -315,8 +342,7 @@ public class PlayMusicGraphics extends JPanel {
                         System.out.println(ex);
                     }
 
-                }
-                else if(soundSliderValue >0) {
+                } else if (soundSliderValue > 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -324,8 +350,7 @@ public class PlayMusicGraphics extends JPanel {
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
-                }
-                else {
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -338,8 +363,9 @@ public class PlayMusicGraphics extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+
                 soundSliderValue = soundSlider.getValue();
-                if (soundSliderValue>50) {
+                if (soundSliderValue > 50) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -348,8 +374,7 @@ public class PlayMusicGraphics extends JPanel {
                         System.out.println(ex);
                     }
 
-                }
-                else if(soundSliderValue >0) {
+                } else if (soundSliderValue > 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -357,8 +382,7 @@ public class PlayMusicGraphics extends JPanel {
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
-                }
-                else {
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -372,7 +396,7 @@ public class PlayMusicGraphics extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 soundSliderValue = soundSlider.getValue();
-                if (soundSliderValue>50) {
+                if (soundSliderValue > 50) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-up.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -381,8 +405,7 @@ public class PlayMusicGraphics extends JPanel {
                         System.out.println(ex);
                     }
 
-                }
-                else if(soundSliderValue >0) {
+                } else if (soundSliderValue > 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-down.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -390,8 +413,7 @@ public class PlayMusicGraphics extends JPanel {
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
-                }
-                else {
+                } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/volume-off.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -406,24 +428,22 @@ public class PlayMusicGraphics extends JPanel {
             public void mouseExited(MouseEvent e) {
             }
         });
-        soundBar.add(soundIcon , BorderLayout.CENTER);
-        soundBar.add(soundSlider , BorderLayout.EAST);
-        this.add(soundBar , BorderLayout.EAST);
+        soundBar.add(soundIcon, BorderLayout.CENTER);
+        soundBar.add(soundSlider, BorderLayout.EAST);
+        this.add(soundBar, BorderLayout.EAST);
     }
 
     /**
-     *
      * @param timePassed
      */
-    public void setTimePassed(String timePassed){
+    public void setTimePassed(String timePassed) {
         this.timePassed.setText(timePassed);
     }
 
     /**
-     *
      * @param timeSong
      */
-    public void setSongTime(String timeSong){
+    public void setSongTime(String timeSong) {
         this.timeSong.setText(timeSong);
     }
 }

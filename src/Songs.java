@@ -3,13 +3,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
-public class Songs extends JFrame {
+public class Songs extends JPanel {
 
 
     public Songs (){
         this.setSize(500 , 500);
         this.setLayout(new BorderLayout());
-        this.setTitle("Songs");
+        //this.setTitle("Songs");
         String data[][]={ {"Ghorse ghamar","bani","ghorse ghamar" , "3:54"},
                 {"102","Jai","780000" , ""},
                 {"102","Jai","780000" , ""},
@@ -56,9 +56,9 @@ public class Songs extends JFrame {
         selection.add(selecChoioce , BorderLayout.CENTER);
         this.add(table ,BorderLayout.NORTH);
         this.add(selection , BorderLayout.SOUTH);
-        this.setVisible(true);
+        this.setVisible(false);
         this.setLocation(300 ,60);
-        this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
+        //+this.setDefaultCloseOperation(JpotifyFrame.HIDE_ON_CLOSE);
     }
 
 }

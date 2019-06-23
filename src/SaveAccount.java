@@ -69,6 +69,12 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
             setByObject(trash);
 
         }
+        else {
+            autoSave();
+            String nameFile = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\null";
+            File file = new File(nameFile);
+            file.delete();
+        }
     }
 
 

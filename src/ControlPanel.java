@@ -20,17 +20,30 @@ public class ControlPanel extends JPanel {
     private final int imageSizeSmall = 30;
     private final int imageSizeBig = 90;
 
-    JButton addToPlayList;
-    JButton allSongs;
-    JButton albums;
-    JButton playList;
-    JButton home;
-    JLabel singer;
-    JButton addPlay;
-    JList<String> playlist;
+    private JButton addToPlayList;
+    private JButton allSongs;
+    private JButton albums;
+    private JButton playList;
+    private JButton home;
+    private JLabel singer;
+    private JButton addPlay;
 
-    ProfilePhotoLinker1 musicLinker;
-    SaveMusicLinker saveMusic;
+    private Vector<String> vector;
+    private JList<String> playlist;
+
+    private ProfilePhotoLinker1 musicLinker;
+    private SaveMusicLinker saveMusic;
+
+    public void setCenterPanel1(ChangeCenterPanel1 centerPanel1) {
+        this.centerPanel1 = centerPanel1;
+    }
+
+    private ChangeCenterPanel1 centerPanel1;
+    private ChangeCenterPanel2 centerPanel2;
+
+    public void setCenterPanel2(ChangeCenterPanel2 centerPanel2) {
+        this.centerPanel2 = centerPanel2;
+    }
 
     public void setSaveMusic(SaveMusicLinker saveMusic) {
         this.saveMusic = saveMusic;
@@ -99,7 +112,8 @@ public class ControlPanel extends JPanel {
         allSongs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Songs songs = new Songs();
+                //Songs songs = new Songs();
+                centerPanel1.change1();
             }
         });
 
@@ -153,6 +167,12 @@ public class ControlPanel extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        home.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel2.change2();
+            }
+        });
 
 
         singer = new JLabel();
@@ -169,14 +189,25 @@ public class ControlPanel extends JPanel {
         addPlay = new JButton("Add Playlist");
         addPlay.setBackground(new Color(0x989898));
         addPlay.setForeground(new Color(0));
+        addPlay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane newNameDialog = new JOptionPane();
+                String playListName = newNameDialog.showInputDialog(playList, "new name");
+                if (playListName != null && !playListName.equals("")) {
+                    vector.add(playListName);
+                    setPlaylist(vector);
+                }
+            }
+        });
 
 
-        Vector<String> vector = new Vector<>();
+        vector = new Vector<>();
         playlist = new JList<>(vector);
         playlist.setForeground(new Color(0));
         playlist.setBackground(new Color(0x636363));
-        vector.add("ali");
-        vector.add("mohammad");
+//        vector.add("ali");
+//        vector.add("mohammad");
         playlist.setListData(vector);
         JScrollPane jScrollPane = new JScrollPane(playlist);
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -196,6 +227,10 @@ public class ControlPanel extends JPanel {
 
         this.add(box);
 
+    }
+
+    public void setPlaylist(Vector<String> vector) {
+        this.playlist.setListData(vector);
     }
 
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {

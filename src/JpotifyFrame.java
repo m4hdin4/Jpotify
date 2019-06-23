@@ -33,6 +33,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
         this.setVisible(false);
 
+
         //username = "tuem";
 
         controlPanel = new ControlPanel();
@@ -43,7 +44,6 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 //        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Sasy.mp3"));
 //        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Lady Gaga.mp3"));
 
-        controlPanel.setMusicLinker(centerPanel);
 
         this.setLayout(new BorderLayout());
         //JScrollPane jScrollPane = new JScrollPane(controlPanel);
