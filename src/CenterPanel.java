@@ -26,9 +26,10 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
     public CenterPanel (){
         this.setLayout(new BorderLayout());
         homePage = new HomePage();
-//        allSongs = new Songs();
+        allSongs = new Songs();
+        allSongs.setVisible(false);
+        this.add(allSongs , BorderLayout.PAGE_START);
         this.add(homePage , BorderLayout.CENTER);
-//        this.add(allSongs , BorderLayout.CENTER);
         homePage.setVisible(true);
 //        allSongs.setVisible(false);
     }
@@ -40,29 +41,34 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //            this.remove(this.getComponent(i));
 //        }
 //        allSongs = new Songs();
-//        allSongs.setVisible(true);
-//        this.add(allSongs , BorderLayout.CENTER);
-        int last = this.getComponents().length;
-        for (int i = last - 1; i >= 0; i--) {
-           this.getComponent(i).setVisible(false);
-        }
-//        homePage.setVisible(false);
         allSongs.setVisible(true);
+        homePage.setVisible(false);
+//        this.setLayout(new BorderLayout());
+//        this.add(allSongs , BorderLayout.CENTER);
+//        int last = this.getComponents().length;
+//        for (int i = last - 1; i >= 0; i--) {
+//           this.getComponent(i).setVisible(false);
+//        }
+////        homePage.setVisible(false);
+//        allSongs.setVisible(true);
     }
 
     @Override
     public void change2() {
-        int last = this.getComponents().length;
-        for (int i = last - 1; i >= 0; i--) {
-            this.getComponent(i).setVisible(false);
-        }
-        //homePage.setVisible(false);
-        homePage.setVisible(true);
+//        int last = this.getComponents().length;
+//        for (int i = last - 1; i >= 0; i--) {
+//            this.getComponent(i).setVisible(false);
+//        }
+//        //homePage.setVisible(false);
+//        homePage.setVisible(true);
 //        int last = this.getComponents().length;
 //        for (int i = last - 1; i >=0 ; i--) {
 //            this.remove(this.getComponent(i));
 //        }
 //        homePage = new HomePage();
+//        this.setLayout(new BorderLayout());
 //        this.add(homePage , BorderLayout.CENTER);
+        allSongs.setVisible(false);
+        homePage.setVisible(true);
     }
 }

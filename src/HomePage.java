@@ -19,6 +19,7 @@ public class HomePage extends JPanel implements ProfilePhotoLinker1  {
     public HomePage (){
         super();
         this.setLayout(new WrapLayout(WrapLayout.LEFT));
+        this.setVisible(false);
         tracks = new SingleTrack[MAXMusicCounter];
         for (int i = 0; i < MAXMusicCounter; i++) {
             tracks[i] = new SingleTrack();

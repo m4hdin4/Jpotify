@@ -44,6 +44,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 //        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Sasy.mp3"));
 //        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Lady Gaga.mp3"));
 
+        controlPanel.setMusicLinker(centerPanel.getHomePage());
 
         this.setLayout(new BorderLayout());
         //JScrollPane jScrollPane = new JScrollPane(controlPanel);

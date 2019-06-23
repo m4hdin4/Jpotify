@@ -10,6 +10,8 @@ public class Songs extends JPanel {
         this.setSize(500 , 500);
         this.setLayout(new BorderLayout());
         //this.setTitle("Songs");
+        JButton jButton =new JButton("k");
+        Object[] data1 = {"102","Jai","780000" ,jButton };
         String data[][]={ {"Ghorse ghamar","bani","ghorse ghamar" , "3:54"},
                 {"102","Jai","780000" , ""},
                 {"102","Jai","780000" , ""},
@@ -30,6 +32,7 @@ public class Songs extends JPanel {
         jt.setRowSelectionAllowed(true);
         ListSelectionModel select= jt.getSelectionModel();
         select.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         select.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 String Data = null;
@@ -53,10 +56,10 @@ public class Songs extends JPanel {
 
         selecChoioce.setBackground(new Color(0));
         selecChoioce.setForeground(new Color(0xFFFFFF));
-        selection.add(selecChoioce , BorderLayout.CENTER);
-        this.add(table ,BorderLayout.NORTH);
+        selection.add(selecChoioce , BorderLayout.SOUTH);
+        this.add(table ,BorderLayout.CENTER);
         this.add(selection , BorderLayout.SOUTH);
-        this.setVisible(false);
+        this.setVisible(true);
         this.setLocation(300 ,60);
         //+this.setDefaultCloseOperation(JpotifyFrame.HIDE_ON_CLOSE);
     }
