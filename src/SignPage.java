@@ -1,5 +1,3 @@
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.imageio.ImageIO;
@@ -9,9 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+
 
 /**
  * SignPage class is the second frame that shows to user
@@ -19,8 +18,8 @@ import java.util.concurrent.ExecutorService;
  * in this frame
  */
 public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisibility {
-    public void setChangeName(UsernameLinker changeName) {
-        this.changeName = changeName;
+    public void setChangeName(UsernameLinker1 changeName) {
+        this.changeName1 = changeName;
     }
 
     private JButton profilePhoto;
@@ -28,7 +27,13 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
     private JButton signIn;
     private JTextField nameField;
 
-    private UsernameLinker changeName;
+    private UsernameLinker1 changeName1;
+    private UsernameLinker2 changeName2;
+
+    public void setChangeName2(UsernameLinker2 changeName2) {
+        this.changeName2 = changeName2;
+    }
+
     private ShowNextFrame show;
     private ExecutorService executorService;
 
@@ -87,7 +92,9 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
         signIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                changeName.linker(nameField.getText());
+                changeName1.linker(nameField.getText());
+                changeName2.linker(nameField.getText());
+                nameField.setText("");
                 show.showFrame();
                 hideFrame();
             }

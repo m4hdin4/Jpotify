@@ -24,10 +24,10 @@ public class FirstFrame extends JFrame {
         this.add(jLabel, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         TimeUnit.SECONDS.sleep(3);
         this.dispose();
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
     }

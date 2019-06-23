@@ -1,64 +1,79 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 
-public class Songs extends JFrame {
+import com.mpatric.mp3agic.* ;
+
+
+public class Songs extends JPanel implements ProfilePhotoLinker1  {
+
+    private int musicCounter;
+    private int MAXMusicCounter = 1000;
+
+    private SingleTrack[] tracks;
 
 
     public Songs (){
-        this.setSize(500 , 500);
-        this.setLayout(new BorderLayout());
-        this.setTitle("Songs");
-        String data[][]={ {"Ghorse ghamar","bani","ghorse ghamar" , "3:54"},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"102","Jai","780000" , ""},
-                {"101","Sachin","700000" , ""}};
-        String column[]={"Track","Singer","Album","Time"};
-        final JTable jt=new JTable(data,column);
-        jt.setBackground(new Color(0xBBBBBB));
-        jt.setRowSelectionAllowed(true);
-        ListSelectionModel select= jt.getSelectionModel();
-        select.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        select.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                String Data = null;
-                int row = jt.getSelectedRow();
-                int[] columns = jt.getSelectedColumns();
-                    for (int j = 0; j < columns.length; j++) {
-                        Data = (String) jt.getValueAt(row, 0);
-                     }
-                System.out.println("Table element selected is: " + Data);
-            }
-        });
-        jt.setRowSelectionInterval(0, 0);
-        JScrollPane sp=new JScrollPane(jt);
-        JPanel table = new JPanel();
-        table.setBackground(new Color(0xA2A2A2));
-        table.setLayout(new BorderLayout());
-        table.add(sp , BorderLayout.CENTER);
-        JPanel selection = new JPanel();
-        selection.setLayout(new BorderLayout());
-        JButton selecChoioce = new JButton("Select");
-
-        selecChoioce.setBackground(new Color(0));
-        selecChoioce.setForeground(new Color(0xFFFFFF));
-        selection.add(selecChoioce , BorderLayout.CENTER);
-        this.add(table ,BorderLayout.NORTH);
-        this.add(selection , BorderLayout.SOUTH);
-        this.setVisible(true);
-        this.setLocation(300 ,60);
-        this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
+        super();
+        this.setLayout(new WrapLayout(WrapLayout.LEFT));
+        this.setVisible(false);
+        tracks = new SingleTrack[MAXMusicCounter];
+        for (int i = 0; i < MAXMusicCounter; i++) {
+            tracks[i] = new SingleTrack();
+            tracks[i].setVisible(false);
+            this.add(tracks[i]);
+        }
     }
+
+    @Override
+    public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
+
+        Mp3File mp3file = new Mp3File(f);
+        String songArtist;
+        String songName;
+        String albumName;
+        Image image;
+        boolean flag = true;
+        for (int i = 0; i < musicCounter; i++) {
+            if (tracks[i].getSingleTrack().equals(f)) {
+                flag = false;
+                break;
+            }
+        }
+        if (!flag)
+            return;
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getArtist() != null && !mp3file.getId3v1Tag().getArtist().equals(""))
+            songArtist = mp3file.getId3v1Tag().getArtist();
+        else
+            songArtist = "UNKNOWN";
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getTrack() != null && !mp3file.getId3v1Tag().getTrack().equals(""))
+            songName = mp3file.getId3v1Tag().getTrack();
+        else
+            songName = "UNKNOWN";
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals(""))
+            albumName = mp3file.getId3v1Tag().getAlbum();
+        else
+            albumName = "UNKNOWN";
+        if (mp3file.getId3v2Tag().getAlbumImage()!=null ){
+            image = ImageIO.read(new ByteArrayInputStream(mp3file.getId3v2Tag().getAlbumImage()));
+        }
+        else{
+            image = ImageIO.read(getClass().getResource("/singer.png"));
+        }
+        tracks[musicCounter].setOptions(songArtist , songName , albumName , image , f);
+        tracks[musicCounter].setVisible(true);
+
+        musicCounter++;
+    }
+    public void counterPlus(){
+        musicCounter++;
+    }
+    public void counterMinus(){
+        musicCounter--;
+    }
+
 
 }

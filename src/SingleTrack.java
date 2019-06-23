@@ -6,6 +6,66 @@ import java.awt.*;
 import java.io.File;
 
 public class SingleTrack extends JPanel {
+    public void setSingleTrack(File singleTrack) {
+        this.singleTrack = singleTrack;
+    }
+
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public JButton getSinger_Photo() {
+        return singer_Photo;
+    }
+
+    public void setSinger_Photo(JButton singer_Photo) {
+        this.singer_Photo = singer_Photo;
+    }
+
+    public JLabel getSinger_Name() {
+        return singer_Name;
+    }
+
+    public void setSinger_Name(JLabel singer_Name) {
+        this.singer_Name = singer_Name;
+    }
+
+    public JLabel getTrack_Name() {
+        return track_Name;
+    }
+
+    public void setTrack_Name(JLabel track_Name) {
+        this.track_Name = track_Name;
+    }
+
+    public JLabel getAlbum_Name() {
+        return album_Name;
+    }
+
+    public void setAlbum_Name(JLabel album_Name) {
+        this.album_Name = album_Name;
+    }
+
     File singleTrack ;
 
     private String singerName ;

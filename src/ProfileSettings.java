@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-public class ProfileSettings extends JFrame implements UsernameLinker {
+public class ProfileSettings extends JFrame implements UsernameLinker1 {
     public JPanel getPhoto() {
         return photo;
     }
@@ -25,6 +25,10 @@ public class ProfileSettings extends JFrame implements UsernameLinker {
 
     public JLabel getUserNameText() {
         return userNameText;
+    }
+
+    public void setUser(SignNewUser user) {
+        this.user = user;
     }
 
     private final int imageSize = 60;
@@ -45,6 +49,13 @@ public class ProfileSettings extends JFrame implements UsernameLinker {
 
     private ProfilePhotoLinker1 changePhoto1;
     private ProfilePhotoLinker2 changePhoto2;
+    private ProfileNameLinker nameLinker;
+
+    public void setNameLinker(ProfileNameLinker nameLinker) {
+        this.nameLinker = nameLinker;
+    }
+
+    private SignNewUser user;
 
     private JpotifyVisibility jpotifyVisibility;
     private SignpageVisibility signpageVisibility;
@@ -148,8 +159,10 @@ public class ProfileSettings extends JFrame implements UsernameLinker {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane newNameDialog = new JOptionPane();
                 String newNameText = newNameDialog.showInputDialog(userNameText, "new name");
-                if (newNameText != null && !newNameText.equals(""))
+                if (newNameText != null && !newNameText.equals("")) {
                     userNameText.setText(newNameText);
+                    nameLinker.nameLinker(newNameText);
+                }
             }
         });
 
@@ -160,8 +173,9 @@ public class ProfileSettings extends JFrame implements UsernameLinker {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                jpotifyVisibility.changeVisibility(false);
-                signpageVisibility.changeVisibility(true);
+                user.newUser();
+//                jpotifyVisibility.changeVisibility(false);
+//                signpageVisibility.changeVisibility(true);
             }
         });
 

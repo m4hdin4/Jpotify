@@ -5,11 +5,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 
+
 /**
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
 public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility{
+
+    //private String username ;
+
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+
     private final int WIDTH = 1000, HEIGHT = 700;
     private final String WINDOWS_TITLE = "Jpotify";
     private ControlPanel controlPanel;
@@ -24,11 +36,18 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
         this.setVisible(false);
 
+
+        //username = "tuem";
+
         controlPanel = new ControlPanel();
         search = new Search();
         centerPanel = new CenterPanel();
 
-        controlPanel.setMusicLinker(centerPanel);
+        //saveAccount = new SaveAccount( this);
+//        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Sasy.mp3"));
+//        saveAccount.addFile(new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Lady Gaga.mp3"));
+
+        controlPanel.setMusicLinker(centerPanel.getAllSongs());
 
         this.setLayout(new BorderLayout());
         //JScrollPane jScrollPane = new JScrollPane(controlPanel);
@@ -75,4 +94,5 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     public void changeVisibility(boolean b) {
         setVisible(b);
     }
+
 }
