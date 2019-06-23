@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * FirstFrame class show's an image at the beginning of application
+ */
 public class FirstFrame extends JFrame {
 
     public FirstFrame() throws InterruptedException {

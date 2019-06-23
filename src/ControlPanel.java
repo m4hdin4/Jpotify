@@ -13,6 +13,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
+/**
+ * class ControlPanel is the west JPanel on JpotifyFrame
+ * it contains songs and playlists and albums and singer photo
+ */
 public class ControlPanel extends JPanel {
 
     private final int heightDefault = 25;
@@ -43,6 +47,7 @@ public class ControlPanel extends JPanel {
         addToPlayList.setMaximumSize(new Dimension(widthDefault, heightDefault));
         addToPlayList.setMargin(new Insets(0, 0, 0, 0));
         addToPlayList.setBackground(new Color(0xFFFFFF));
+
         addToPlayList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

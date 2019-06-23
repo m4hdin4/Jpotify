@@ -1,6 +1,10 @@
+import javazoom.jl.decoder.JavaLayerException;
+
+import java.io.FileNotFoundException;
+
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, JavaLayerException, FileNotFoundException {
         FirstFrame firstFrame = new FirstFrame();
         SignPage signPage = new SignPage();
         JpotifyFrame jpotifyFrame = new JpotifyFrame();

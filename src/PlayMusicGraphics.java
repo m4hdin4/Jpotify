@@ -19,13 +19,11 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.concurrent.ExecutorService;
 
 
 public class PlayMusicGraphics extends JPanel {
@@ -33,10 +31,10 @@ public class PlayMusicGraphics extends JPanel {
     public static final int imageSizeBig = 60;
 
     public void setInput(FileInputStream inputStreamStream) {
-        this.inputStreamStream = inputStreamStream;
+        this.inputStream = inputStreamStream;
     }
 
-    private FileInputStream inputStreamStream;
+    private FileInputStream inputStream;
 
     private JButton playPauseBtn;
     private JButton nextBtn;
@@ -51,13 +49,9 @@ public class PlayMusicGraphics extends JPanel {
     public SongProfile getSongData() {
         return songData;
     }
-
-
     private SongProfile songData;
-
-
     private JPanel centerButtons;
-    private JSlider musicSlider;
+    private JProgressBar jProgressBar;
     private JPanel soundBar;
     private JButton soundIcon;
     private JSlider soundSlider;
@@ -73,24 +67,20 @@ public class PlayMusicGraphics extends JPanel {
     private final static int PAUSED = 2;
     private final static int FINISHED = 3;
     private long frameCount;
-    private Long frame;
+    private int frame;
+    private MusicPlayer musicPlayer;
+    File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
 
-    // the player actually doing all the work
-    private AdvancedPlayer player;
 
-
-    // locking object used to communicate with player thread
     private final Object playerLock = new Object();
 
-    // status variable what player thread is doing/supposed to do
+
     private int playerStatus = NOTSTARTED;
 
-    public void setInputStream(final InputStream inputStreamStreamStream) throws JavaLayerException {
-        this.player = new AdvancedPlayer(inputStreamStreamStream);
-    }
 
-    public PlayMusicGraphics() {
-        //this.player = new Player(inputStreamStreamStream);
+
+
+    public PlayMusicGraphics() throws JavaLayerException, FileNotFoundException {
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(0x636363));
         centerButtons = new JPanel();
@@ -154,10 +144,10 @@ public class PlayMusicGraphics extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        Audio.setMasterOutputVolume(1f);
         try {
-            inputStreamStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
             mp3File = new Mp3File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
-            frame = mp3File.getLengthInSeconds();
+            frame = (int)mp3File.getLengthInSeconds();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedTagException e) {
@@ -167,30 +157,14 @@ public class PlayMusicGraphics extends JPanel {
         } catch (InvalidDataException e) {
             e.printStackTrace();
         }
+        jProgressBar = new JProgressBar( 0 ,frame);
+        jProgressBar.setSize(800 ,10);
+        jProgressBar.setOpaque(false);
+        jProgressBar.setMinimum(0);
+        jProgressBar.setValue(0);
+        jProgressBar.setStringPainted(true);
+        musicPlayer = new MusicPlayer(new FileInputStream(file));
 
-        musicSlider = new JSlider(0, Math.toIntExact(frame));
-        musicSlider.setOpaque(false);
-        musicSlider.setMinimum(0);
-        musicSlider.setValue(0);
-        musicSlider.setMajorTickSpacing(25);
-        musicSlider.setPaintTicks(true);
-        myTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(musicSlider.getValue()>=frame){
-                    myTimer.stop();
-                    musicSlider.setValue(0);
-                }
-                else
-                    musicSlider.setValue(musicSlider.getValue() + 1);}
-
-        });
-
-        musicSlider.setBorder(new EmptyBorder(0, 0, 10, 0));
-        this.add(musicSlider, BorderLayout.SOUTH);
-
-
-        centerButtons.add(lastBtn);
         playPauseBtn = new JButton();
         playPauseBtn.setOpaque(false);
         playPauseBtn.setContentAreaFilled(false);
@@ -202,11 +176,12 @@ public class PlayMusicGraphics extends JPanel {
         } catch (Exception ex) {
             System.out.println(ex);
         }
-
+        /**
+         * changes the image of playPause Button by every click
+         */
         playPauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(playPauseCounter);
                 if (playPauseCounter % 2 != 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/play.png"));
@@ -228,28 +203,106 @@ public class PlayMusicGraphics extends JPanel {
                     }
 
                 }
-                try {
-                    setInputStream(inputStreamStream);
 
 
-                    if (playPauseCounter % 2 != 0) {
 
-                        pause();
-                        myTimer.stop();
-                        playPauseCounter++;
-                    } else {
-                        play();
-                        myTimer.start();
-                        playPauseCounter++;
+                if (playPauseCounter % 2 != 0) {
+
+                    musicPlayer.pause();
+                    myTimer.stop();
+                    playPauseCounter++;
+                } else {
+                    try {
+                        musicPlayer.play();
+                    } catch (JavaLayerException e1) {
+                        e1.printStackTrace();
                     }
-
-                } catch (final Exception r) {
-                    throw new RuntimeException(r);
+                    myTimer.start();
+                    playPauseCounter++;
                 }
+
             }
+
         });
 
 
+
+        myTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jProgressBar.getValue()>=frame){
+                    myTimer.stop();
+                    jProgressBar.setValue(0);
+                }
+                else
+                    jProgressBar.setValue(jProgressBar.getValue() + 1);}
+
+        });
+        jProgressBar.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    musicPlayer.close1();
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                synchronized (musicPlayer){
+                                Seek seek = new Seek(file , (e.getX()*jProgressBar.getMaximum())/jProgressBar.getWidth());
+                                musicPlayer = new MusicPlayer(new FileInputStream(seek.getFile()));
+                                musicPlayer.play();
+                                if(!myTimer.isRunning()){
+                                    myTimer.start();
+                                    Image img = ImageIO.read(getClass().getResource("/pause.png"));
+                                    Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+                                    playPauseBtn.setIcon(new ImageIcon(image));
+                                    playPauseCounter++;
+
+                                }
+                                }
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            } catch (InvalidDataException e1) {
+                                e1.printStackTrace();
+                            } catch (UnsupportedTagException e1) {
+                                e1.printStackTrace();
+                            } catch (JavaLayerException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    });
+                    t.start();
+                int mouseX = e.getX();
+                int progressBarVal = (int)Math.round(((double)mouseX / (double)jProgressBar.getWidth()) * jProgressBar.getMaximum());
+                jProgressBar.setValue(progressBarVal);
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        jProgressBar.setBorder(new EmptyBorder(0, 0, 10, 0));
+        this.add(jProgressBar, BorderLayout.SOUTH);
+
+
+        centerButtons.add(lastBtn);
         centerButtons.add(playPauseBtn);
         nextBtn = new JButton();
         nextBtn.setOpaque(false);
@@ -263,6 +316,9 @@ public class PlayMusicGraphics extends JPanel {
             System.out.println(ex);
         }
         centerButtons.add(nextBtn);
+
+
+
         repeatBtn = new JButton();
         repeatBtn.setOpaque(false);
         repeatBtn.setContentAreaFilled(false);
@@ -299,6 +355,8 @@ public class PlayMusicGraphics extends JPanel {
             }
         });
         centerButtons.add(repeatBtn);
+
+
         timeSong = new JLabel("0:00");
         timeSong.setEnabled(false);
         timeSong.setOpaque(false);
@@ -538,102 +596,7 @@ public class PlayMusicGraphics extends JPanel {
         this.timeSong.setText(timeSong);
     }
 
-    public void close() {
-        synchronized (playerLock) {
-            playerStatus = FINISHED;
-        }
-        try {
-            player.close();
-        } catch (final Exception e) {
-            // ignore, we are terminating anyway
-        }
-    }
 
-
-    private void playInternal() {
-        while (playerStatus != FINISHED) {
-            try {
-                if (!player.play(1)) {
-                    break;
-                }
-            } catch (final JavaLayerException e) {
-                break;
-            }
-            // check if paused or terminated
-            synchronized (playerLock) {
-                while (playerStatus == PAUSED) {
-                    try {
-                        playerLock.wait();
-                    } catch (final InterruptedException e) {
-                        // terminate player
-                        break;
-                    }
-                }
-            }
-        }
-        close();
-    }
-
-
-    public boolean resume() {
-        synchronized (playerLock) {
-            if (playerStatus == PAUSED) {
-                playerStatus = PLAYING;
-                playerLock.notifyAll();
-            }
-            return playerStatus == PLAYING;
-        }
-    }
-
-
-    /**
-     * Stops playback. If not playing, does nothing
-     */
-    public void stop1() {
-        synchronized (playerLock) {
-            playerStatus = FINISHED;
-            playerLock.notifyAll();
-        }
-    }
-
-    public boolean pause() {
-        synchronized (playerLock) {
-            if (playerStatus == PLAYING) {
-                playerStatus = PAUSED;
-            }
-            return playerStatus == PAUSED;
-        }
-    }
-
-    public void play() throws JavaLayerException {
-        synchronized (playerLock) {
-            switch (playerStatus) {
-                case NOTSTARTED:
-                    final Runnable r = new Runnable() {
-                        public void run() {
-                            playInternal();
-                        }
-                    };
-                    final Thread t = new Thread(r);
-                    t.setDaemon(true);
-                    t.setPriority(Thread.MAX_PRIORITY);
-                    playerStatus = PLAYING;
-                    t.start();
-                    break;
-                case PAUSED:
-                    resume();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    public int getDesiredFrame() {
-        int progress = musicSlider.getValue();
-        double frame = ((double) frameCount * ((double) progress / 100.0));
-        return (int) frame;
-    }
 
 
 }

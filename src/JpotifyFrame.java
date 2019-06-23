@@ -1,7 +1,14 @@
 
+import javazoom.jl.decoder.JavaLayerException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
+/**
+ * JpotifyFrame is the main frame that user see
+ * user can see songs , playlists ,albums,library
+ */
 public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility{
     private final int WIDTH = 1000, HEIGHT = 700;
     private final String WINDOWS_TITLE = "Jpotify";
@@ -10,7 +17,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     private PlayMusicGraphics playMusic;
     private CenterPanel centerPanel;
 
-    public JpotifyFrame() {
+    public JpotifyFrame() throws JavaLayerException, FileNotFoundException {
         super();
         this.setSize(WIDTH, HEIGHT);
         this.setTitle(WINDOWS_TITLE);

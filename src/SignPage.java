@@ -1,5 +1,6 @@
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
+import javazoom.jl.decoder.JavaLayerException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,8 +9,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 
+/**
+ * SignPage class is the second frame that shows to user
+ * user will sing in application and entered the username
+ * in this frame
+ */
 public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisibility {
     public void setChangeName(UsernameLinker changeName) {
         this.changeName = changeName;
@@ -22,6 +30,7 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
 
     private UsernameLinker changeName;
     private ShowNextFrame show;
+    private ExecutorService executorService;
 
     public void setShow(ShowNextFrame show) {
         this.show = show;
@@ -89,7 +98,13 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
         signIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JpotifyFrame jpotifyFrame = new JpotifyFrame();
+                try {
+                    JpotifyFrame jpotifyFrame = new JpotifyFrame();
+                } catch (JavaLayerException e1) {
+                    e1.printStackTrace();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         this.add(down , BorderLayout.CENTER);
@@ -101,6 +116,9 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
 
     }
 
+    /**
+     * hide signpage
+     */
     public void hideFrame(){
         this.setVisible(false);
     }
