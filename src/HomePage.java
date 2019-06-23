@@ -17,6 +17,12 @@ public class HomePage extends JPanel {
     private JButton allSongs;
     private JPanel singleSongs;
 
+    public void setCenterPanel1(ChangeCenterPanel1 centerPanel1) {
+        this.centerPanel1 = centerPanel1;
+    }
+
+    private ChangeCenterPanel1 centerPanel1;
+
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
     }
@@ -93,6 +99,12 @@ public class HomePage extends JPanel {
                     }
 
                 }
+            }
+        });
+        allSongs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel1.change1();
             }
         });
 

@@ -26,6 +26,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
     public CenterPanel (){
         this.setLayout(new BorderLayout());
         homePage = new HomePage();
+        homePage.setCenterPanel1(this);
         allSongs = new Songs();
         allSongs.setVisible(false);
         this.add(allSongs , BorderLayout.PAGE_START);
