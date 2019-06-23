@@ -56,7 +56,7 @@ public class PlayMusicGraphics extends JPanel {
     private JButton soundIcon;
     private JSlider soundSlider;
     private int soundSliderValue;
-
+    private Thread thread;
 
     private int shuffleCounter;
     private int playPauseCounter;
@@ -69,8 +69,9 @@ public class PlayMusicGraphics extends JPanel {
     private long frameCount;
     private int frame;
     private MusicPlayer musicPlayer;
-    //File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
-    private File file;
+    private int flag =0;
+    File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
+    /*private File file;
 
     public File getFile() {
         return file;
@@ -78,7 +79,7 @@ public class PlayMusicGraphics extends JPanel {
 
     public void setFile(File file) {
         this.file = file;
-    }
+    }*/
 
     public PlayMusicGraphics() throws JavaLayerException, FileNotFoundException {
 
@@ -159,6 +160,83 @@ public class PlayMusicGraphics extends JPanel {
         } catch (InvalidDataException e) {
             e.printStackTrace();
         }
+
+
+
+        repeatBtn = new JButton();
+        repeatBtn.setOpaque(false);
+        repeatBtn.setContentAreaFilled(false);
+        repeatBtn.setBorderPainted(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+            repeatBtn.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        repeatBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (repeatCounter % 2 == 0) {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/repeat.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        repeatBtn.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                    repeatCounter++;
+                } else {
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        repeatBtn.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                    repeatCounter++;
+                }
+
+            }
+        });
+
+
+
+
+
+
+        if (repeatCounter % 2 != 0 ){
+            if (jProgressBar.getValue()>=jProgressBar.getMaximum()-10){
+                jProgressBar.setValue(0);
+                System.out.println("fuck");
+                try {
+                    musicPlayer = new MusicPlayer(new FileInputStream(file));
+                    thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                musicPlayer.play();
+                            } catch (JavaLayerException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    });
+
+                } catch (JavaLayerException e1) {
+                    e1.printStackTrace();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+                thread.start();
+
+            }
+        }
+
+
+
+
+
+
         jProgressBar = new JProgressBar( 0 ,frame);
         jProgressBar.setSize(800 ,10);
         jProgressBar.setOpaque(false);
@@ -233,13 +311,29 @@ public class PlayMusicGraphics extends JPanel {
         });
 
 
-
+/**
+ * timer used for jprogressbar and playing music
+ */
         myTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(jProgressBar.getValue()>=frame){
                     myTimer.stop();
                     jProgressBar.setValue(0);
+                    if(repeatCounter %2!=0) {
+
+                            musicPlayer.close1();
+                        try {
+                            musicPlayer= new MusicPlayer(new FileInputStream(file));
+                            musicPlayer.play();
+                            myTimer.start();
+                        } catch (JavaLayerException e1) {
+                            e1.printStackTrace();
+                        } catch (FileNotFoundException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
                 }
                 else
                     jProgressBar.setValue(jProgressBar.getValue() + 1);}
@@ -249,7 +343,7 @@ public class PlayMusicGraphics extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                     musicPlayer.close1();
-                    Thread t = new Thread(new Runnable() {
+                      thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -277,7 +371,10 @@ public class PlayMusicGraphics extends JPanel {
                             }
                         }
                     });
-                    t.start();
+                    thread.start();
+
+
+
                 int mouseX = e.getX();
                 int progressBarVal = (int)Math.round(((double)mouseX / (double)jProgressBar.getWidth()) * jProgressBar.getMaximum());
                 jProgressBar.setValue(progressBarVal);
@@ -305,6 +402,7 @@ public class PlayMusicGraphics extends JPanel {
             }
         });
 
+
         jProgressBar.setBorder(new EmptyBorder(0, 0, 10, 0));
         this.add(jProgressBar, BorderLayout.SOUTH);
 
@@ -323,44 +421,6 @@ public class PlayMusicGraphics extends JPanel {
             System.out.println(ex);
         }
         centerButtons.add(nextBtn);
-
-
-
-        repeatBtn = new JButton();
-        repeatBtn.setOpaque(false);
-        repeatBtn.setContentAreaFilled(false);
-        repeatBtn.setBorderPainted(false);
-        try {
-            Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
-            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-            repeatBtn.setIcon(new ImageIcon(image));
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        repeatBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (repeatCounter % 2 == 0) {
-                    try {
-                        Image img = ImageIO.read(getClass().getResource("/repeat.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-                        repeatBtn.setIcon(new ImageIcon(image));
-                    } catch (Exception ex) {
-                        System.out.println(ex);
-                    }
-                    repeatCounter++;
-                } else {
-                    try {
-                        Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-                        repeatBtn.setIcon(new ImageIcon(image));
-                    } catch (Exception ex) {
-                        System.out.println(ex);
-                    }
-                    repeatCounter++;
-                }
-            }
-        });
         centerButtons.add(repeatBtn);
 
 
