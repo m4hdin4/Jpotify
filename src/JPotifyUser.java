@@ -37,7 +37,9 @@ public class JPotifyUser {
         saveAccount = new SaveAccount();
         jpotifyFrame.getControlPanel().setCenterPanel1(jpotifyFrame.getCenterPanel());
         jpotifyFrame.getControlPanel().setCenterPanel2(jpotifyFrame.getCenterPanel());
-        jpotifyFrame.getControlPanel().setMusicLinker(jpotifyFrame.getCenterPanel().getHomePage());
+        jpotifyFrame.getControlPanel().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
+        jpotifyFrame.getCenterPanel().getHomePage().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
+        jpotifyFrame.getCenterPanel().getHomePage().setSaveMusic(saveAccount);
 
         jpotifyFrame.getSearch().getProfileSettings().setNameLinker(saveAccount);
         try {
@@ -57,7 +59,7 @@ public class JPotifyUser {
         jpotifyFrame.getSearch().getProfileSettings().setJpotifyVisibility(jpotifyFrame);
         jpotifyFrame.getSearch().getProfileSettings().setSignpageVisibility(signPage);
         jpotifyFrame.getControlPanel().setSaveMusic(saveAccount);
-        saveAccount.setMusicLinker(jpotifyFrame.getCenterPanel().getHomePage());
+        saveAccount.setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
     }
 
 

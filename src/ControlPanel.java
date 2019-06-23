@@ -206,7 +206,7 @@ public class ControlPanel extends JPanel {
         playlist = new JList<>(vector);
         playlist.setForeground(new Color(0));
         playlist.setBackground(new Color(0x636363));
-//        vector.add("ali");
+        vector.add("play lists:   ");
 //        vector.add("mohammad");
         playlist.setListData(vector);
         JScrollPane jScrollPane = new JScrollPane(playlist);
