@@ -5,7 +5,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker ,RemoveMusicLinker {
+public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker ,RemoveMusicLinker,ProfilePhotoSave {
 
 
     private String username;
@@ -18,6 +18,18 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     private ProfilePhotoLinker1 musicLinker;
+
+    private ProfileLoadPicture1 profileLoadPicture1;
+
+    public void setProfileLoadPicture1(ProfileLoadPicture1 profileLoadPicture1) {
+        this.profileLoadPicture1 = profileLoadPicture1;
+    }
+
+    public void setProfileLoadPicture2(ProfileLoadPicture2 profileLoadPicture2) {
+        this.profileLoadPicture2 = profileLoadPicture2;
+    }
+
+    private ProfileLoadPicture2 profileLoadPicture2;
 
     public String getUsername() {
         return username;
@@ -42,6 +54,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     public SaveAccount() {
         //username = "tuem";
         filesPath = new ArrayList<>();
+        userImagePath = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\user1.png";
     }
 
     public void loadAccount() throws IOException, ClassNotFoundException {
@@ -54,6 +67,8 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
             SaveAccount trash = (SaveAccount) objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
+            profileLoadPicture1.load1(new File(trash.getUserImagePath()));
+            profileLoadPicture2.load2(new File(trash.getUserImagePath()));
             for (int i = 0; i < trash.getFilesPath().size(); i++) {
                 try {
                     File fi = new File(trash.getFilesPath().get(i));
@@ -157,6 +172,20 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     @Override
     public void remove(File f) {
         removeFile(f);
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void savePhoto(File f) {
+        String fileName = String.valueOf(new StringBuilder("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\").append(username));
+        File file = new File(fileName);
+        System.out.println("kir");
+        file.delete();
+        userImagePath = f.getPath();
         try {
             autoSave();
         } catch (IOException e) {

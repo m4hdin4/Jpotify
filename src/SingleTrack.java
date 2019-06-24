@@ -173,7 +173,7 @@ public class SingleTrack extends JPanel {
             Image image = songIcon.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             singer_Photo.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 }

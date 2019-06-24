@@ -96,7 +96,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             addToPlayList.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -112,7 +112,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             allSongs.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         allSongs.addActionListener(new ActionListener() {
             @Override
@@ -135,7 +135,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             albums.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+           ex.printStackTrace();
         }
 
 
@@ -154,7 +154,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             Image image = img2.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             playList.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -170,7 +170,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             Image image = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
             home.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         home.addActionListener(new ActionListener() {
             @Override
@@ -187,7 +187,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
             singer.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 

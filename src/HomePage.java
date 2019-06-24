@@ -58,7 +58,7 @@ public class HomePage extends JPanel {
             addSong.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         try {
             Image img = ImageIO.read(getClass().getResource("/song-playlist.png"));
@@ -66,7 +66,7 @@ public class HomePage extends JPanel {
             albums.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         try {
             Image img = ImageIO.read(getClass().getResource("/music.png"));
@@ -74,7 +74,7 @@ public class HomePage extends JPanel {
             allSongs.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         addSong.addActionListener(new ActionListener() {
             @Override

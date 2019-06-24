@@ -43,8 +43,9 @@ public class JPotifyUser implements Serializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        //firstFrame = new FirstFrame();
+        signPage = new SignPage();
         saveAccount = new SaveAccount();
+        //firstFrame = new FirstFrame();
         jpotifyFrame.getControlPanel().setCenterPanel1(jpotifyFrame.getCenterPanel());
         jpotifyFrame.getControlPanel().setCenterPanel2(jpotifyFrame.getCenterPanel());
         jpotifyFrame.getControlPanel().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
@@ -64,7 +65,7 @@ public class JPotifyUser implements Serializable {
             e.printStackTrace();
         }
 
-        signPage = new SignPage();
+
         signPage.setShow(jpotifyFrame);
         jpotifyFrame.getSearch().getProfileSettings().setChangePhoto2(signPage);
         signPage.setChangeName(jpotifyFrame.getSearch().getProfileSettings());
@@ -76,6 +77,9 @@ public class JPotifyUser implements Serializable {
         for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().size(); i++) {
             jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).setRemoveMusicLinker(saveAccount);
         }
+        jpotifyFrame.getSearch().getProfileSettings().setProfilePhotoSave(saveAccount);
+        saveAccount.setProfileLoadPicture1(jpotifyFrame.getSearch());
+        saveAccount.setProfileLoadPicture2(jpotifyFrame.getSearch().getProfileSettings());
     }
 
 
