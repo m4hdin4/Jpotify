@@ -373,6 +373,9 @@ public class PlayMusicGraphics extends JPanel  {
                         }
 
                     }
+                    else{
+                        playNext.next(file);
+                    }
                 }
                 else{
                     String time = "";
