@@ -1,10 +1,14 @@
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -104,6 +108,22 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     @Override
     public void play(File f) {
         playMusic.setFile(f);
+        int frameLength =0;
+        try {
+            Mp3File mp3File = new Mp3File(f);
+            frameLength = (int)mp3File.getLengthInSeconds();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedTagException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+
+        playMusic.getjProgressBar().setMaximum(frameLength);
+        playMusic.setFlag();
+        playMusic.getPlayPauseBtn().doClick();
+        //playMusic.setPlayPauseCounterPlus();
     }
 
 }

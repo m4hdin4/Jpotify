@@ -36,6 +36,10 @@ public class PlayMusicGraphics extends JPanel  {
 
     private FileInputStream inputStream;
 
+    public JButton getPlayPauseBtn() {
+        return playPauseBtn;
+    }
+
     private JButton playPauseBtn;
     private JButton nextBtn;
     private JButton lastBtn;
@@ -51,6 +55,12 @@ public class PlayMusicGraphics extends JPanel  {
     }
     private SongProfile songData;
     private JPanel centerButtons;
+
+
+    public JProgressBar getjProgressBar() {
+        return jProgressBar;
+    }
+
     private JProgressBar jProgressBar;
     private JPanel soundBar;
     private JButton soundIcon;
@@ -59,6 +69,11 @@ public class PlayMusicGraphics extends JPanel  {
     private Thread thread;
 
     private int shuffleCounter;
+
+    public void setPlayPauseCounterPlus() {
+        this.playPauseCounter++;
+    }
+
     private int playPauseCounter;
     private int repeatCounter;
     private int soundCounter;
@@ -70,8 +85,14 @@ public class PlayMusicGraphics extends JPanel  {
     private int frame;
     private MusicPlayer musicPlayer;
 
-    File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
-    //private File file;
+    public void setFlag() {
+        this.flag = true;
+    }
+
+    private volatile boolean flag = false;
+
+    //File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
+    private File file;
 
     public File getFile() {
         return file;
@@ -82,7 +103,6 @@ public class PlayMusicGraphics extends JPanel  {
     }
 
     public PlayMusicGraphics() throws JavaLayerException, FileNotFoundException {
-
 
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(0x636363));
@@ -148,18 +168,7 @@ public class PlayMusicGraphics extends JPanel  {
             ex.printStackTrace();
         }
 
-        try {
-            mp3File = new Mp3File(file);
-            frame = (int)mp3File.getLengthInSeconds();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedTagException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        }
+
 
 
 
@@ -205,36 +214,21 @@ public class PlayMusicGraphics extends JPanel  {
 
 
 
-        if (repeatCounter % 2 != 0 ){
-            if (jProgressBar.getValue()>=jProgressBar.getMaximum()-10){
-                jProgressBar.setValue(0);
-                System.out.println("fuck");
-                try {
-                    musicPlayer = new MusicPlayer(new FileInputStream(file));
-                    thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                musicPlayer.play();
-                            } catch (JavaLayerException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    });
-
-                } catch (JavaLayerException e1) {
-                    e1.printStackTrace();
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                }
-                thread.start();
-
-            }
-        }
 
 
 
-
+       /* try {
+            mp3File = new Mp3File(file);
+            frame = (int)mp3File.getLengthInSeconds();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedTagException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }*/
 
 
         jProgressBar = new JProgressBar( 0 ,frame);
@@ -243,7 +237,7 @@ public class PlayMusicGraphics extends JPanel  {
         jProgressBar.setMinimum(0);
         jProgressBar.setValue(0);
         jProgressBar.setStringPainted(true);
-        musicPlayer = new MusicPlayer(new FileInputStream(file));
+       // musicPlayer = new MusicPlayer(new FileInputStream(file));
 
         playPauseBtn = new JButton();
         playPauseBtn.setOpaque(false);
@@ -264,7 +258,21 @@ public class PlayMusicGraphics extends JPanel  {
         playPauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    if(flag && musicPlayer!=null){
+                        musicPlayer.close1();
+                        jProgressBar.setValue(0);
+                        musicPlayer = new MusicPlayer(new FileInputStream(file));
+                        playPauseCounter =2;
+                        flag = false;
+                    }
+                    if(musicPlayer==null)
+                    musicPlayer = new MusicPlayer(new FileInputStream(file));
+                } catch (JavaLayerException e1) {
+                    e1.printStackTrace();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
 
                 if (playPauseCounter % 2 != 0) {
 
@@ -309,7 +317,6 @@ public class PlayMusicGraphics extends JPanel  {
             }
 
         });
-
 
 /**
  * timer used for jprogressbar and playing music
@@ -438,6 +445,7 @@ public class PlayMusicGraphics extends JPanel  {
         repeatBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (repeatCounter % 2 == 0) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/repeat.png"));
