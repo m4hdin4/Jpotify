@@ -1,10 +1,14 @@
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -30,6 +34,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     private Search search;
     private PlayMusicGraphics playMusic;
     private CenterPanel centerPanel;
+    private Songs currentSongPage;
 
     public JpotifyFrame() throws JavaLayerException, FileNotFoundException {
         super();
@@ -65,6 +70,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
             centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
         }
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
+        currentSongPage = centerPanel.getAllSongs();
         playMusic.setPlayNext(this);
         playMusic.setPlayLast(this);
         this.add(centerScroll, BorderLayout.CENTER);
@@ -106,16 +112,32 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     @Override
     public void play(File f) {
         playMusic.setFile(f);
+        int frameLength =0;
+        try {
+            Mp3File mp3File = new Mp3File(f);
+            frameLength = (int)mp3File.getLengthInSeconds();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedTagException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+
+        playMusic.getjProgressBar().setMaximum(frameLength);
+        playMusic.setFlag();
+        playMusic.getPlayPauseBtn().doClick();
+        //playMusic.setPlayPauseCounterPlus();
     }
 
     @Override
     public void next(File f) {
         for (int i = 0; i < centerPanel.getAllSongs().getMusicCounter(); i++) {
-            if (centerPanel.getAllSongs().getTracks().get(i).getSingleTrack().equals(f)){
-                if (i+1 < centerPanel.getAllSongs().getMusicCounter())
-                    centerPanel.getAllSongs().getTracks().get(i+1).getSinger_Photo().doClick();
+            if (currentSongPage.getTracks().get(i).getSingleTrack().equals(f)){
+                if (i+1 < currentSongPage.getMusicCounter())
+                    currentSongPage.getTracks().get(i+1).getSinger_Photo().doClick();
                 else if(centerPanel.getAllSongs().getMusicCounter() > 0)
-                    centerPanel.getAllSongs().getTracks().get(0).getSinger_Photo().doClick();
+                    currentSongPage.getTracks().get(0).getSinger_Photo().doClick();
                 break;
             }
         }
@@ -123,12 +145,12 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 
     @Override
     public void last(File f) {
-        for (int i = 0; i < centerPanel.getAllSongs().getMusicCounter(); i++) {
-            if (centerPanel.getAllSongs().getTracks().get(i).getSingleTrack().equals(f)){
+        for (int i = 0; i < currentSongPage.getMusicCounter(); i++) {
+            if (currentSongPage.getTracks().get(i).getSingleTrack().equals(f)){
                 if (i-1 >= 0)
-                    centerPanel.getAllSongs().getTracks().get(i-1).getSinger_Photo().doClick();
+                    currentSongPage.getTracks().get(i-1).getSinger_Photo().doClick();
                 else if(centerPanel.getAllSongs().getMusicCounter() > 0)
-                    centerPanel.getAllSongs().getTracks().get(centerPanel.getAllSongs().getMusicCounter()-1).getSinger_Photo().doClick();
+                    currentSongPage.getTracks().get(centerPanel.getAllSongs().getMusicCounter()-1).getSinger_Photo().doClick();
                 break;
             }
         }
