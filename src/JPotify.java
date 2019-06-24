@@ -1,3 +1,7 @@
+
+
+
+
 public class JPotify implements SignNewUser{
     FirstFrame firstFrame ;
     JPotifyUser jPotifyUser ;

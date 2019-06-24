@@ -10,6 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * HomePage class is the central JPanel ih JPotifyFrame
+ * user can see songs and albums and can add song
+ */
 public class HomePage extends JPanel {
     private final int pictureSize = 240;
     private JButton addSong;
@@ -38,16 +42,17 @@ public class HomePage extends JPanel {
         allSongs.setOpaque(false);
         albums.setOpaque(false);
         addSong.setOpaque(false);
-        this.setBackground(new Color(0xBBBBBB));
-        singleSongs.setBackground(new Color(0xBBBBBB));
-        albums.setBackground(new Color(0xBBBBBB));
-        addSong.setBackground(new Color(0xBBBBBB));
-        allSongs.setBackground(new Color(0xBBBBBB));
+        addSong.setBorderPainted(false);
+        this.setBackground(new Color(0x202020));
+        singleSongs.setBackground(new Color(0x202020));
+        albums.setBackground(new Color(0x202020));
+        addSong.setBackground(new Color(0x202020));
+        allSongs.setBackground(new Color(0x202020));
 
 
 
         try {
-            Image img = ImageIO.read(getClass().getResource("/kk.png"));
+            Image img = ImageIO.read(getClass().getResource("/homeaddsong.png"));
             Image image = img.getScaledInstance(pictureSize, pictureSize, Image.SCALE_SMOOTH);
             addSong.setIcon(new ImageIcon(image));
 
@@ -55,7 +60,7 @@ public class HomePage extends JPanel {
             System.out.println(ex);
         }
         try {
-            Image img = ImageIO.read(getClass().getResource("/song-playlist.png"));
+            Image img = ImageIO.read(getClass().getResource("/homealbum.png"));
             Image image = img.getScaledInstance(pictureSize, pictureSize, Image.SCALE_SMOOTH);
             albums.setIcon(new ImageIcon(image));
 
@@ -63,7 +68,7 @@ public class HomePage extends JPanel {
             System.out.println(ex);
         }
         try {
-            Image img = ImageIO.read(getClass().getResource("/music.png"));
+            Image img = ImageIO.read(getClass().getResource("/homesong.png"));
             Image image = img.getScaledInstance(pictureSize, pictureSize, Image.SCALE_SMOOTH);
             allSongs.setIcon(new ImageIcon(image));
 
