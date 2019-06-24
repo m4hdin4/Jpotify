@@ -1,4 +1,6 @@
-public class JPotify implements SignNewUser{
+import java.io.Serializable;
+
+public class JPotify implements SignNewUser, Serializable {
     FirstFrame firstFrame ;
     JPotifyUser jPotifyUser ;
     public JPotify() {

@@ -34,7 +34,6 @@ public class Songs extends JPanel implements ProfilePhotoLinker1 {
 
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
-        tracks[musicCounter].setSingleTrack(f);
         Mp3File mp3file = new Mp3File(f);
         String songArtist;
         String songName;
@@ -67,7 +66,7 @@ public class Songs extends JPanel implements ProfilePhotoLinker1 {
         else{
             image = ImageIO.read(getClass().getResource("/singer.png"));
         }
-        tracks[musicCounter].setOptions(songArtist , songName , albumName , image );
+        tracks[musicCounter].setOptions(songArtist , songName , albumName , image , f );
         tracks[musicCounter].setVisible(true);
 
         musicCounter++;

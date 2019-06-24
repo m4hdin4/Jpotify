@@ -2,8 +2,9 @@ import javazoom.jl.decoder.JavaLayerException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class JPotifyUser {
+public class JPotifyUser implements Serializable {
     JpotifyFrame jpotifyFrame;
     //FirstFrame firstFrame ;
 

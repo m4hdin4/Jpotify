@@ -26,7 +26,7 @@ import java.awt.event.MouseListener;
 import java.util.concurrent.ExecutorService;
 
 
-public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
+public class PlayMusicGraphics extends JPanel  {
     public static final int imageSizeSmall = 30;
     public static final int imageSizeBig = 60;
 
@@ -444,6 +444,7 @@ public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
         soundSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
+                Audio.setMasterOutputVolume((float) soundSlider.getValue()/100);
                 if (soundSlider.getValue() != 0)
                     soundSliderValue = soundSlider.getValue();
                 if (soundSlider.getValue() > 50) {
@@ -477,7 +478,7 @@ public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
         soundSlider.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                Audio.setMasterOutputVolume((float)soundSlider.getValue()/100);
                 soundSliderValue = soundSlider.getValue();
 
                 if (soundSliderValue > 50) {
@@ -514,6 +515,7 @@ public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                Audio.setMasterOutputVolume((float)soundSlider.getValue()/100);
                 soundSliderValue = soundSlider.getValue();
 
                 if (soundSliderValue > 50) {
@@ -550,7 +552,7 @@ public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                Audio.setMasterOutputVolume((float)soundSlider.getValue()/100);
                 soundSliderValue = soundSlider.getValue();
 
                 if (soundSliderValue > 50) {
@@ -590,6 +592,7 @@ public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                Audio.setMasterOutputVolume((float)soundSlider.getValue()/100);
                 soundSliderValue = soundSlider.getValue();
                 if (soundSliderValue > 50) {
 
@@ -648,8 +651,4 @@ public class PlayMusicGraphics extends JPanel implements PlaySingleTrack {
     }
 
 
-//    @Override
-//    public void play(File f) {
-//        file = f;
-//    }
 }

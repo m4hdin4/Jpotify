@@ -71,9 +71,6 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         }
         else {
             autoSave();
-            String nameFile = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\null";
-            File file = new File(nameFile);
-            file.delete();
         }
     }
 
@@ -87,13 +84,17 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     private void autoSave() throws IOException {
-        System.out.println("saving");
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\").append(username));
-        FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(this);
-        objectOutputStream.close();
-        fileOutputStream.close();
+        if (username != null && !username.equals("")) {
+            System.out.println("saving");
+            String fileName = String.valueOf(new StringBuilder("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\").append(username));
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            SaveAccount temp = new SaveAccount();
+            temp.setByObject(this);
+            objectOutputStream.writeObject(temp);
+            objectOutputStream.close();
+            fileOutputStream.close();
+        }
     }
 
     private void setByObject(SaveAccount saveAccount) {
@@ -103,9 +104,17 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     @Override
-    public void linker(File f) throws IOException {
-        addFile(f);
-        autoSave();
+    public void linker(File f)  {
+        try {
+            addFile(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

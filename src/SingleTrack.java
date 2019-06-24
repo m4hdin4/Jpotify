@@ -98,7 +98,7 @@ public class SingleTrack extends JPanel {
         singer_Photo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //playSingleTrack.play(singleTrack);
+                playSingleTrack.play(singleTrack);
             }
         });
         Box box = Box.createVerticalBox();
@@ -113,7 +113,8 @@ public class SingleTrack extends JPanel {
         return singleTrack;
     }
 
-    public void setOptions(String singerName , String trackName , String albumName , Image songIcon ){
+    public void setOptions(String singerName , String trackName , String albumName , Image songIcon , File file ){
+        this.singleTrack = file;
         this.singerName = singerName;
         this.trackName = trackName;
         this.albumName = albumName;

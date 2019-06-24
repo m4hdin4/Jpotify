@@ -42,16 +42,21 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //            this.remove(this.getComponent(i));
 //        }
 //        allSongs = new Songs();
-        allSongs.setVisible(true);
-        homePage.setVisible(false);
+
+       //////////////////////////
+//        allSongs.setVisible(true);
+//        homePage.setVisible(false);
+        /////////////////////////
+
+
 //        this.setLayout(new BorderLayout());
 //        this.add(allSongs , BorderLayout.CENTER);
-//        int last = this.getComponents().length;
-//        for (int i = last - 1; i >= 0; i--) {
-//           this.getComponent(i).setVisible(false);
-//        }
-////        homePage.setVisible(false);
-//        allSongs.setVisible(true);
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+           this.getComponent(i).setVisible(false);
+        }
+//        homePage.setVisible(false);
+        allSongs.setVisible(true);
 
     }
 
@@ -70,7 +75,13 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //        homePage = new HomePage();
 //        this.setLayout(new BorderLayout());
 //        this.add(homePage , BorderLayout.CENTER);
-        allSongs.setVisible(false);
+//        allSongs.setVisible(false);
+//        homePage.setVisible(true);
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+            this.getComponent(i).setVisible(false);
+        }
+//        homePage.setVisible(false);
         homePage.setVisible(true);
     }
 }
