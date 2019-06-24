@@ -121,6 +121,14 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         }
 
         playMusic.getjProgressBar().setMaximum(frameLength);
+        String minute = ""+frameLength/60;
+        int second1 = frameLength%60;
+        String second;
+        if (second1<10){
+        second = "0"+frameLength%60;}
+        else
+            second=""+second1;
+        playMusic.getTimeSong().setText(minute+":"+second);
         playMusic.setFlag();
         playMusic.getPlayPauseBtn().doClick();
         //playMusic.setPlayPauseCounterPlus();

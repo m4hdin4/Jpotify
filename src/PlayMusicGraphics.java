@@ -46,6 +46,15 @@ public class PlayMusicGraphics extends JPanel  {
     private JButton repeatBtn;
     private JButton shuffleBtn;
     private JLabel timePassed;
+    private int minute;
+    private int second;
+    private boolean flag2 =false;
+
+
+    public JLabel getTimeSong() {
+        return timeSong;
+    }
+
     private JLabel timeSong;
     private Timer myTimer;
     private Mp3File mp3File;
@@ -89,7 +98,7 @@ public class PlayMusicGraphics extends JPanel  {
         this.flag = true;
     }
 
-    private volatile boolean flag = false;
+    private  boolean flag = false;
 
     //File file = new File("C:\\Users\\mm\\Desktop\\Quera\\Jslider\\src\\dd.mp3");
     private File file;
@@ -252,70 +261,74 @@ public class PlayMusicGraphics extends JPanel  {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         /**
          * changes the image of playPause Button by every click
          */
         playPauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    if(flag && musicPlayer!=null){
-                        musicPlayer.close1();
-                        jProgressBar.setValue(0);
-                        musicPlayer = new MusicPlayer(new FileInputStream(file));
-                        playPauseCounter =2;
-                        flag = false;
-                    }
-                    if(musicPlayer==null)
-                    musicPlayer = new MusicPlayer(new FileInputStream(file));
-                } catch (JavaLayerException e1) {
-                    e1.printStackTrace();
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                }
+                if (file != null) {
 
-                if (playPauseCounter % 2 != 0) {
 
                     try {
-                        Image img = ImageIO.read(getClass().getResource("/play.png"));
-                        Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
-                        playPauseBtn.setIcon(new ImageIcon(image));
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
-
-                } else {
-                    try {
-                        Image img = ImageIO.read(getClass().getResource("/pause.png"));
-                        Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
-                        playPauseBtn.setIcon(new ImageIcon(image));
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-
-
-
-                if (playPauseCounter % 2 != 0) {
-
-                    musicPlayer.pause();
-                    myTimer.stop();
-                    playPauseCounter++;
-                } else {
-                    try {
-                        musicPlayer.play();
+                        if (flag && musicPlayer != null) {
+                            musicPlayer.close1();
+                            jProgressBar.setValue(0);
+                            musicPlayer = new MusicPlayer(new FileInputStream(file));
+                            playPauseCounter = 2;
+                            flag = false;
+                        } else
+                            flag = false;
+                        if (musicPlayer == null)
+                            musicPlayer = new MusicPlayer(new FileInputStream(file));
                     } catch (JavaLayerException e1) {
                         e1.printStackTrace();
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
                     }
-                    myTimer.start();
-                    playPauseCounter++;
+
+                    if (playPauseCounter % 2 != 0) {
+
+                        try {
+                            Image img = ImageIO.read(getClass().getResource("/play.png"));
+                            Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+                            playPauseBtn.setIcon(new ImageIcon(image));
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+
+                    } else {
+                        try {
+                            Image img = ImageIO.read(getClass().getResource("/pause.png"));
+                            Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+                            playPauseBtn.setIcon(new ImageIcon(image));
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+
+                    if (playPauseCounter % 2 != 0) {
+
+                        musicPlayer.pause();
+                        myTimer.stop();
+                        playPauseCounter++;
+                    } else {
+                        try {
+                            musicPlayer.play();
+                        } catch (JavaLayerException e1) {
+                            e1.printStackTrace();
+                        }
+                        myTimer.start();
+                        playPauseCounter++;
+                    }
+
                 }
-
             }
-
         });
 
 /**
@@ -328,7 +341,6 @@ public class PlayMusicGraphics extends JPanel  {
                     myTimer.stop();
                     jProgressBar.setValue(0);
                     if(repeatCounter %2!=0) {
-
                             musicPlayer.close1();
                         try {
                             musicPlayer= new MusicPlayer(new FileInputStream(file));
@@ -342,13 +354,26 @@ public class PlayMusicGraphics extends JPanel  {
 
                     }
                 }
-                else
-                    jProgressBar.setValue(jProgressBar.getValue() + 1);}
+                else{
+                    String time = "";
+                    second = jProgressBar.getValue()%60;
+                    if(second>=59){
+                        second =0;
+                    }
+                    minute =  jProgressBar.getValue()/60;
+                    if(second<10){
+                    time =""+minute+":"+"0"+second;}
+                    else{
+                        time =""+minute+":"+second;
+                    }
+                    timePassed.setText(time);
+                    jProgressBar.setValue(jProgressBar.getValue() + 1);}}
 
         });
         jProgressBar.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                     musicPlayer.close1();
                       thread = new Thread(new Runnable() {
                         @Override
@@ -469,8 +494,8 @@ public class PlayMusicGraphics extends JPanel  {
         });
         centerButtons.add(repeatBtn);
 
-
-        timeSong = new JLabel("0:00");
+        String time = ""+frame;
+        timeSong = new JLabel(time);
         timeSong.setEnabled(false);
         timeSong.setOpaque(false);
         centerButtons.add(timeSong);
