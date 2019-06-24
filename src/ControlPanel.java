@@ -24,7 +24,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
     private final int imageSizeSmall = 30;
     private final int imageSizeBig = 90;
 
-    private JButton addToPlayList;
+    private JButton addToSongs;
     private JButton allSongs;
     private JButton albums;
     private JButton playList;
@@ -56,16 +56,16 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
     public ControlPanel() {
         this.setBackground(new Color(0x636363));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        addToPlayList = new JButton();
-        addToPlayList.setOpaque(false);
-        addToPlayList.setContentAreaFilled(false);
-        addToPlayList.setBorderPainted(false);
-        addToPlayList.setToolTipText("Add song...");
-        addToPlayList.setMaximumSize(new Dimension(widthDefault, heightDefault));
-        addToPlayList.setMargin(new Insets(0, 0, 0, 0));
-        addToPlayList.setBackground(new Color(0xFFFFFF));
+        addToSongs = new JButton();
+        addToSongs.setOpaque(false);
+        addToSongs.setContentAreaFilled(false);
+        addToSongs.setBorderPainted(false);
+        addToSongs.setToolTipText("Add song...");
+        addToSongs.setMaximumSize(new Dimension(widthDefault, heightDefault));
+        addToSongs.setMargin(new Insets(0, 0, 0, 0));
+        addToSongs.setBackground(new Color(0xFFFFFF));
 
-        addToPlayList.addActionListener(new ActionListener() {
+        addToSongs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser musicChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -90,10 +90,11 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
                 }
             }
         });
+
         try {
             Image img = ImageIO.read(getClass().getResource("/kk.png"));
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-            addToPlayList.setIcon(new ImageIcon(image));
+            addToSongs.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -221,7 +222,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
 
         Box box = Box.createVerticalBox();
         box.add(home);
-        box.add(addToPlayList);
+        box.add(addToSongs);
         box.add(allSongs);
         box.add(albums);
         box.add(playList);

@@ -524,6 +524,8 @@ public class PlayMusicGraphics extends JPanel  {
         centerButtons.add(repeatBtn);
 
         String time = ""+frame;
+        if (frame == 0)
+            time = "0:00";
         timeSong = new JLabel(time);
         timeSong.setEnabled(false);
         timeSong.setOpaque(false);
@@ -576,8 +578,6 @@ public class PlayMusicGraphics extends JPanel  {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-
-                        soundSlider.setValue(soundSliderValue);
                     } else {
 
 
@@ -635,7 +635,7 @@ public class PlayMusicGraphics extends JPanel  {
                 }
             }
         });
-        soundSlider.addMouseListener(new MouseListener() {
+        /*soundSlider.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Audio.setMasterOutputVolume((float)soundSlider.getValue()/100);
@@ -789,7 +789,7 @@ public class PlayMusicGraphics extends JPanel  {
             @Override
             public void mouseExited(MouseEvent e) {
             }
-        });
+        });*/
         soundBar.add(soundIcon, BorderLayout.CENTER);
         soundBar.add(soundSlider, BorderLayout.EAST);
         this.add(soundBar, BorderLayout.EAST);
