@@ -61,8 +61,8 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         this.add(playMusic, BorderLayout.SOUTH);
         JScrollPane centerScroll = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        for (int i = 0; i < centerPanel.getAllSongs().getTracks().length; i++) {
-            centerPanel.getAllSongs().getTracks()[i].setPlaySingleTrack(this);
+        for (int i = 0; i < centerPanel.getAllSongs().getTracks().size(); i++) {
+            centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
         }
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);

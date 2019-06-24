@@ -3,8 +3,7 @@ import com.mpatric.mp3agic.Mp3File;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
 
 public class SingleTrack extends JPanel {
@@ -78,13 +77,42 @@ public class SingleTrack extends JPanel {
     private JLabel track_Name;
     private JLabel album_Name;
 
+
     public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
         this.playSingleTrack = playSingleTrack;
     }
 
     private PlaySingleTrack playSingleTrack;
 
+    public void setCount(CounterHandler count) {
+        this.count = count;
+    }
+
+    private CounterHandler count;
+
     public SingleTrack (){
+        JPopupMenu jPopupMenu = new JPopupMenu();
+        JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");
+        JMenuItem jMenuItem2 = new JMenuItem("Delete");
+        //JMenuItem jMenuItem3 = new JMenuItem("falk");
+        jPopupMenu.add(jMenuItem1);
+        jPopupMenu.add(jMenuItem2);
+        jMenuItem1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        jMenuItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                count.handle(returnThis());
+            }
+        });
+        //jPopupMenu.add(jMenuItem3);
+        //jPopupMenu.show();
+
 
         this.setOpaque(false);
         this.setBackground(new Color(0xEEEEEE));
@@ -101,6 +129,16 @@ public class SingleTrack extends JPanel {
                 playSingleTrack.play(singleTrack);
             }
         });
+
+        singer_Photo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getButton() == MouseEvent.BUTTON3){
+                    jPopupMenu.show(e.getComponent() , e.getX() , e.getY());
+                }
+            }
+        });
         Box box = Box.createVerticalBox();
         box.add(singer_Photo);
         box.add(track_Name);
@@ -111,6 +149,9 @@ public class SingleTrack extends JPanel {
 
     public File getSingleTrack() {
         return singleTrack;
+    }
+    public SingleTrack returnThis(){
+        return this;
     }
 
     public void setOptions(String singerName , String trackName , String albumName , Image songIcon , File file ){
