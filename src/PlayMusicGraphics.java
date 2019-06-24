@@ -94,6 +94,21 @@ public class PlayMusicGraphics extends JPanel  {
     private int frame;
     private MusicPlayer musicPlayer;
 
+
+    public void setPlayNext(PlayNext playNext) {
+        this.playNext = playNext;
+    }
+
+    private PlayNext playNext;
+    private PlayLast playLast;
+
+    public void setPlayLast(PlayLast playLast) {
+        this.playLast = playLast;
+    }
+
+//    File file = new File("C:\\Users\\BPTEC-32338485\\Desktop\\jpotifyMusics\\Sasy.mp3");
+    //private File file;
+
     public void setFlag() {
         this.flag = true;
     }
@@ -176,7 +191,12 @@ public class PlayMusicGraphics extends JPanel  {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
+        lastBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playLast.last(file);
+            }
+        });
 
 
 
@@ -452,6 +472,12 @@ public class PlayMusicGraphics extends JPanel  {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        nextBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playNext.next(file);
+            }
+        });
         centerButtons.add(nextBtn);
 
 

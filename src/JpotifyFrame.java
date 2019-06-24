@@ -16,7 +16,7 @@ import java.io.Serializable;
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
-public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, Serializable {
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , Serializable {
 
     //private String username ;
 
@@ -34,6 +34,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     private Search search;
     private PlayMusicGraphics playMusic;
     private CenterPanel centerPanel;
+    private Songs currentSongPage;
 
     public JpotifyFrame() throws JavaLayerException, FileNotFoundException {
         super();
@@ -69,6 +70,9 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
             centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
         }
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
+        currentSongPage = centerPanel.getAllSongs();
+        playMusic.setPlayNext(this);
+        playMusic.setPlayLast(this);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -134,4 +138,29 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         //playMusic.setPlayPauseCounterPlus();
     }
 
+    @Override
+    public void next(File f) {
+        for (int i = 0; i < centerPanel.getAllSongs().getMusicCounter(); i++) {
+            if (currentSongPage.getTracks().get(i).getSingleTrack().equals(f)){
+                if (i+1 < currentSongPage.getMusicCounter())
+                    currentSongPage.getTracks().get(i+1).getSinger_Photo().doClick();
+                else if(centerPanel.getAllSongs().getMusicCounter() > 0)
+                    currentSongPage.getTracks().get(0).getSinger_Photo().doClick();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void last(File f) {
+        for (int i = 0; i < currentSongPage.getMusicCounter(); i++) {
+            if (currentSongPage.getTracks().get(i).getSingleTrack().equals(f)){
+                if (i-1 >= 0)
+                    currentSongPage.getTracks().get(i-1).getSinger_Photo().doClick();
+                else if(centerPanel.getAllSongs().getMusicCounter() > 0)
+                    currentSongPage.getTracks().get(centerPanel.getAllSongs().getMusicCounter()-1).getSinger_Photo().doClick();
+                break;
+            }
+        }
+    }
 }

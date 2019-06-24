@@ -12,7 +12,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     private ArrayList<String> filesPath;
     private String userImagePath;
 
-    private String localAddress = "C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\";
+    private String localAddress = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\";
 
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
@@ -55,7 +55,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     public SaveAccount() {
         //username = "tuem";
         filesPath = new ArrayList<>();
-        userImagePath = "C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\user1.png";
+        userImagePath = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\user1.png";
     }
 
     public void loadAccount() throws IOException, ClassNotFoundException {
