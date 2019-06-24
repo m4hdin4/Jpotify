@@ -12,7 +12,7 @@ import java.io.Serializable;
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
-public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, Serializable {
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , Serializable {
 
     //private String username ;
 
@@ -65,6 +65,8 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
             centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
         }
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
+        playMusic.setPlayNext(this);
+        playMusic.setPlayLast(this);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -106,4 +108,29 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         playMusic.setFile(f);
     }
 
+    @Override
+    public void next(File f) {
+        for (int i = 0; i < centerPanel.getAllSongs().getMusicCounter(); i++) {
+            if (centerPanel.getAllSongs().getTracks().get(i).getSingleTrack().equals(f)){
+                if (i+1 < centerPanel.getAllSongs().getMusicCounter())
+                    centerPanel.getAllSongs().getTracks().get(i+1).getSinger_Photo().doClick();
+                else if(centerPanel.getAllSongs().getMusicCounter() > 0)
+                    centerPanel.getAllSongs().getTracks().get(0).getSinger_Photo().doClick();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void last(File f) {
+        for (int i = 0; i < centerPanel.getAllSongs().getMusicCounter(); i++) {
+            if (centerPanel.getAllSongs().getTracks().get(i).getSingleTrack().equals(f)){
+                if (i-1 >= 0)
+                    centerPanel.getAllSongs().getTracks().get(i-1).getSinger_Photo().doClick();
+                else if(centerPanel.getAllSongs().getMusicCounter() > 0)
+                    centerPanel.getAllSongs().getTracks().get(centerPanel.getAllSongs().getMusicCounter()-1).getSinger_Photo().doClick();
+                break;
+            }
+        }
+    }
 }

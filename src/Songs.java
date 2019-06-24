@@ -11,6 +11,10 @@ import com.mpatric.mp3agic.* ;
 
 public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler {
 
+    public int getMusicCounter() {
+        return musicCounter;
+    }
+
     private int musicCounter;
 
     public ArrayList<SingleTrack> getTracks() {
