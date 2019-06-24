@@ -524,6 +524,10 @@ public class PlayMusicGraphics extends JPanel  {
         centerButtons.add(repeatBtn);
 
         String time = ""+frame;
+        if(frame==0){
+            time ="0:00";
+        }
+        System.out.println();
         timeSong = new JLabel(time);
         timeSong.setEnabled(false);
         timeSong.setOpaque(false);
