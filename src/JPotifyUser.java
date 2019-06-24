@@ -73,6 +73,9 @@ public class JPotifyUser implements Serializable {
         jpotifyFrame.getSearch().getProfileSettings().setSignpageVisibility(signPage);
         jpotifyFrame.getControlPanel().setSaveMusic(saveAccount);
         saveAccount.setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
+        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().size(); i++) {
+            jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).setRemoveMusicLinker(saveAccount);
+        }
     }
 
 

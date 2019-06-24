@@ -64,6 +64,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         for (int i = 0; i < centerPanel.getAllSongs().getTracks().size(); i++) {
             centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
         }
+        centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);

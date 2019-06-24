@@ -77,6 +77,12 @@ public class SingleTrack extends JPanel {
     private JLabel track_Name;
     private JLabel album_Name;
 
+    public void setRemoveMusicLinker(RemoveMusicLinker removeMusicLinker) {
+        this.removeMusicLinker = removeMusicLinker;
+    }
+
+    private RemoveMusicLinker removeMusicLinker;
+
 
     public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
         this.playSingleTrack = playSingleTrack;
@@ -108,6 +114,7 @@ public class SingleTrack extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 count.handle(returnThis());
+                removeMusicLinker.remove(singleTrack);
             }
         });
         //jPopupMenu.add(jMenuItem3);

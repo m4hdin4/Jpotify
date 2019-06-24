@@ -17,7 +17,7 @@ import java.util.Vector;
  * class ControlPanel is the west JPanel on JpotifyFrame
  * it contains songs and playlists and albums and singer photo
  */
-public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel implements UpdateSongsFrame {
 
     private final int heightDefault = 25;
     private final int widthDefault = 100;
@@ -240,5 +240,10 @@ public class ControlPanel extends JPanel {
 
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
+    }
+
+    @Override
+    public void update() {
+        allSongs.doClick();
     }
 }

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker {
+public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker ,RemoveMusicLinker {
 
 
     private String username;
@@ -147,6 +147,16 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         File f = new File(fileName);
         f.delete();
         username = s;
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void remove(File f) {
+        removeFile(f);
         try {
             autoSave();
         } catch (IOException e) {

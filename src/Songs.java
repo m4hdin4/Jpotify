@@ -12,7 +12,6 @@ import com.mpatric.mp3agic.* ;
 public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler {
 
     private int musicCounter;
-    private int MAXMusicCounter = 1000;
 
     public ArrayList<SingleTrack> getTracks() {
         return tracks;
@@ -20,13 +19,18 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
 
     private ArrayList<SingleTrack> tracks;
 
+    private UpdateSongsFrame updateSongsFrame;
+
+    public void setUpdateSongsFrame(UpdateSongsFrame updateSongsFrame) {
+        this.updateSongsFrame = updateSongsFrame;
+    }
 
     public Songs (){
         super();
         this.setLayout(new WrapLayout(WrapLayout.LEFT));
         this.setVisible(false);
         tracks = new ArrayList<>();
-        for (int i = 0; i < MAXMusicCounter; i++) {
+        for (int i = 0; i < 1000; i++) {
             tracks.add(new SingleTrack());
             tracks.get(i).setVisible(false);
             tracks.get(i).setCount(this);
@@ -36,6 +40,8 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
 
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
+//        SingleTrack trash = new SingleTrack();
+//        trash.setCount(this);
         Mp3File mp3file = new Mp3File(f);
         String songArtist;
         String songName;
@@ -70,6 +76,7 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         }
         tracks.get(musicCounter).setOptions(songArtist , songName , albumName , image , f );
         tracks.get(musicCounter).setVisible(true);
+        updateSongsFrame.update();
 
         musicCounter++;
     }
