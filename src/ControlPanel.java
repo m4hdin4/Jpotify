@@ -10,7 +10,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Vector;
 
 /**
@@ -68,27 +70,55 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         addToSongs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+//                JFileChooser musicChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//                musicChooser.setDialogTitle("Select a music");
+//                musicChooser.setAcceptAllFileFilterUsed(false);
+//                FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3", "mp3");
+//                musicChooser.addChoosableFileFilter(filter);
+//
+//                int returnValue = musicChooser.showOpenDialog(null);
+//                if (returnValue == JFileChooser.APPROVE_OPTION) {
+//                    try {
+//                        musicLinker.linker(musicChooser.getSelectedFile());
+//                        saveMusic.linker(musicChooser.getSelectedFile());
+//                    } catch (InvalidDataException e1) {
+//                        e1.printStackTrace();
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    } catch (UnsupportedTagException e1) {
+//                        e1.printStackTrace();
+//                    }
+//
+//                }
                 JFileChooser musicChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                musicChooser.setDialogTitle("Select a music");
-                musicChooser.setAcceptAllFileFilterUsed(false);
+                musicChooser.setDialogTitle("Multiple file and directory selection:");
+                musicChooser.setMultiSelectionEnabled(true);
+                int returnValue = musicChooser.showDialog(null, "choose");
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3", "mp3");
                 musicChooser.addChoosableFileFilter(filter);
-
-                int returnValue = musicChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        musicLinker.linker(musicChooser.getSelectedFile());
-                        saveMusic.linker(musicChooser.getSelectedFile());
-                    } catch (InvalidDataException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (UnsupportedTagException e1) {
-                        e1.printStackTrace();
-                    }
-
+                    File[] files = musicChooser.getSelectedFiles();
+                    System.out.println("Directories found\n");
+                    System.out.println("\n- - - - - - - - - - -\n");
+                    System.out.println("Files Found\n");
+                    Arrays.asList(files).forEach(x -> {
+                        if (x.isFile()) {
+                            try {
+                                musicLinker.linker(x);
+                                saveMusic.linker(x);
+                            } catch (InvalidDataException e1) {
+                                e1.printStackTrace();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            } catch (UnsupportedTagException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    })
+                    ;
                 }
             }
+
         });
 
         try {
