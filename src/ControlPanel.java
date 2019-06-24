@@ -17,7 +17,7 @@ import java.util.Vector;
  * class ControlPanel is the west JPanel on JpotifyFrame
  * it contains songs and playlists and albums and singer photo
  */
-public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel implements UpdateSongsFrame {
 
     private final int heightDefault = 25;
     private final int widthDefault = 100;
@@ -96,7 +96,7 @@ public class ControlPanel extends JPanel {
             addToPlayList.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -112,7 +112,7 @@ public class ControlPanel extends JPanel {
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             allSongs.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         allSongs.addActionListener(new ActionListener() {
             @Override
@@ -135,7 +135,7 @@ public class ControlPanel extends JPanel {
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             albums.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+           ex.printStackTrace();
         }
 
 
@@ -154,7 +154,7 @@ public class ControlPanel extends JPanel {
             Image image = img2.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             playList.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -170,7 +170,7 @@ public class ControlPanel extends JPanel {
             Image image = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
             home.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         home.addActionListener(new ActionListener() {
             @Override
@@ -187,7 +187,7 @@ public class ControlPanel extends JPanel {
             Image image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
             singer.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -240,5 +240,10 @@ public class ControlPanel extends JPanel {
 
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
+    }
+
+    @Override
+    public void update() {
+        allSongs.doClick();
     }
 }

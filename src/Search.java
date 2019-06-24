@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import java.io.File;
 
-public class Search extends JPanel implements ProfilePhotoLinker1 {
+public class Search extends JPanel implements ProfilePhotoLinker1 , ProfileLoadPicture1 {
     public JTextField getSearchArea() {
         return searchArea;
     }
@@ -14,7 +14,6 @@ public class Search extends JPanel implements ProfilePhotoLinker1 {
     public JButton getSearch() {
         return search;
     }
-
     public JButton getProfile() {
         return profile;
     }
@@ -50,7 +49,7 @@ public class Search extends JPanel implements ProfilePhotoLinker1 {
 
             search.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -76,7 +75,7 @@ public class Search extends JPanel implements ProfilePhotoLinker1 {
 
             profile.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         setLayout(new BorderLayout());
         searchArea = new JTextField();
@@ -105,8 +104,19 @@ public class Search extends JPanel implements ProfilePhotoLinker1 {
             profile.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
        }
     }
 
+    @Override
+    public void load1(File f) {
+        try {
+            Image img = ImageIO.read(f);
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, img.SCALE_SMOOTH);
+            profile.setIcon(new ImageIcon(image));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

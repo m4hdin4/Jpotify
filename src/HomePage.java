@@ -21,6 +21,12 @@ public class HomePage extends JPanel {
     private JButton allSongs;
     private JPanel singleSongs;
 
+    public void setCenterPanel1(ChangeCenterPanel1 centerPanel1) {
+        this.centerPanel1 = centerPanel1;
+    }
+
+    private ChangeCenterPanel1 centerPanel1;
+
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
     }
@@ -57,7 +63,7 @@ public class HomePage extends JPanel {
             addSong.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         try {
             Image img = ImageIO.read(getClass().getResource("/homealbum.png"));
@@ -65,7 +71,7 @@ public class HomePage extends JPanel {
             albums.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         try {
             Image img = ImageIO.read(getClass().getResource("/homesong.png"));
@@ -73,7 +79,7 @@ public class HomePage extends JPanel {
             allSongs.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         addSong.addActionListener(new ActionListener() {
             @Override
@@ -98,6 +104,12 @@ public class HomePage extends JPanel {
                     }
 
                 }
+            }
+        });
+        allSongs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel1.change1();
             }
         });
 

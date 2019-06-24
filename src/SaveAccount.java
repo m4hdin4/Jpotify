@@ -5,19 +5,32 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker {
+public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker ,RemoveMusicLinker,ProfilePhotoSave {
 
 
     private String username;
     private ArrayList<String> filesPath;
     private String userImagePath;
 
+    private String localAddress = "C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\";
 
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
     }
 
     private ProfilePhotoLinker1 musicLinker;
+
+    private ProfileLoadPicture1 profileLoadPicture1;
+
+    public void setProfileLoadPicture1(ProfileLoadPicture1 profileLoadPicture1) {
+        this.profileLoadPicture1 = profileLoadPicture1;
+    }
+
+    public void setProfileLoadPicture2(ProfileLoadPicture2 profileLoadPicture2) {
+        this.profileLoadPicture2 = profileLoadPicture2;
+    }
+
+    private ProfileLoadPicture2 profileLoadPicture2;
 
     public String getUsername() {
         return username;
@@ -42,10 +55,11 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     public SaveAccount() {
         //username = "tuem";
         filesPath = new ArrayList<>();
+        userImagePath = "C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\user1.png";
     }
 
     public void loadAccount() throws IOException, ClassNotFoundException {
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\mm\\Desktop\\saves\\").append(username));
+        String fileName = String.valueOf(new StringBuilder(localAddress).append(username));
         File f = new File(fileName);
         if (f.exists() && !f.isDirectory()) {
             System.out.println("loading");
@@ -54,6 +68,8 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
             SaveAccount trash = (SaveAccount) objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
+            profileLoadPicture1.load1(new File(trash.getUserImagePath()));
+            profileLoadPicture2.load2(new File(trash.getUserImagePath()));
             for (int i = 0; i < trash.getFilesPath().size(); i++) {
                 try {
                     File fi = new File(trash.getFilesPath().get(i));
@@ -71,9 +87,6 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         }
         else {
             autoSave();
-            String nameFile = "C:\\Users\\mm\\Desktop\\saves\\null";
-            File file = new File(nameFile);
-            file.delete();
         }
     }
 
@@ -87,13 +100,17 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     private void autoSave() throws IOException {
-        System.out.println("saving");
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\mm\\Desktop\\saves\\").append(username));
-        FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(this);
-        objectOutputStream.close();
-        fileOutputStream.close();
+        if (username != null && !username.equals("")) {
+            System.out.println("saving");
+            String fileName = String.valueOf(new StringBuilder(localAddress).append(username));
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            SaveAccount temp = new SaveAccount();
+            temp.setByObject(this);
+            objectOutputStream.writeObject(temp);
+            objectOutputStream.close();
+            fileOutputStream.close();
+        }
     }
 
     private void setByObject(SaveAccount saveAccount) {
@@ -103,9 +120,17 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     @Override
-    public void linker(File f) throws IOException {
-        addFile(f);
-        autoSave();
+    public void linker(File f)  {
+        try {
+            addFile(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -134,10 +159,34 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
 
     @Override
     public void nameLinker(String s) {
-        String fileName = String.valueOf(new StringBuilder("C:\\Users\\mm\\Desktop\\saves\\").append(username));
+        String fileName = String.valueOf(new StringBuilder(localAddress).append(username));
         File f = new File(fileName);
         f.delete();
         username = s;
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void remove(File f) {
+        removeFile(f);
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void savePhoto(File f) {
+        String fileName = String.valueOf(new StringBuilder(localAddress).append(username));
+        File file = new File(fileName);
+        System.out.println("kir");
+        file.delete();
+        userImagePath = f.getPath();
         try {
             autoSave();
         } catch (IOException e) {

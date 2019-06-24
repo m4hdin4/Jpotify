@@ -18,7 +18,7 @@ public class FirstFrame extends JFrame {
             Image image = img.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
             jLabel.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         this.setLayout(new BorderLayout());
         this.add(jLabel, BorderLayout.CENTER);

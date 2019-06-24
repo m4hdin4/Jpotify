@@ -52,7 +52,7 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
             Image image = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             profilePhoto.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 //        profilePhoto.addActionListener(new ActionListener() {
 //            @Override
@@ -71,7 +71,7 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
 //                        Image image = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
 //                        profilePhoto.setIcon(new ImageIcon(image));
 //                    } catch (Exception ex) {
-//                        System.out.println(ex);
+//                        ex.printStackTrace();
 //                    }
 //
 //                }
@@ -138,7 +138,7 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
             profilePhoto.setIcon(new ImageIcon(image));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 

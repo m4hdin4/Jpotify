@@ -4,33 +4,44 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.mpatric.mp3agic.* ;
 
 
-public class Songs extends JPanel implements ProfilePhotoLinker1  {
+public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler {
 
     private int musicCounter;
-    private int MAXMusicCounter = 1000;
 
-    private SingleTrack[] tracks;
+    public ArrayList<SingleTrack> getTracks() {
+        return tracks;
+    }
 
+    private ArrayList<SingleTrack> tracks;
+
+    private UpdateSongsFrame updateSongsFrame;
+
+    public void setUpdateSongsFrame(UpdateSongsFrame updateSongsFrame) {
+        this.updateSongsFrame = updateSongsFrame;
+    }
 
     public Songs (){
         super();
         this.setLayout(new WrapLayout(WrapLayout.LEFT));
         this.setVisible(false);
-        tracks = new SingleTrack[MAXMusicCounter];
-        for (int i = 0; i < MAXMusicCounter; i++) {
-            tracks[i] = new SingleTrack();
-            tracks[i].setVisible(false);
-            this.add(tracks[i]);
+        tracks = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            tracks.add(new SingleTrack());
+            tracks.get(i).setVisible(false);
+            tracks.get(i).setCount(this);
+            this.add(tracks.get(i));
         }
     }
 
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
-
+//        SingleTrack trash = new SingleTrack();
+//        trash.setCount(this);
         Mp3File mp3file = new Mp3File(f);
         String songArtist;
         String songName;
@@ -38,7 +49,7 @@ public class Songs extends JPanel implements ProfilePhotoLinker1  {
         Image image;
         boolean flag = true;
         for (int i = 0; i < musicCounter; i++) {
-            if (tracks[i].getSingleTrack().equals(f)) {
+            if (tracks.get(i).getSingleTrack().equals(f)) {
                 flag = false;
                 break;
             }
@@ -63,8 +74,9 @@ public class Songs extends JPanel implements ProfilePhotoLinker1  {
         else{
             image = ImageIO.read(getClass().getResource("/singer.png"));
         }
-        tracks[musicCounter].setOptions(songArtist , songName , albumName , image , f);
-        tracks[musicCounter].setVisible(true);
+        tracks.get(musicCounter).setOptions(songArtist , songName , albumName , image , f );
+        tracks.get(musicCounter).setVisible(true);
+        updateSongsFrame.update();
 
         musicCounter++;
     }
@@ -76,4 +88,9 @@ public class Songs extends JPanel implements ProfilePhotoLinker1  {
     }
 
 
+    @Override
+    public void handle(SingleTrack singleTrack) {
+        tracks.remove(singleTrack);
+        musicCounter--;
+    }
 }

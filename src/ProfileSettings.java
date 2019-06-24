@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-public class ProfileSettings extends JFrame implements UsernameLinker1 {
+public class ProfileSettings extends JFrame implements UsernameLinker1 , ProfileLoadPicture2 {
     public JPanel getPhoto() {
         return photo;
     }
@@ -51,6 +52,12 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 {
     private ProfilePhotoLinker2 changePhoto2;
     private ProfileNameLinker nameLinker;
 
+    public void setProfilePhotoSave(ProfilePhotoSave profilePhotoSave) {
+        this.profilePhotoSave = profilePhotoSave;
+    }
+
+    private ProfilePhotoSave profilePhotoSave;
+
     public void setNameLinker(ProfileNameLinker nameLinker) {
         this.nameLinker = nameLinker;
     }
@@ -91,7 +98,7 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 {
             Image image = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
             userPhoto.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
         camera = new JButton();
@@ -104,7 +111,7 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 {
             Image image = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
             camera.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
 
 
@@ -126,8 +133,9 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 {
                         userPhoto.setIcon(new ImageIcon(image));
                         changePhoto1.linker(photoChooser.getSelectedFile());
                         changePhoto2.linker(photoChooser.getSelectedFile());
+                        profilePhotoSave.savePhoto(photoChooser.getSelectedFile());
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        ex.printStackTrace();
                     }
 
                 }
@@ -205,4 +213,14 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 {
             this.getUserNameText().setText("tuem");
     }
 
+    @Override
+    public void load2(File f) {
+        try {
+            Image img = ImageIO.read(f);
+            Image image = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
+            userPhoto.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

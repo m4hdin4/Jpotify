@@ -2,8 +2,9 @@ import javazoom.jl.decoder.JavaLayerException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class JPotifyUser {
+public class JPotifyUser implements Serializable {
     JpotifyFrame jpotifyFrame;
     //FirstFrame firstFrame ;
 
@@ -42,13 +43,17 @@ public class JPotifyUser {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        //firstFrame = new FirstFrame();
+        signPage = new SignPage();
         saveAccount = new SaveAccount();
+        //firstFrame = new FirstFrame();
         jpotifyFrame.getControlPanel().setCenterPanel1(jpotifyFrame.getCenterPanel());
         jpotifyFrame.getControlPanel().setCenterPanel2(jpotifyFrame.getCenterPanel());
         jpotifyFrame.getControlPanel().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
         jpotifyFrame.getCenterPanel().getHomePage().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
         jpotifyFrame.getCenterPanel().getHomePage().setSaveMusic(saveAccount);
+//        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().length; i++) {
+//            jpotifyFrame.getCenterPanel().getAllSongs().getTracks()[i].setPlaySingleTrack(jpotifyFrame.getPlayMusic());
+//        }
 
         jpotifyFrame.getSearch().getProfileSettings().setNameLinker(saveAccount);
         try {
@@ -60,7 +65,7 @@ public class JPotifyUser {
             e.printStackTrace();
         }
 
-        signPage = new SignPage();
+
         signPage.setShow(jpotifyFrame);
         jpotifyFrame.getSearch().getProfileSettings().setChangePhoto2(signPage);
         signPage.setChangeName(jpotifyFrame.getSearch().getProfileSettings());
@@ -69,6 +74,12 @@ public class JPotifyUser {
         jpotifyFrame.getSearch().getProfileSettings().setSignpageVisibility(signPage);
         jpotifyFrame.getControlPanel().setSaveMusic(saveAccount);
         saveAccount.setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
+        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().size(); i++) {
+            jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).setRemoveMusicLinker(saveAccount);
+        }
+        jpotifyFrame.getSearch().getProfileSettings().setProfilePhotoSave(saveAccount);
+        saveAccount.setProfileLoadPicture1(jpotifyFrame.getSearch());
+        saveAccount.setProfileLoadPicture2(jpotifyFrame.getSearch().getProfileSettings());
     }
 
 

@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
-public class FileWrapper {
+public class FileWrapper  {
 
 	protected Path path;
 	protected long length;

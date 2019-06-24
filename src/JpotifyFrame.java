@@ -3,14 +3,16 @@ import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 
 /**
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
-public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility{
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, Serializable {
 
     //private String username ;
 
@@ -59,6 +61,10 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         this.add(playMusic, BorderLayout.SOUTH);
         JScrollPane centerScroll = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        for (int i = 0; i < centerPanel.getAllSongs().getTracks().size(); i++) {
+            centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
+        }
+        centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -93,6 +99,11 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     @Override
     public void changeVisibility(boolean b) {
         setVisible(b);
+    }
+
+    @Override
+    public void play(File f) {
+        playMusic.setFile(f);
     }
 
 }
