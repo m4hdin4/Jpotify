@@ -98,7 +98,6 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     public void removeFile(File file) {
         System.out.println(file.getPath());
         filesPath.remove(file.getPath());
-        System.out.println("kir");
     }
 
     private void autoSave() throws IOException {

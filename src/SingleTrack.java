@@ -100,7 +100,6 @@ public class SingleTrack extends JPanel {
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");
         JMenuItem jMenuItem2 = new JMenuItem("Delete");
-        //JMenuItem jMenuItem3 = new JMenuItem("falk");
         jPopupMenu.add(jMenuItem1);
         jPopupMenu.add(jMenuItem2);
         jMenuItem1.addActionListener(new ActionListener() {
@@ -130,6 +129,8 @@ public class SingleTrack extends JPanel {
         album_Name = new JLabel("",JLabel.CENTER);
         singer_Photo.setOpaque(false);
         singer_Photo.setBackground(new Color(0xEEEEEE));
+        singer_Photo.setContentAreaFilled(false);
+        singer_Photo.setBorderPainted(false);
         singer_Photo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,7 +162,7 @@ public class SingleTrack extends JPanel {
         return this;
     }
 
-    public void setOptions(String singerName , String trackName , String albumName , Image songIcon , File file ){
+    public void setOptions(String trackName , String albumName  , String singerName , Image songIcon , File file ){
         this.singleTrack = file;
         this.singerName = singerName;
         this.trackName = trackName;

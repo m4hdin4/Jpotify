@@ -73,6 +73,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         currentSongPage = centerPanel.getAllSongs();
         playMusic.setPlayNext(this);
         playMusic.setPlayLast(this);
+        controlPanel.setCenterPanel3(centerPanel);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);

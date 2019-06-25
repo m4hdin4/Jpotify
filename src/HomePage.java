@@ -114,9 +114,6 @@ public class HomePage extends JPanel {
                 musicChooser.addChoosableFileFilter(filter);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File[] files = musicChooser.getSelectedFiles();
-                    System.out.println("Directories found\n");
-                    System.out.println("\n- - - - - - - - - - -\n");
-                    System.out.println("Files Found\n");
                     Arrays.asList(files).forEach(x -> {
                         if (x.isFile()) {
                             try {

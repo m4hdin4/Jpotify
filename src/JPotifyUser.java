@@ -36,6 +36,7 @@ public class JPotifyUser implements Serializable {
     }
 
     public JPotifyUser() {
+        signPage = new SignPage();
         try {
             jpotifyFrame = new JpotifyFrame();
         } catch (JavaLayerException e) {
@@ -43,7 +44,6 @@ public class JPotifyUser implements Serializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        signPage = new SignPage();
         saveAccount = new SaveAccount();
         //firstFrame = new FirstFrame();
         jpotifyFrame.getControlPanel().setCenterPanel1(jpotifyFrame.getCenterPanel());

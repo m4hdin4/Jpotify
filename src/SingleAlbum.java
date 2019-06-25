@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SingleAlbum extends JPanel {
     private Songs albumSongs;
@@ -10,6 +11,13 @@ public class SingleAlbum extends JPanel {
     private String albumName ;
     private JButton album_Photo;
     private JLabel singer_Name;
+    private JLabel album_Name;
+
+    private SetAlbumCounter counterAlbum;
+
+    public void setCounterAlbum(SetAlbumCounter counterAlbum) {
+        this.counterAlbum = counterAlbum;
+    }
 
     public Songs getAlbumSongs() {
         return albumSongs;
@@ -63,10 +71,14 @@ public class SingleAlbum extends JPanel {
         return playSingleTrack;
     }
 
-    private JLabel album_Name;
 
     public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
         this.playSingleTrack = playSingleTrack;
+    }
+    public void addToAlbum (SingleTrack singleTrack){
+        albumSongs.addToSongs(singleTrack);
+        counterAlbum.plus();
+        this.setVisible(true);
     }
 
     private PlaySingleTrack playSingleTrack;
@@ -76,6 +88,7 @@ public class SingleAlbum extends JPanel {
         this.setOpaque(false);
         this.setBackground(new Color(0xEEEEEE));
         this.setLayout(new BoxLayout( this, BoxLayout.Y_AXIS));
+        albumSongs = new Songs(0);
         album_Photo = new JButton();
         singer_Name = new JLabel("" , JLabel.CENTER);
         album_Name = new JLabel("",JLabel.CENTER);
@@ -92,5 +105,18 @@ public class SingleAlbum extends JPanel {
         box.add(album_Name);
         box.add(singer_Name);
         this.add(box);
+    }
+    public void setOptions(String albumName  , String singerName , Image songIcon ){
+        this.singerName = singerName;
+        this.albumName = albumName;
+        singer_Name.setText(singerName);
+        album_Name.setText(albumName);
+        try {
+            Image image = songIcon.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            album_Photo.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        this.setVisible(true);
     }
 }

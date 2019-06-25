@@ -43,6 +43,7 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
 
     public SignPage() {
         this.setSize(300, 200);
+        this.setResizable(false);
         this.setLayout(new BorderLayout());
         profilePhoto = new JButton();
         profilePhoto.setEnabled(false);

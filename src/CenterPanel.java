@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 {
+public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 {
     private HomePage homePage;
     private Songs allSongs;
+    private Albums albums;
 
     public HomePage getHomePage() {
         return homePage;
@@ -24,13 +25,17 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 
 
     public CenterPanel (){
-        this.setLayout(new BorderLayout());
+        this.setLayout(new CardLayout());
         homePage = new HomePage();
         homePage.setCenterPanel1(this);
-        allSongs = new Songs();
+        allSongs = new Songs(1000);
         allSongs.setVisible(false);
-        this.add(allSongs , BorderLayout.PAGE_START);
-        this.add(homePage , BorderLayout.CENTER);
+        albums = new Albums();
+        albums.setVisible(false);
+        allSongs.setMatchSongsAndAlbums(albums);
+        this.add(albums );
+        this.add(allSongs );
+        this.add(homePage );
         homePage.setVisible(true);
 //        allSongs.setVisible(false);
     }
@@ -57,7 +62,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         }
 //        homePage.setVisible(false);
         allSongs.setVisible(true);
-
+//        this.setVisible(true);
     }
 
     @Override
@@ -83,5 +88,16 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         }
 //        homePage.setVisible(false);
         homePage.setVisible(true);
+//        this.setVisible(true);
+    }
+
+    @Override
+    public void change3() {
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+            this.getComponent(i).setVisible(false);
+        }
+//        homePage.setVisible(false);
+        albums.setVisible(true);
     }
 }

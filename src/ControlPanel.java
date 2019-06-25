@@ -47,6 +47,12 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
     private ChangeCenterPanel1 centerPanel1;
     private ChangeCenterPanel2 centerPanel2;
 
+    public void setCenterPanel3(ChangeCenterPanel3 centerPanel3) {
+        this.centerPanel3 = centerPanel3;
+    }
+
+    private ChangeCenterPanel3 centerPanel3;
+
     public void setCenterPanel2(ChangeCenterPanel2 centerPanel2) {
         this.centerPanel2 = centerPanel2;
     }
@@ -161,6 +167,12 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         albums.setBorderPainted(false);
         albums.setMaximumSize(new Dimension(widthDefault, heightDefault));
         albums.setBackground(new Color(0xFFFFFF));
+        albums.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel3.change3();
+            }
+        });
         try {
             Image img = ImageIO.read(getClass().getResource("/song-playlist.png"));
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
