@@ -283,6 +283,7 @@ public class PlayMusicGraphics extends JPanel  {
         likeUnlike.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                singleTrack.setLike(true);
                 if (likeCounter % 2 == 0) {
                     try {
                         singleTrack.setLike(true);
@@ -294,7 +295,7 @@ public class PlayMusicGraphics extends JPanel  {
                     }
                     likeCounter++;
                 } else {
-                    singleTrack.setLike(true);
+                    singleTrack.setLike(false);
                     try {
                         Image img = ImageIO.read(getClass().getResource("/unlike.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
