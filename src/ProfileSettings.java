@@ -205,6 +205,9 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 , Profile
         this.changePhoto2 = changePhoto2;
     }
 
+    /**
+     * handle the user name in singing page
+     */
     @Override
     public void linker(String newName) {
         if (newName != null && !newName.equals(""))
@@ -213,6 +216,9 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 , Profile
             this.getUserNameText().setText("tuem");
     }
 
+    /**
+     * handling loading picture
+     */
     @Override
     public void load2(File f) {
         try {

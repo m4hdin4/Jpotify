@@ -96,6 +96,9 @@ public class Search extends JPanel implements ProfilePhotoLinker1 , ProfileLoadP
     }
 
 
+    /**
+     * handling changing photo
+     */
     @Override
     public void linker(File imageFile) {
         try {
@@ -108,6 +111,9 @@ public class Search extends JPanel implements ProfilePhotoLinker1 , ProfileLoadP
        }
     }
 
+    /**
+     * handling loading picture
+     */
     @Override
     public void load1(File f) {
         try {

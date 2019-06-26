@@ -55,6 +55,9 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         }
     }
 
+    /**
+     * handling adding file
+     */
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
 //        SingleTrack trash = new SingleTrack();
@@ -104,6 +107,10 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
     }
 
 
+
+    /**
+     * handling the counter of musics in deleting mp3
+     */
     @Override
     public void handle(SingleTrack singleTrack) throws InvalidDataException, IOException, UnsupportedTagException {
         tracks.remove(singleTrack);

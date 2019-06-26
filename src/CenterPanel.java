@@ -82,6 +82,9 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //        this.setVisible(true);
     }
 
+    /**
+     * changing centerPanel to homePage
+     */
     @Override
     public void change2() {
 //        int last = this.getComponents().length;
@@ -108,6 +111,9 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //        this.setVisible(true);
     }
 
+    /**
+     * changing centerPanel to albums
+     */
     @Override
     public void change3() {
         int last = this.getComponents().length;

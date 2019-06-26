@@ -119,7 +119,9 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         this.username = saveAccount.getUsername();
         this.userImagePath = saveAccount.getUserImagePath();
     }
-
+    /**
+     * saving the adding file immediately save
+     */
     @Override
     public void linker(File f)  {
         try {
@@ -134,6 +136,9 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         }
     }
 
+    /**
+     * handle the user name in singing page
+     */
     @Override
     public void linker(String s) {
         if (s != null && !s.equals("")) {
@@ -158,6 +163,9 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
 
     }
 
+    /**
+     * handling the input user name and loading the last file
+     */
     @Override
     public void nameLinker(String s) {
         String fileName = String.valueOf(new StringBuilder(localAddress).append(username));
@@ -171,6 +179,9 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         }
     }
 
+    /**
+     * making single tracks removable
+     */
     @Override
     public void remove(File f) {
         removeFile(f);
@@ -181,6 +192,9 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         }
     }
 
+    /**
+     * loading the last profileImage
+     */
     @Override
     public void savePhoto(File f) {
         String fileName = String.valueOf(new StringBuilder(localAddress).append(username));

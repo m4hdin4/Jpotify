@@ -131,6 +131,9 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
         this.setVisible(false);
     }
 
+    /**
+     * handling changing the profile image
+     */
     @Override
     public void linker(File imageFile) {
         try {
@@ -143,6 +146,9 @@ public class SignPage extends JFrame implements ProfilePhotoLinker2,SignpageVisi
         }
     }
 
+    /**
+     * set the visibility of sign page from another class
+     */
     @Override
     public void changeVisibility(boolean b) {
         setVisible(b);

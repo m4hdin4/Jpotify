@@ -28,6 +28,9 @@ public class SongProfile extends JPanel implements SetPlayingSongProfile2 {
         this.add(songName , BorderLayout.CENTER);
     }
 
+    /**
+     * set the musicProfile at playing
+     */
     @Override
     public void setPlayingSongProfile2(String singerName, String trackName) {
         this.singerName = singerName;

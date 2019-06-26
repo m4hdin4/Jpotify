@@ -292,11 +292,17 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
         this.musicLinker = musicLinker;
     }
 
+    /**
+     * updating songs frame after adding file
+     */
     @Override
     public void update() {
         allSongs.doClick();
     }
 
+    /**
+     * set the singer photo at playing
+     */
     @Override
     public void setPlayingSongProfile(File f) throws InvalidDataException, IOException, UnsupportedTagException {
         Mp3File mp3file = new Mp3File(f);

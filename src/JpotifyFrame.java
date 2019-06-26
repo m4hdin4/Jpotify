@@ -107,16 +107,25 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         return centerPanel;
     }
 
+    /**
+     * showing the next frame at singing out
+     */
     @Override
     public void showFrame() {
         this.setVisible(true);
     }
 
+    /**
+     * changing the visibility of JPotifyPanel in other classes
+     */
     @Override
     public void changeVisibility(boolean b) {
         setVisible(b);
     }
 
+    /**
+     * handling playing the track by clicking on track
+     */
     @Override
     public void play(SingleTrack singleTrack) {
         playMusic.setSingleTrack(singleTrack);
@@ -150,6 +159,9 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         //playMusic.setPlayPauseCounterPlus();
     }
 
+    /**
+     * handle playing the next song
+     */
     @Override
     public void next(File f) {
         for (int i = 0; i < currentSongPage.getMusicCounter(); i++) {
@@ -163,6 +175,9 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         }
     }
 
+    /**
+     * handle playing the last song
+     */
     @Override
     public void last(File f) {
         for (int i = 0; i < currentSongPage.getMusicCounter(); i++) {
@@ -185,6 +200,9 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         currentSongPage = s;
     }
 
+    /**
+     * setting the current page allSongs
+     */
     @Override
     public void setCurrentAllSongs(Songs s) {
         currentSongPage = s;

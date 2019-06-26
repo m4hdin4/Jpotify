@@ -32,6 +32,9 @@ public class Albums extends JPanel implements MatchSongsAndAlbums , RemoveFromAl
     }
 
 
+    /**
+     * matching songs and albums in adding and deleting files
+     */
     @Override
     public void match(String singleAlbumName, String songArtist, Image image, SingleTrack singleTrack) {
         boolean flag2 = true;
@@ -52,6 +55,9 @@ public class Albums extends JPanel implements MatchSongsAndAlbums , RemoveFromAl
         }
     }
 
+    /**
+     * making the tracks in album removable
+     */
     @Override
     public void removeFromAlbum(String albumName, SingleTrack singleTrack) {
         for (int i = 0; i < albumCounter; i++) {

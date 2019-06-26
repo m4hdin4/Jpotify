@@ -14,6 +14,9 @@ public class JPotify implements SignNewUser, Serializable {
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
+    /**
+     * handle signing a new user
+     */
     @Override
     public void newUser() {
         jPotifyUser.getJpotifyFrame().dispose();
