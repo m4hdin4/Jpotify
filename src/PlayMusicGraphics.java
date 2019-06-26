@@ -45,6 +45,25 @@ public class PlayMusicGraphics extends JPanel  {
     private JButton lastBtn;
     private JButton repeatBtn;
     private JButton shuffleBtn;
+    private SingleTrack singleTrack;
+
+    public SingleTrack getSingleTrack() {
+        return singleTrack;
+    }
+
+    public void setSingleTrack(SingleTrack singleTrack) {
+        this.singleTrack = singleTrack;
+    }
+
+    public JButton getLikeUnlike() {
+        return likeUnlike;
+    }
+
+    public void setLikeUnlike(JButton likeUnlike) {
+        this.likeUnlike = likeUnlike;
+    }
+
+    private JButton likeUnlike;
     private JLabel timePassed;
     private int minute;
     private int second;
@@ -78,6 +97,16 @@ public class PlayMusicGraphics extends JPanel  {
     private Thread thread;
 
     private int shuffleCounter;
+
+    public int getLikeCounter() {
+        return likeCounter;
+    }
+
+    public void setLikeCounter(int likeCounter) {
+        this.likeCounter = likeCounter;
+    }
+
+    private int likeCounter;
 
     public void setPlayPauseCounterPlus() {
         this.playPauseCounter++;
@@ -137,9 +166,9 @@ public class PlayMusicGraphics extends JPanel  {
         songData = new SongProfile("", "");
         this.add(songData, BorderLayout.WEST);
 
-        JLabel space = new JLabel("                              ");
-        space.setOpaque(false);
-        centerButtons.add(space);
+//        JLabel space = new JLabel("                              ");
+//        space.setOpaque(false);
+//        centerButtons.add(space);
         timePassed = new JLabel("0:00");
         timePassed.setEnabled(false);
         timePassed.setOpaque(false);
@@ -239,6 +268,45 @@ public class PlayMusicGraphics extends JPanel  {
         });
 
 
+
+        likeUnlike = new JButton();
+        likeUnlike.setOpaque(false);
+        likeUnlike.setContentAreaFilled(false);
+        likeUnlike.setBorderPainted(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("/unlike.png"));
+            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+            likeUnlike.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        likeUnlike.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (likeCounter % 2 == 0) {
+                    try {
+                        singleTrack.setLike(true);
+                        Image img = ImageIO.read(getClass().getResource("/liked.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        likeUnlike.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                    likeCounter++;
+                } else {
+                    singleTrack.setLike(true);
+                    try {
+                        Image img = ImageIO.read(getClass().getResource("/unlike.png"));
+                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+                        likeUnlike.setIcon(new ImageIcon(image));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                    likeCounter++;
+                }
+
+            }
+        });
 
 
 
@@ -485,43 +553,44 @@ public class PlayMusicGraphics extends JPanel  {
 
 
 
-        repeatBtn = new JButton();
-        repeatBtn.setOpaque(false);
-        repeatBtn.setContentAreaFilled(false);
-        repeatBtn.setBorderPainted(false);
-        try {
-            Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
-            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-            repeatBtn.setIcon(new ImageIcon(image));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        repeatBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (repeatCounter % 2 == 0) {
-                    try {
-                        Image img = ImageIO.read(getClass().getResource("/repeat.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-                        repeatBtn.setIcon(new ImageIcon(image));
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    repeatCounter++;
-                } else {
-                    try {
-                        Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-                        repeatBtn.setIcon(new ImageIcon(image));
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    repeatCounter++;
-                }
-            }
-        });
+//        repeatBtn = new JButton();
+//        repeatBtn.setOpaque(false);
+//        repeatBtn.setContentAreaFilled(false);
+//        repeatBtn.setBorderPainted(false);
+//        try {
+//            Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
+//            Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+//            repeatBtn.setIcon(new ImageIcon(image));
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//        repeatBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//                if (repeatCounter % 2 == 0) {
+//                    try {
+//                        Image img = ImageIO.read(getClass().getResource("/repeat.png"));
+//                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+//                        repeatBtn.setIcon(new ImageIcon(image));
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                    repeatCounter++;
+//                } else {
+//                    try {
+//                        Image img = ImageIO.read(getClass().getResource("/unrepeat.png"));
+//                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
+//                        repeatBtn.setIcon(new ImageIcon(image));
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                    repeatCounter++;
+//                }
+//            }
+//        });
         centerButtons.add(repeatBtn);
+        centerButtons.add(likeUnlike);
 
         String time = ""+frame;
         if (frame == 0)

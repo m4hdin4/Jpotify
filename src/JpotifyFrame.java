@@ -118,7 +118,11 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     }
 
     @Override
-    public void play(File f) {
+    public void play(SingleTrack singleTrack) {
+        playMusic.setSingleTrack(singleTrack);
+        if (playMusic.getLikeCounter()%2==0 ^ !singleTrack.isLike())
+            playMusic.getLikeUnlike().doClick();
+        File f=singleTrack.getSingleTrack();
         playMusic.setFile(f);
         int frameLength =0;
         try {

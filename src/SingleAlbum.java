@@ -13,7 +13,7 @@ public class SingleAlbum extends JPanel {
     private JLabel singer_Name;
     private JLabel album_Name;
 
-    private PlaySingleTrack playSingleTrack;
+    //private PlaySingleTrack playSingleTrack;
     private SetCurrentSongsAlbum currentSongsAlbum;
 
 
@@ -71,14 +71,8 @@ public class SingleAlbum extends JPanel {
         this.album_Name = album_Name;
     }
 
-    public PlaySingleTrack getPlaySingleTrack() {
-        return playSingleTrack;
-    }
 
 
-    public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
-        this.playSingleTrack = playSingleTrack;
-    }
     public void addToAlbum (SingleTrack singleTrack){
         albumSongs.addToSongs(singleTrack);
         this.setVisible(true);

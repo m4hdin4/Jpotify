@@ -84,7 +84,15 @@ public class SingleTrack extends JPanel {
     private SetPlayingSongProfile playingSongProfile;
     private SetPlayingSongProfile2 playingSongProfile2;
 
+    public boolean isLike() {
+        return like;
+    }
 
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+    private Boolean like;
 
     private RemoveMusicLinker removeMusicLinker;
     private PlaySingleTrack playSingleTrack;
@@ -109,6 +117,7 @@ public class SingleTrack extends JPanel {
     }
 
     public SingleTrack (){
+        like = false;
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");
         JMenuItem jMenuItem2 = new JMenuItem("Delete");
@@ -164,7 +173,7 @@ public class SingleTrack extends JPanel {
                     e1.printStackTrace();
                 }
                 playingSongProfile2.setPlayingSongProfile2(singerName , trackName);
-                playSingleTrack.play(singleTrack);
+                playSingleTrack.play(returnThis());
             }
         });
 
