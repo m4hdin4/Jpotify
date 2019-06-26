@@ -35,6 +35,12 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
 
     private MatchSongsAndAlbums matchSongsAndAlbums;
 
+    public void setAlbumRemoving(RemoveFromAlbum albumRemoving) {
+        this.albumRemoving = albumRemoving;
+    }
+
+    private RemoveFromAlbum albumRemoving;
+
 
 
     public Songs (int MAXIMUM){
@@ -91,28 +97,30 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         tracks.get(musicCounter).setVisible(true);
         updateSongsFrame.update();
         if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals("")){
-            String singleAlbumName = mp3file.getId3v1Tag().getAlbum();
             matchSongsAndAlbums.match(albumName , songArtist , image , tracks.get(musicCounter));
         }
 
         musicCounter++;
     }
-    public void counterPlus(){
-        musicCounter++;
-    }
-    public void counterMinus(){
-        musicCounter--;
-    }
 
 
     @Override
-    public void handle(SingleTrack singleTrack) {
+    public void handle(SingleTrack singleTrack) throws InvalidDataException, IOException, UnsupportedTagException {
         tracks.remove(singleTrack);
+        Mp3File mp3file = new Mp3File(singleTrack.getSingleTrack());
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals("")){
+            albumRemoving.removeFromAlbum(mp3file.getId3v1Tag().getAlbum() , singleTrack);
+        }
         musicCounter--;
     }
     public void addToSongs (SingleTrack singleTrack){
         tracks.add(musicCounter , singleTrack);
         tracks.get(musicCounter).setVisible(true);
         musicCounter++;
+    }
+    public void removeFromAlbum(SingleTrack singleTrack){
+        tracks.get(tracks.indexOf(singleTrack)).setVisible(false);
+        tracks.remove(singleTrack);
+        musicCounter--;
     }
 }

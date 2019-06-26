@@ -1,10 +1,13 @@
+import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 public class SingleTrack extends JPanel {
     public void setSingleTrack(File singleTrack) {
@@ -76,25 +79,34 @@ public class SingleTrack extends JPanel {
     private JLabel singer_Name;
     private JLabel track_Name;
     private JLabel album_Name;
+    private CounterHandler count;
+
+    private SetPlayingSongProfile playingSongProfile;
+    private SetPlayingSongProfile2 playingSongProfile2;
+
+
+
+    private RemoveMusicLinker removeMusicLinker;
+    private PlaySingleTrack playSingleTrack;
+
+    public void setPlayingSongProfile2(SetPlayingSongProfile2 playingSongProfile2) {
+        this.playingSongProfile2 = playingSongProfile2;
+    }
+    public void setPlayingSongProfile(SetPlayingSongProfile playingSongProfile) {
+        this.playingSongProfile = playingSongProfile;
+    }
 
     public void setRemoveMusicLinker(RemoveMusicLinker removeMusicLinker) {
         this.removeMusicLinker = removeMusicLinker;
     }
 
-    private RemoveMusicLinker removeMusicLinker;
-
-
     public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
         this.playSingleTrack = playSingleTrack;
     }
 
-    private PlaySingleTrack playSingleTrack;
-
     public void setCount(CounterHandler count) {
         this.count = count;
     }
-
-    private CounterHandler count;
 
     public SingleTrack (){
         JPopupMenu jPopupMenu = new JPopupMenu();
@@ -112,7 +124,15 @@ public class SingleTrack extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                count.handle(returnThis());
+                try {
+                    count.handle(returnThis());
+                } catch (InvalidDataException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedTagException e1) {
+                    e1.printStackTrace();
+                }
                 removeMusicLinker.remove(singleTrack);
             }
         });
@@ -134,6 +154,16 @@ public class SingleTrack extends JPanel {
         singer_Photo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    playingSongProfile.setPlayingSongProfile(singleTrack);
+                } catch (InvalidDataException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedTagException e1) {
+                    e1.printStackTrace();
+                }
+                playingSongProfile2.setPlayingSongProfile2(singerName , trackName);
                 playSingleTrack.play(singleTrack);
             }
         });

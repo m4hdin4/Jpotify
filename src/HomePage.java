@@ -29,6 +29,12 @@ public class HomePage extends JPanel {
 
     private ChangeCenterPanel1 centerPanel1;
 
+    private ChangeCenterPanel3 centerPanel3;
+
+    public void setCenterPanel3(ChangeCenterPanel3 centerPanel3) {
+        this.centerPanel3 = centerPanel3;
+    }
+
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;
     }
@@ -45,6 +51,12 @@ public class HomePage extends JPanel {
         addSong = new JButton();
         albums = new JButton();
         allSongs = new JButton();
+        addSong.setContentAreaFilled(false);
+        addSong.setBorderPainted(false);
+        albums.setContentAreaFilled(false);
+        albums.setBorderPainted(false);
+        allSongs.setContentAreaFilled(false);
+        allSongs.setBorderPainted(false);
         singleSongs = new JPanel();
         singleSongs.setOpaque(false);
         allSongs.setOpaque(false);
@@ -136,6 +148,12 @@ public class HomePage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 centerPanel1.change1();
+            }
+        });
+        albums.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel3.change3();
             }
         });
 

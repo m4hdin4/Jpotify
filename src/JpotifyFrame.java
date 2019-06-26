@@ -16,7 +16,7 @@ import java.io.Serializable;
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
-public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , Serializable {
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , SetCurrentSongsAlbum,SetCurrentSongsAllSongs , Serializable {
 
     //private String username ;
 
@@ -68,12 +68,19 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 
         for (int i = 0; i < centerPanel.getAllSongs().getTracks().size(); i++) {
             centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
+            centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile(controlPanel);
+            centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile2(playMusic.getSongData());
         }
+
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
         currentSongPage = centerPanel.getAllSongs();
         playMusic.setPlayNext(this);
         playMusic.setPlayLast(this);
         controlPanel.setCenterPanel3(centerPanel);
+        for (int i = 0; i < centerPanel.getAlbums().getAlbums().size(); i++) {
+            centerPanel.getAlbums().getAlbums().get(i).setCurrentSongsAlbum(this);
+        }
+        centerPanel.setCurrentSongsAllSongs(this);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -141,7 +148,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 
     @Override
     public void next(File f) {
-        for (int i = 0; i < centerPanel.getAllSongs().getMusicCounter(); i++) {
+        for (int i = 0; i < currentSongPage.getMusicCounter(); i++) {
             if (currentSongPage.getTracks().get(i).getSingleTrack().equals(f)){
                 if (i+1 < currentSongPage.getMusicCounter())
                     currentSongPage.getTracks().get(i+1).getSinger_Photo().doClick();
@@ -159,9 +166,23 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
                 if (i-1 >= 0)
                     currentSongPage.getTracks().get(i-1).getSinger_Photo().doClick();
                 else if(centerPanel.getAllSongs().getMusicCounter() > 0)
-                    currentSongPage.getTracks().get(centerPanel.getAllSongs().getMusicCounter()-1).getSinger_Photo().doClick();
+                    currentSongPage.getTracks().get(currentSongPage.getMusicCounter()-1).getSinger_Photo().doClick();
                 break;
             }
         }
+    }
+
+    /**
+     * set a album as current list
+     * @param s
+     */
+    @Override
+    public void setCurrent(Songs s) {
+        currentSongPage = s;
+    }
+
+    @Override
+    public void setCurrentAllSongs(Songs s) {
+        currentSongPage = s;
     }
 }

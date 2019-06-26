@@ -1,5 +1,6 @@
 
 import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javax.imageio.ImageIO;
@@ -10,16 +11,18 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
  * class ControlPanel is the west JPanel on JpotifyFrame
  * it contains songs and playlists and albums and singer photo
  */
-public class ControlPanel extends JPanel implements UpdateSongsFrame {
+public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayingSongProfile {
 
     private final int heightDefault = 25;
     private final int widthDefault = 100;
@@ -178,12 +181,12 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             albums.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         }
 
 
         playList = new JButton("Your Library");
-        playList.setFont(new Font("bold" , Font.ROMAN_BASELINE,12));
+        playList.setFont(new Font("bold", Font.ROMAN_BASELINE, 12));
         playList.setToolTipText("Playlists");
         playList.setEnabled(false);
         playList.setOpaque(false);
@@ -254,9 +257,13 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         playlist = new JList<>(vector);
         playlist.setForeground(new Color(0));
         playlist.setBackground(new Color(0x636363));
-        vector.add("play lists:   ");
+        vector.add("play lists:      ");
 //        vector.add("mohammad");
         playlist.setListData(vector);
+//        Iterator<String> iterator=vector.iterator();
+//        while (iterator.hasNext()){
+//            if(playlist.iterator.next()
+//        }
         JScrollPane jScrollPane = new JScrollPane(playlist);
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         playlist.setMaximumSize(new Dimension(30, heightDefault));
@@ -288,5 +295,19 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
     @Override
     public void update() {
         allSongs.doClick();
+    }
+
+    @Override
+    public void setPlayingSongProfile(File f) throws InvalidDataException, IOException, UnsupportedTagException {
+        Mp3File mp3file = new Mp3File(f);
+        Image image;
+        if (mp3file.getId3v2Tag().getAlbumImage() != null) {
+            Image img = ImageIO.read(new ByteArrayInputStream(mp3file.getId3v2Tag().getAlbumImage()));
+            image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+        } else {
+            Image img = ImageIO.read(getClass().getResource("/singer.png"));
+            image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+        }
+        singer.setIcon(new ImageIcon(image));
     }
 }

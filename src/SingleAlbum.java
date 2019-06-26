@@ -13,11 +13,15 @@ public class SingleAlbum extends JPanel {
     private JLabel singer_Name;
     private JLabel album_Name;
 
-    private SetAlbumCounter counterAlbum;
+    private PlaySingleTrack playSingleTrack;
+    private SetCurrentSongsAlbum currentSongsAlbum;
 
-    public void setCounterAlbum(SetAlbumCounter counterAlbum) {
-        this.counterAlbum = counterAlbum;
+
+
+    public void setCurrentSongsAlbum(SetCurrentSongsAlbum currentSongsAlbum) {
+        this.currentSongsAlbum = currentSongsAlbum;
     }
+
 
     public Songs getAlbumSongs() {
         return albumSongs;
@@ -77,11 +81,12 @@ public class SingleAlbum extends JPanel {
     }
     public void addToAlbum (SingleTrack singleTrack){
         albumSongs.addToSongs(singleTrack);
-        counterAlbum.plus();
         this.setVisible(true);
     }
+    public void removeFromAlbum (SingleTrack singleTrack){
+        albumSongs.removeFromAlbum(singleTrack);
+    }
 
-    private PlaySingleTrack playSingleTrack;
 
     public SingleAlbum (){
 
@@ -97,7 +102,12 @@ public class SingleAlbum extends JPanel {
         album_Photo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //playSingleTrack.play(singleTrack);
+//                for (int i = 0; i < albumSongs.getTracks().size(); i++) {
+//                    albumSongs.getTracks().get(i).setVisible(true);
+//                }
+//                albumSongs.setVisible(true);
+                currentSongsAlbum.setCurrent(albumSongs);
+                albumSongs.getTracks().get(0).getSinger_Photo().doClick();
             }
         });
         Box box = Box.createVerticalBox();
