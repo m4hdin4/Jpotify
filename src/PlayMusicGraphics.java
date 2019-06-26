@@ -26,7 +26,7 @@ import java.awt.event.MouseListener;
 import java.util.concurrent.ExecutorService;
 
 
-public class PlayMusicGraphics extends JPanel  {
+public class PlayMusicGraphics extends JPanel {
     public static final int imageSizeSmall = 30;
     public static final int imageSizeBig = 60;
 
@@ -48,7 +48,6 @@ public class PlayMusicGraphics extends JPanel  {
     private JLabel timePassed;
     private int minute;
     private int second;
-    private boolean flag2 =false;
 
 
     public JLabel getTimeSong() {
@@ -57,7 +56,6 @@ public class PlayMusicGraphics extends JPanel  {
 
     private JLabel timeSong;
     private Timer myTimer;
-    private Mp3File mp3File;
 
     public SongProfile getSongData() {
         return songData;
@@ -86,10 +84,7 @@ public class PlayMusicGraphics extends JPanel  {
     private int playPauseCounter;
     private int repeatCounter;
     private int soundCounter;
-    private final static int NOTSTARTED = 0;
-    private final static int PLAYING = 1;
-    private final static int PAUSED = 2;
-    private final static int FINISHED = 3;
+
     private long frameCount;
     private int frame;
     private MusicPlayer musicPlayer;

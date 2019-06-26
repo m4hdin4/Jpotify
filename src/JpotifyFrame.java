@@ -36,6 +36,12 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     private CenterPanel centerPanel;
     private Songs currentSongPage;
 
+    public ServerPanel getServerPanel() {
+        return serverPanel;
+    }
+
+    private ServerPanel serverPanel;
+
     public JpotifyFrame() throws JavaLayerException, FileNotFoundException {
         super();
         this.setSize(WIDTH, HEIGHT);
@@ -80,6 +86,9 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         //this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         //this.setVisible(true);
         //this.setResizable(false);
+         serverPanel = new ServerPanel();
+        JScrollPane server = new JScrollPane(serverPanel , JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(server , BorderLayout.EAST);
 
     }
 

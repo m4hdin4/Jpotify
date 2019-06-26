@@ -10,7 +10,7 @@ import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-public class ProfileSettings extends JFrame implements UsernameLinker1 , ProfileLoadPicture2 {
+public class ProfileSettings extends JFrame implements UsernameLinker1 , ProfileLoadPicture2 ,GetUserNameToServer {
     public JPanel getPhoto() {
         return photo;
     }
@@ -222,5 +222,14 @@ public class ProfileSettings extends JFrame implements UsernameLinker1 , Profile
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * getting the username
+     */
+    @Override
+    public String getUserNameToServer() {
+        String text = userNameText.getText();
+        return text;
     }
 }
