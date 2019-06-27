@@ -83,6 +83,12 @@ public class SingleTrack extends JPanel {
 
     private SetPlayingSongProfile playingSongProfile;
     private SetPlayingSongProfile2 playingSongProfile2;
+    private AddTrackToShared addTrackToShared;
+
+    public void setAddTrackToShared(AddTrackToShared addTrackToShared) {
+        this.addTrackToShared = addTrackToShared;
+    }
+
 
     public boolean isLike() {
         return like;
@@ -120,8 +126,10 @@ public class SingleTrack extends JPanel {
         like = false;
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");
+        JMenuItem jMenuItem3 = new JMenuItem("Add to shared playList");
         JMenuItem jMenuItem2 = new JMenuItem("Delete");
         jPopupMenu.add(jMenuItem1);
+        jPopupMenu.add(jMenuItem3);
         jPopupMenu.add(jMenuItem2);
         jMenuItem1.addActionListener(new ActionListener() {
             @Override
@@ -143,6 +151,12 @@ public class SingleTrack extends JPanel {
                     e1.printStackTrace();
                 }
                 removeMusicLinker.remove(singleTrack);
+            }
+        });
+        jMenuItem3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addTrackToShared.addTrackToShared(returnThis());
             }
         });
         //jPopupMenu.add(jMenuItem3);

@@ -2,7 +2,7 @@
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import javafx.scene.control.Slider;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,18 +12,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javazoom.jl.player.*;
 import javazoom.jl.decoder.*;
-import javazoom.jl.converter.*;
-import javazoom.jl.player.advanced.AdvancedPlayer;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.concurrent.ExecutorService;
 
 
 public class PlayMusicGraphics extends JPanel  {
@@ -46,6 +39,12 @@ public class PlayMusicGraphics extends JPanel  {
     private JButton repeatBtn;
     private JButton shuffleBtn;
     private SingleTrack singleTrack;
+
+    public void setAddTrackToFavorites(AddTrackToFavorites addTrackToFavorites) {
+        this.addTrackToFavorites = addTrackToFavorites;
+    }
+
+    private AddTrackToFavorites addTrackToFavorites;
 
     public SingleTrack getSingleTrack() {
         return singleTrack;
@@ -98,15 +97,15 @@ public class PlayMusicGraphics extends JPanel  {
 
     private int shuffleCounter;
 
-    public int getLikeCounter() {
+    public boolean getLikeCounter() {
         return likeCounter;
     }
 
-    public void setLikeCounter(int likeCounter) {
+    public void setLikeCounter(boolean likeCounter) {
         this.likeCounter = likeCounter;
     }
 
-    private int likeCounter;
+    private boolean likeCounter;
 
     public void setPlayPauseCounterPlus() {
         this.playPauseCounter++;
@@ -156,7 +155,7 @@ public class PlayMusicGraphics extends JPanel  {
     }
 
     public PlayMusicGraphics() throws JavaLayerException, FileNotFoundException {
-
+        likeCounter =false;
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(0x636363));
         centerButtons = new JPanel();
@@ -283,27 +282,17 @@ public class PlayMusicGraphics extends JPanel  {
         likeUnlike.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                singleTrack.setLike(true);
-                if (likeCounter % 2 == 0) {
+                if (!singleTrack.isLike() ) {
+                    singleTrack.setLike(true);
+                    addTrackToFavorites.addTrackToFavorites(singleTrack);
                     try {
-                        singleTrack.setLike(true);
                         Image img = ImageIO.read(getClass().getResource("/liked.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
                         likeUnlike.setIcon(new ImageIcon(image));
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
-                    likeCounter++;
-                } else {
-                    singleTrack.setLike(false);
-                    try {
-                        Image img = ImageIO.read(getClass().getResource("/unlike.png"));
-                        Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-                        likeUnlike.setIcon(new ImageIcon(image));
-                    } catch (Exception ex) {
-                        System.out.println(ex);
-                    }
-                    likeCounter++;
+                    likeCounter = true;
                 }
 
             }

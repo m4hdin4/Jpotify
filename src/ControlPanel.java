@@ -36,6 +36,8 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
     private JButton home;
     private JLabel singer;
     private JButton addPlay;
+    private JButton favorite;
+    private JButton shared;
 
     private Vector<String> vector;
     private JList<String> playlist;
@@ -49,12 +51,23 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
 
     private ChangeCenterPanel1 centerPanel1;
     private ChangeCenterPanel2 centerPanel2;
+    private ChangeCenterPanel3 centerPanel3;
+    private ChangeCenterPanel4 centerPanel4;
+    private ChangeCenterPanel5 centerPanel5;
+
+    public void setCenterPanel5(ChangeCenterPanel5 centerPanel5) {
+        this.centerPanel5 = centerPanel5;
+    }
+
+    public void setCenterPanel4(ChangeCenterPanel4 centerPanel4) {
+        this.centerPanel4 = centerPanel4;
+    }
 
     public void setCenterPanel3(ChangeCenterPanel3 centerPanel3) {
         this.centerPanel3 = centerPanel3;
     }
 
-    private ChangeCenterPanel3 centerPanel3;
+
 
     public void setCenterPanel2(ChangeCenterPanel2 centerPanel2) {
         this.centerPanel2 = centerPanel2;
@@ -226,6 +239,49 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
         });
 
 
+        favorite = new JButton();
+        favorite.setOpaque(false);
+        favorite.setContentAreaFilled(false);
+        favorite.setBorderPainted(false);
+        favorite.setMaximumSize(new Dimension(widthDefault, heightDefault));
+        favorite.setBackground(new Color(0xFFFFFF));
+        favorite.setToolTipText("favorites...");
+        try {
+            Image img2 = ImageIO.read(getClass().getResource("/favorite.png"));
+            Image image = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            favorite.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        favorite.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel4.change4();
+            }
+        });
+
+        shared = new JButton();
+        shared.setOpaque(false);
+        shared.setContentAreaFilled(false);
+        shared.setBorderPainted(false);
+        shared.setMaximumSize(new Dimension(widthDefault, heightDefault));
+        shared.setBackground(new Color(0xFFFFFF));
+        shared.setToolTipText("shared...");
+        try {
+            Image img2 = ImageIO.read(getClass().getResource("/share.png"));
+            Image image = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            shared.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        shared.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel5.change5();
+            }
+        });
+
+
         singer = new JLabel();
         singer.setMaximumSize(new Dimension(widthDefault, heightDefault));
         try {
@@ -274,6 +330,8 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
         box.add(addToSongs);
         box.add(allSongs);
         box.add(albums);
+        box.add(favorite);
+        box.add(shared);
         box.add(playList);
         box.add(jScrollPane);
         box.add(addPlay);
