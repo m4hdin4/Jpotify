@@ -1,15 +1,38 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 {
+public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 , ChangeCenterPanel4 , ChangeCenterPanel5 {
     private HomePage homePage;
     private Songs allSongs;
     private Albums albums;
     private SetCurrentSongsAllSongs currentSongsAllSongs;
+    private Favorites favorites;
+    private SharedPlayListS sharedPlayListS;
+
+    public SharedPlayListS getSharedPlayListS() {
+        return sharedPlayListS;
+    }
+
+    public void setSharedPlayListS(SharedPlayListS sharedPlayListS) {
+        this.sharedPlayListS = sharedPlayListS;
+    }
+
+    public SetCurrentSongsAllSongs getCurrentSongsAllSongs() {
+        return currentSongsAllSongs;
+    }
+
+    public Favorites getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Favorites favorites) {
+        this.favorites = favorites;
+    }
 
     public void setCurrentSongsAllSongs(SetCurrentSongsAllSongs currentSongsAllSongs) {
         this.currentSongsAllSongs = currentSongsAllSongs;
     }
+
     public Albums getAlbums() {
         return albums;
     }
@@ -17,6 +40,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
     public void setAlbums(Albums albums) {
         this.albums = albums;
     }
+
     public HomePage getHomePage() {
         return homePage;
     }
@@ -34,8 +58,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
     }
 
 
-
-    public CenterPanel (){
+    public CenterPanel() {
         this.setLayout(new CardLayout());
         homePage = new HomePage();
         homePage.setCenterPanel1(this);
@@ -43,12 +66,18 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         allSongs.setVisible(false);
         albums = new Albums();
         albums.setVisible(false);
+        favorites = new Favorites();
+        favorites.setVisible(false);
+        sharedPlayListS = new SharedPlayListS();
+        sharedPlayListS.setVisible(false);
         allSongs.setMatchSongsAndAlbums(albums);
         homePage.setCenterPanel3(this);
         allSongs.setAlbumRemoving(albums);
-        this.add(albums );
-        this.add(allSongs );
-        this.add(homePage );
+        this.add(albums);
+        this.add(allSongs);
+        this.add(homePage);
+        this.add(favorites);
+        this.add(sharedPlayListS);
         homePage.setVisible(true);
 //        allSongs.setVisible(false);
     }
@@ -56,7 +85,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
     /**
      * changing the centerPanel to allSongs
      */
-   @Override
+    @Override
     public void change1() {
 //        int last = this.getComponents().length;
 //        for (int i = last - 1; i >=0 ; i--) {
@@ -64,7 +93,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //        }
 //        allSongs = new Songs();
 
-       //////////////////////////
+        //////////////////////////
 //        allSongs.setVisible(true);
 //        homePage.setVisible(false);
         /////////////////////////
@@ -74,7 +103,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
 //        this.add(allSongs , BorderLayout.CENTER);
         int last = this.getComponents().length;
         for (int i = last - 1; i >= 0; i--) {
-           this.getComponent(i).setVisible(false);
+            this.getComponent(i).setVisible(false);
         }
 //        homePage.setVisible(false);
         allSongs.setVisible(true);
@@ -124,27 +153,21 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         albums.setVisible(true);
     }
 
-//    @Override
-//    public void changeToAlbum(Songs singleAlbum) {
-//        System.out.println(singleAlbum.getMusicCounter());
-//        int last = this.getComponents().length;
-//        for (int i = last - 1; i >= 0; i--) {
-//            this.getComponent(i).setVisible(false);
-//        }
-//        boolean flag = true;
-//        for (int i = last - 1; i >= 0; i--) {
-//            if (this.getComponent(i).equals(singleAlbum)) {
-//                this.getComponent(i).setVisible(true);
-//                flag = false;
-//                break;
-//            }
-//        }
-//        if (flag) {
-//            singleAlbum.setVisible(true);
-//            this.albumSongs = singleAlbum;
-//            this.add(singleAlbum);
-//        }
-////        homePage.setVisible(false);
-//        this.albumSongs.setVisible(true);
-//    }
+    @Override
+    public void change4() {
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+            this.getComponent(i).setVisible(false);
+        }
+        favorites.setVisible(true);
+    }
+
+    @Override
+    public void change5() {
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+            this.getComponent(i).setVisible(false);
+        }
+        sharedPlayListS.setVisible(true);
+    }
 }

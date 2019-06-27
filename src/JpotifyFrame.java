@@ -4,6 +4,7 @@ import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -76,6 +77,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
             centerPanel.getAllSongs().getTracks().get(i).setPlaySingleTrack(this);
             centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile(controlPanel);
             centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile2(playMusic.getSongData());
+            centerPanel.getAllSongs().getTracks().get(i).setAddTrackToShared(centerPanel.getSharedPlayListS());
         }
 
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
@@ -83,10 +85,13 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         playMusic.setPlayNext(this);
         playMusic.setPlayLast(this);
         controlPanel.setCenterPanel3(centerPanel);
+        controlPanel.setCenterPanel4(centerPanel);
         for (int i = 0; i < centerPanel.getAlbums().getAlbums().size(); i++) {
             centerPanel.getAlbums().getAlbums().get(i).setCurrentSongsAlbum(this);
         }
+        playMusic.setAddTrackToFavorites(centerPanel.getFavorites());
         centerPanel.setCurrentSongsAllSongs(this);
+        controlPanel.setCenterPanel5(centerPanel);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -138,8 +143,25 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     @Override
     public void play(SingleTrack singleTrack) {
         playMusic.setSingleTrack(singleTrack);
-        if ((playMusic.getLikeCounter()%2==0 && singleTrack.isLike()) || (playMusic.getLikeCounter()%2!=0 && !singleTrack.isLike()))
-            playMusic.getLikeUnlike().doClick();
+        if (singleTrack.isLike()){
+            try {
+                Image img = ImageIO.read(getClass().getResource("/liked.png"));
+                Image image = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                playMusic.getLikeUnlike().setIcon(new ImageIcon(image));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("/unlike.png"));
+                Image image = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                playMusic.getLikeUnlike().setIcon(new ImageIcon(image));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        System.out.println(singleTrack.isLike());
         File f=singleTrack.getSingleTrack();
         playMusic.setFile(f);
         int frameLength =0;
