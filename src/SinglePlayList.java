@@ -3,6 +3,16 @@ import java.util.ArrayList;
 
 public class SinglePlayList extends JButton {
     private ArrayList<SingleTrack> singleTracks;
+    private String playListName;
+
+    public String getPlayListName() {
+        return playListName;
+    }
+
+    public void setPlayListName(String playListName) {
+        this.playListName = playListName;
+    }
+
 
     public ArrayList<SingleTrack> getSingleTracks() {
         return singleTracks;
@@ -12,7 +22,9 @@ public class SinglePlayList extends JButton {
         this.singleTracks = singleTracks;
     }
 
-    public SinglePlayList(){
+    public SinglePlayList(String playListName){
+        super(playListName);
+        this.playListName =playListName;
         singleTracks = new ArrayList<>();
     }
 }

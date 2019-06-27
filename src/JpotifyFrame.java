@@ -29,7 +29,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 //        this.username = username;
 //    }
 
-    private final int WIDTH = 1000, HEIGHT = 700;
+    private final int WIDTH = 870, HEIGHT = 700;
     private final String WINDOWS_TITLE = "Jpotify";
     private ControlPanel controlPanel;
     private Search search;
@@ -65,9 +65,9 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 
         this.setLayout(new BorderLayout());
         //JScrollPane jScrollPane = new JScrollPane(controlPanel);
-        JScrollPane jScrollPane = new JScrollPane(controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //JScrollPane jScrollPane = new JScrollPane(controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.add(jScrollPane, BorderLayout.WEST);
+        this.add(controlPanel, BorderLayout.WEST);
         this.add(search, BorderLayout.NORTH);
         playMusic = new PlayMusicGraphics();
         this.add(playMusic, BorderLayout.SOUTH);
@@ -78,6 +78,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
             centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile(controlPanel);
             centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile2(playMusic.getSongData());
             centerPanel.getAllSongs().getTracks().get(i).setAddTrackToShared(centerPanel.getSharedPlayListS());
+            centerPanel.getAllSongs().getTracks().get(i).setAddTrackToPlaylist(controlPanel.getPlaylist());
         }
 
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);

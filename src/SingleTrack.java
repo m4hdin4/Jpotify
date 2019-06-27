@@ -102,6 +102,12 @@ public class SingleTrack extends JPanel {
 
     private RemoveMusicLinker removeMusicLinker;
     private PlaySingleTrack playSingleTrack;
+    private AddTrackToPlaylist addTrackToPlaylist;
+
+    public void setAddTrackToPlaylist(AddTrackToPlaylist addTrackToPlaylist) {
+        this.addTrackToPlaylist = addTrackToPlaylist;
+    }
+
 
     public void setPlayingSongProfile2(SetPlayingSongProfile2 playingSongProfile2) {
         this.playingSongProfile2 = playingSongProfile2;
@@ -134,7 +140,11 @@ public class SingleTrack extends JPanel {
         jMenuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JOptionPane newNameDialog = new JOptionPane();
+                String playListName = newNameDialog.showInputDialog(returnThis(), "which one do you want to add ?");
+                if (playListName != null && !playListName.equals("")) {
+                    addTrackToPlaylist.addTrackToPlaylist(playListName , returnThis());
+                }
             }
         });
         jMenuItem2.addActionListener(new ActionListener() {

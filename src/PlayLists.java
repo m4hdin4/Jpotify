@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PlayLists extends JPanel {
+public class PlayLists extends JPanel implements AddTrackToPlaylist {
     private ArrayList<SinglePlayList> playLists;
 
     public ArrayList<SinglePlayList> getPlayLists() {
@@ -16,6 +16,22 @@ public class PlayLists extends JPanel {
     public PlayLists(){
         this.setLayout(new WrapLayout());
         this.setSize(1 , 20);
+        this.setBackground(new Color(0x636363));
         playLists = new ArrayList<>();
+    }
+
+    @Override
+    public void addTrackToPlaylist(String playlistName , SingleTrack singleTrack) {
+        boolean flag = true;
+        for (int i = 0; i < playLists.size(); i++) {
+            if (playLists.get(i).getPlayListName().equals(playlistName)){
+                playLists.get(i).getSingleTracks().add(singleTrack);
+                flag = false;
+                break;
+            }
+        }
+        if (flag){
+
+        }
     }
 }
