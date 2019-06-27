@@ -9,7 +9,7 @@ public class ServerPanel extends JPanel implements AddUserToServerPanel {
     public ServerPanel(){
         singleUsers = new ArrayList<>();
         this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
-        this.setPreferredSize(new Dimension(100 , Integer.MAX_VALUE));
+        this.setPreferredSize(new Dimension(160 , Integer.MAX_VALUE));
         for (int i = 0; i < singleUsers.size(); i++) {
             SingleUser singleUser;
             singleUser = singleUsers.get(i);

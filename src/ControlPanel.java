@@ -1,5 +1,6 @@
 
 import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javax.imageio.ImageIO;
@@ -10,14 +11,18 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
  * class ControlPanel is the west JPanel on JpotifyFrame
  * it contains songs and playlists and albums and singer photo
  */
-public class ControlPanel extends JPanel implements UpdateSongsFrame {
+public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayingSongProfile {
 
     private final int heightDefault = 25;
     private final int widthDefault = 100;
@@ -45,6 +50,12 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
     private ChangeCenterPanel1 centerPanel1;
     private ChangeCenterPanel2 centerPanel2;
 
+    public void setCenterPanel3(ChangeCenterPanel3 centerPanel3) {
+        this.centerPanel3 = centerPanel3;
+    }
+
+    private ChangeCenterPanel3 centerPanel3;
+
     public void setCenterPanel2(ChangeCenterPanel2 centerPanel2) {
         this.centerPanel2 = centerPanel2;
     }
@@ -68,28 +79,57 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         addToSongs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+//                JFileChooser musicChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//                musicChooser.setDialogTitle("Select a music");
+//                musicChooser.setAcceptAllFileFilterUsed(false);
+//                FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3", "mp3");
+//                musicChooser.addChoosableFileFilter(filter);
+//
+//                int returnValue = musicChooser.showOpenDialog(null);
+//                if (returnValue == JFileChooser.APPROVE_OPTION) {
+//                    try {
+//                        musicLinker.linker(musicChooser.getSelectedFile());
+//                        saveMusic.linker(musicChooser.getSelectedFile());
+//                    } catch (InvalidDataException e1) {
+//                        e1.printStackTrace();
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    } catch (UnsupportedTagException e1) {
+//                        e1.printStackTrace();
+//                    }
+//
+//                }
                 JFileChooser musicChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                musicChooser.setDialogTitle("Select a music");
-                musicChooser.setAcceptAllFileFilterUsed(false);
+                musicChooser.setDialogTitle("Multiple file and directory selection:");
+                musicChooser.setMultiSelectionEnabled(true);
+                int returnValue = musicChooser.showDialog(null, "choose");
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3", "mp3");
                 musicChooser.addChoosableFileFilter(filter);
-
-                int returnValue = musicChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        musicLinker.linker(musicChooser.getSelectedFile());
-                        saveMusic.linker(musicChooser.getSelectedFile());
-                    } catch (InvalidDataException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (UnsupportedTagException e1) {
-                        e1.printStackTrace();
-                    }
-
+                    File[] files = musicChooser.getSelectedFiles();
+                    System.out.println("Directories found\n");
+                    System.out.println("\n- - - - - - - - - - -\n");
+                    System.out.println("Files Found\n");
+                    Arrays.asList(files).forEach(x -> {
+                        if (x.isFile()) {
+                            try {
+                                musicLinker.linker(x);
+                                saveMusic.linker(x);
+                            } catch (InvalidDataException e1) {
+                                e1.printStackTrace();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            } catch (UnsupportedTagException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    })
+                    ;
                 }
             }
+
         });
+
         try {
             Image img = ImageIO.read(getClass().getResource("/kk.png"));
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -130,17 +170,23 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         albums.setBorderPainted(false);
         albums.setMaximumSize(new Dimension(widthDefault, heightDefault));
         albums.setBackground(new Color(0xFFFFFF));
+        albums.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                centerPanel3.change3();
+            }
+        });
         try {
             Image img = ImageIO.read(getClass().getResource("/song-playlist.png"));
             Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
             albums.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         }
 
 
         playList = new JButton("Your Library");
-        playList.setFont(new Font("bold" , Font.ROMAN_BASELINE,12));
+        playList.setFont(new Font("bold", Font.ROMAN_BASELINE, 12));
         playList.setToolTipText("Playlists");
         playList.setEnabled(false);
         playList.setOpaque(false);
@@ -211,9 +257,13 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         playlist = new JList<>(vector);
         playlist.setForeground(new Color(0));
         playlist.setBackground(new Color(0x636363));
-        vector.add("play lists:   ");
+        vector.add("play lists:      ");
 //        vector.add("mohammad");
         playlist.setListData(vector);
+//        Iterator<String> iterator=vector.iterator();
+//        while (iterator.hasNext()){
+//            if(playlist.iterator.next()
+//        }
         JScrollPane jScrollPane = new JScrollPane(playlist);
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         playlist.setMaximumSize(new Dimension(30, heightDefault));
@@ -242,8 +292,28 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame {
         this.musicLinker = musicLinker;
     }
 
+    /**
+     * updating songs frame after adding file
+     */
     @Override
     public void update() {
         allSongs.doClick();
+    }
+
+    /**
+     * set the singer photo at playing
+     */
+    @Override
+    public void setPlayingSongProfile(File f) throws InvalidDataException, IOException, UnsupportedTagException {
+        Mp3File mp3file = new Mp3File(f);
+        Image image;
+        if (mp3file.getId3v2Tag().getAlbumImage() != null) {
+            Image img = ImageIO.read(new ByteArrayInputStream(mp3file.getId3v2Tag().getAlbumImage()));
+            image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+        } else {
+            Image img = ImageIO.read(getClass().getResource("/singer.png"));
+            image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
+        }
+        singer.setIcon(new ImageIcon(image));
     }
 }

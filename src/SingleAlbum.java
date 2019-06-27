@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SingleAlbum extends JPanel {
     private Songs albumSongs;
@@ -10,6 +11,17 @@ public class SingleAlbum extends JPanel {
     private String albumName ;
     private JButton album_Photo;
     private JLabel singer_Name;
+    private JLabel album_Name;
+
+    //private PlaySingleTrack playSingleTrack;
+    private SetCurrentSongsAlbum currentSongsAlbum;
+
+
+
+    public void setCurrentSongsAlbum(SetCurrentSongsAlbum currentSongsAlbum) {
+        this.currentSongsAlbum = currentSongsAlbum;
+    }
+
 
     public Songs getAlbumSongs() {
         return albumSongs;
@@ -59,23 +71,23 @@ public class SingleAlbum extends JPanel {
         this.album_Name = album_Name;
     }
 
-    public PlaySingleTrack getPlaySingleTrack() {
-        return playSingleTrack;
+
+
+    public void addToAlbum (SingleTrack singleTrack){
+        albumSongs.addToSongs(singleTrack);
+        this.setVisible(true);
+    }
+    public void removeFromAlbum (SingleTrack singleTrack){
+        albumSongs.removeFromAlbum(singleTrack);
     }
 
-    private JLabel album_Name;
-
-    public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
-        this.playSingleTrack = playSingleTrack;
-    }
-
-    private PlaySingleTrack playSingleTrack;
 
     public SingleAlbum (){
 
         this.setOpaque(false);
         this.setBackground(new Color(0xEEEEEE));
         this.setLayout(new BoxLayout( this, BoxLayout.Y_AXIS));
+        albumSongs = new Songs(0);
         album_Photo = new JButton();
         singer_Name = new JLabel("" , JLabel.CENTER);
         album_Name = new JLabel("",JLabel.CENTER);
@@ -84,7 +96,12 @@ public class SingleAlbum extends JPanel {
         album_Photo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //playSingleTrack.play(singleTrack);
+//                for (int i = 0; i < albumSongs.getTracks().size(); i++) {
+//                    albumSongs.getTracks().get(i).setVisible(true);
+//                }
+//                albumSongs.setVisible(true);
+                currentSongsAlbum.setCurrent(albumSongs);
+                albumSongs.getTracks().get(0).getSinger_Photo().doClick();
             }
         });
         Box box = Box.createVerticalBox();
@@ -92,5 +109,18 @@ public class SingleAlbum extends JPanel {
         box.add(album_Name);
         box.add(singer_Name);
         this.add(box);
+    }
+    public void setOptions(String albumName  , String singerName , Image songIcon ){
+        this.singerName = singerName;
+        this.albumName = albumName;
+        singer_Name.setText(singerName);
+        album_Name.setText(albumName);
+        try {
+            Image image = songIcon.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            album_Photo.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        this.setVisible(true);
     }
 }

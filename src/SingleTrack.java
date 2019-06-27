@@ -1,10 +1,13 @@
+import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 public class SingleTrack extends JPanel {
     public void setSingleTrack(File singleTrack) {
@@ -76,31 +79,48 @@ public class SingleTrack extends JPanel {
     private JLabel singer_Name;
     private JLabel track_Name;
     private JLabel album_Name;
+    private CounterHandler count;
+
+    private SetPlayingSongProfile playingSongProfile;
+    private SetPlayingSongProfile2 playingSongProfile2;
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+    private Boolean like;
+
+    private RemoveMusicLinker removeMusicLinker;
+    private PlaySingleTrack playSingleTrack;
+
+    public void setPlayingSongProfile2(SetPlayingSongProfile2 playingSongProfile2) {
+        this.playingSongProfile2 = playingSongProfile2;
+    }
+    public void setPlayingSongProfile(SetPlayingSongProfile playingSongProfile) {
+        this.playingSongProfile = playingSongProfile;
+    }
 
     public void setRemoveMusicLinker(RemoveMusicLinker removeMusicLinker) {
         this.removeMusicLinker = removeMusicLinker;
     }
 
-    private RemoveMusicLinker removeMusicLinker;
-
-
     public void setPlaySingleTrack(PlaySingleTrack playSingleTrack) {
         this.playSingleTrack = playSingleTrack;
     }
-
-    private PlaySingleTrack playSingleTrack;
 
     public void setCount(CounterHandler count) {
         this.count = count;
     }
 
-    private CounterHandler count;
-
     public SingleTrack (){
+        like = false;
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");
         JMenuItem jMenuItem2 = new JMenuItem("Delete");
-        //JMenuItem jMenuItem3 = new JMenuItem("falk");
         jPopupMenu.add(jMenuItem1);
         jPopupMenu.add(jMenuItem2);
         jMenuItem1.addActionListener(new ActionListener() {
@@ -113,7 +133,15 @@ public class SingleTrack extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                count.handle(returnThis());
+                try {
+                    count.handle(returnThis());
+                } catch (InvalidDataException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedTagException e1) {
+                    e1.printStackTrace();
+                }
                 removeMusicLinker.remove(singleTrack);
             }
         });
@@ -130,10 +158,22 @@ public class SingleTrack extends JPanel {
         album_Name = new JLabel("",JLabel.CENTER);
         singer_Photo.setOpaque(false);
         singer_Photo.setBackground(new Color(0xEEEEEE));
+        singer_Photo.setContentAreaFilled(false);
+        singer_Photo.setBorderPainted(false);
         singer_Photo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playSingleTrack.play(singleTrack);
+                try {
+                    playingSongProfile.setPlayingSongProfile(singleTrack);
+                } catch (InvalidDataException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedTagException e1) {
+                    e1.printStackTrace();
+                }
+                playingSongProfile2.setPlayingSongProfile2(singerName , trackName);
+                playSingleTrack.play(returnThis());
             }
         });
 
@@ -161,7 +201,7 @@ public class SingleTrack extends JPanel {
         return this;
     }
 
-    public void setOptions(String singerName , String trackName , String albumName , Image songIcon , File file ){
+    public void setOptions(String trackName , String albumName  , String singerName , Image songIcon , File file ){
         this.singleTrack = file;
         this.singerName = singerName;
         this.trackName = trackName;

@@ -29,12 +29,25 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         this.updateSongsFrame = updateSongsFrame;
     }
 
-    public Songs (){
+    public void setMatchSongsAndAlbums(MatchSongsAndAlbums matchSongsAndAlbums) {
+        this.matchSongsAndAlbums = matchSongsAndAlbums;
+    }
+
+    private MatchSongsAndAlbums matchSongsAndAlbums;
+
+    public void setAlbumRemoving(RemoveFromAlbum albumRemoving) {
+        this.albumRemoving = albumRemoving;
+    }
+
+    private RemoveFromAlbum albumRemoving;
+
+
+
+    public Songs (int MAXIMUM){
         super();
         this.setLayout(new WrapLayout(WrapLayout.LEFT));
-        this.setVisible(false);
         tracks = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < MAXIMUM; i++) {
             tracks.add(new SingleTrack());
             tracks.get(i).setVisible(false);
             tracks.get(i).setCount(this);
@@ -42,6 +55,9 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         }
     }
 
+    /**
+     * handling adding file
+     */
     @Override
     public void linker(File f) throws InvalidDataException, IOException, UnsupportedTagException {
 //        SingleTrack trash = new SingleTrack();
@@ -64,12 +80,14 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
             songArtist = mp3file.getId3v1Tag().getArtist();
         else
             songArtist = "UNKNOWN";
-        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getTrack() != null && !mp3file.getId3v1Tag().getTrack().equals(""))
-            songName = mp3file.getId3v1Tag().getTrack();
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getTitle() != null && !mp3file.getId3v1Tag().getTitle().equals(""))
+            songName = mp3file.getId3v1Tag().getTitle();
         else
             songName = "UNKNOWN";
-        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals(""))
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals("")){
             albumName = mp3file.getId3v1Tag().getAlbum();
+        }
+
         else
             albumName = "UNKNOWN";
         if (mp3file.getId3v2Tag().getAlbumImage()!=null ){
@@ -78,22 +96,37 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         else{
             image = ImageIO.read(getClass().getResource("/singer.png"));
         }
-        tracks.get(musicCounter).setOptions(songArtist , songName , albumName , image , f );
+        tracks.get(musicCounter).setOptions(songName , albumName  , songArtist , image , f );
         tracks.get(musicCounter).setVisible(true);
         updateSongsFrame.update();
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals("")){
+            matchSongsAndAlbums.match(albumName , songArtist , image , tracks.get(musicCounter));
+        }
 
         musicCounter++;
     }
-    public void counterPlus(){
-        musicCounter++;
-    }
-    public void counterMinus(){
+
+
+
+    /**
+     * handling the counter of musics in deleting mp3
+     */
+    @Override
+    public void handle(SingleTrack singleTrack) throws InvalidDataException, IOException, UnsupportedTagException {
+        tracks.remove(singleTrack);
+        Mp3File mp3file = new Mp3File(singleTrack.getSingleTrack());
+        if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals("")){
+            albumRemoving.removeFromAlbum(mp3file.getId3v1Tag().getAlbum() , singleTrack);
+        }
         musicCounter--;
     }
-
-
-    @Override
-    public void handle(SingleTrack singleTrack) {
+    public void addToSongs (SingleTrack singleTrack){
+        tracks.add(musicCounter , singleTrack);
+        tracks.get(musicCounter).setVisible(true);
+        musicCounter++;
+    }
+    public void removeFromAlbum(SingleTrack singleTrack){
+        tracks.get(tracks.indexOf(singleTrack)).setVisible(false);
         tracks.remove(singleTrack);
         musicCounter--;
     }
