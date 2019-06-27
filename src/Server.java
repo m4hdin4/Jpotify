@@ -73,6 +73,7 @@ public class Server implements Runnable {
             ClientManager temp = new ClientManager(this ,client);
             clientServerSet.clientServerSet(temp);
             executorService.submit(temp);
+
             /*Thread thread = new Thread(temp);
             threads.add(thread);
             thread.start();*/

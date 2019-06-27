@@ -156,7 +156,11 @@ public class SingleTrack extends JPanel {
         jMenuItem3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addTrackToShared.addTrackToShared(returnThis());
+                try {
+                    addTrackToShared.addTrackToShared(returnThis());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         //jPopupMenu.add(jMenuItem3);

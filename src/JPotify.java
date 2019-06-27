@@ -35,7 +35,7 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         });
 
         jPotifyUser = new JPotifyUser();
-        TimeUnit.SECONDS.sleep(10);
+        TimeUnit.SECONDS.sleep(20);
         InetAddress inetAddress = InetAddress.getLocalHost();
         System.out.println(inetAddress.getHostAddress().trim());
         server = new Server();
@@ -48,7 +48,6 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         t.start();
         client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
         client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
-
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 

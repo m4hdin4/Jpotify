@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.HashMap;
 
 public class SingleUser extends JPanel {
 
@@ -8,6 +10,7 @@ private JButton userName;
 private JLabel trackName;
 private JLabel isOnline;
 private JLabel time;
+
     
     public SingleUser (String user ,String songName){
         this.setLayout(new BoxLayout(this ,BoxLayout.Y_AXIS));

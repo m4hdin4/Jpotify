@@ -5,6 +5,7 @@ import javazoom.jl.decoder.JavaLayerException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.Socket;
 
 public class ClientManager implements Runnable {
@@ -53,6 +54,22 @@ public class ClientManager implements Runnable {
             }
             SingleUser newSingleUser = new SingleUser(name,somgName);
             addUserToServerPanel.addUserToServerPanel(newSingleUser);
+            String[] array = new String[100];
+            try {
+
+                ObjectInputStream objectInputStream = new ObjectInputStream(clientHolder.getInputStream());
+                array = (String[]) objectInputStream.readObject();
+                for (int i = 0; i < array.length; i++) {
+                    System.out.println(array[i]);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
 
 //        File file = new File("C:\\Users\\mm\\Downloads\\Music\\Bigharar.mp3");
 //        long fileLength = file.length();

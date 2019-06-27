@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +16,7 @@ public class SharedPlayListS extends JPanel implements AddTrackToShared {
     private ArrayList<Share> shared;
     private int sharedCounter;
     private HashMap <String , File> sharedList;
+
 
     public HashMap<String, File> getSharedList() {
         return sharedList;
@@ -39,12 +40,17 @@ public class SharedPlayListS extends JPanel implements AddTrackToShared {
     }
 
     @Override
-    public void addTrackToShared(SingleTrack singleTrack) {
+    public void addTrackToShared(SingleTrack singleTrack) throws IOException {
         for (int i = 0; i < sharedCounter; i++) {
             if (shared.get(i).getSingleTrack().equals(singleTrack))
                 return;
         }
         sharedList.put(singleTrack.getTrackName() , singleTrack.getSingleTrack());
+        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\shared.tuem");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(sharedList);
+        objectOutputStream.close();
+        fileOutputStream.close();
         shared.get(sharedCounter).setSingleTrack(singleTrack);
         shared.get(sharedCounter).setText(singleTrack.getTrackName());
         shared.get(sharedCounter).setVisible(true);
