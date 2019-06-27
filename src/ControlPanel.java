@@ -32,15 +32,15 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
     private JButton addToSongs;
     private JButton allSongs;
     private JButton albums;
-    private JButton playList;
+    private JButton playListIcon;
     private JButton home;
     private JLabel singer;
     private JButton addPlay;
     private JButton favorite;
     private JButton shared;
 
-    private Vector<String> vector;
-    private JList<String> playlist;
+//    private Vector<String> vector;
+    private PlayLists playlist;
 
     private ProfilePhotoLinker1 musicLinker;
     private SaveMusicLinker saveMusic;
@@ -198,20 +198,20 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
         }
 
 
-        playList = new JButton("Your Library");
-        playList.setFont(new Font("bold", Font.ROMAN_BASELINE, 12));
-        playList.setToolTipText("Playlists");
-        playList.setEnabled(false);
-        playList.setOpaque(false);
-        playList.setContentAreaFilled(false);
-        playList.setBorderPainted(false);
-        playList.setMaximumSize(new Dimension(widthDefault, 3 * heightDefault));
-        playList.setBorder(new EmptyBorder(heightDefault, 0, 0, 0));
+        playListIcon = new JButton("Your Library");
+        playListIcon.setFont(new Font("bold", Font.ROMAN_BASELINE, 12));
+        playListIcon.setToolTipText("Playlists");
+        playListIcon.setEnabled(false);
+        playListIcon.setOpaque(false);
+        playListIcon.setContentAreaFilled(false);
+        playListIcon.setBorderPainted(false);
+        playListIcon.setMaximumSize(new Dimension(widthDefault, 3 * heightDefault));
+        playListIcon.setBorder(new EmptyBorder(heightDefault, 0, 0, 0));
         try {
             Image img2 = ImageIO.read(getClass().getResource("/musicplaylist.png"));
 
             Image image = img2.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
-            playList.setIcon(new ImageIcon(image));
+            playListIcon.setIcon(new ImageIcon(image));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -300,30 +300,26 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane newNameDialog = new JOptionPane();
-                String playListName = newNameDialog.showInputDialog(playList, "new name");
+                String playListName = newNameDialog.showInputDialog(addPlay, "new name");
                 if (playListName != null && !playListName.equals("")) {
-                    vector.add(playListName);
-                    setPlaylist(vector);
+                    //vector.add(playListName);
+                    //setPlaylist(vector);
                 }
             }
         });
 
 
-        vector = new Vector<>();
-        playlist = new JList<>(vector);
-        playlist.setForeground(new Color(0));
-        playlist.setBackground(new Color(0x636363));
-        vector.add("play lists:      ");
-//        vector.add("mohammad");
-        playlist.setListData(vector);
-//        Iterator<String> iterator=vector.iterator();
-//        while (iterator.hasNext()){
-//            if(playlist.iterator.next()
-//        }
-        JScrollPane jScrollPane = new JScrollPane(playlist);
-        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        playlist.setMaximumSize(new Dimension(30, heightDefault));
+//        vector = new Vector<>();
+//        playlist = new JList<>(vector);
+//        playlist.setForeground(new Color(0));
+//        playlist.setBackground(new Color(0x636363));
+//        vector.add("play lists:      ");
+//        playlist.setListData(vector);
+//        playlist.setMaximumSize(new Dimension(30, heightDefault));
+        playlist = new PlayLists();
 
+
+        JScrollPane jScrollPane = new JScrollPane(playlist , JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         Box box = Box.createVerticalBox();
         box.add(home);
@@ -332,7 +328,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
         box.add(albums);
         box.add(favorite);
         box.add(shared);
-        box.add(playList);
+        box.add(playListIcon);
         box.add(jScrollPane);
         box.add(addPlay);
         box.add(Box.createVerticalGlue());
@@ -342,9 +338,6 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
 
     }
 
-    public void setPlaylist(Vector<String> vector) {
-        this.playlist.setListData(vector);
-    }
 
     public void setMusicLinker(ProfilePhotoLinker1 musicLinker) {
         this.musicLinker = musicLinker;

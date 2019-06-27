@@ -35,7 +35,6 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         });
 
         jPotifyUser = new JPotifyUser();
-        TimeUnit.SECONDS.sleep(20);
         InetAddress inetAddress = InetAddress.getLocalHost();
         System.out.println(inetAddress.getHostAddress().trim());
         server = new Server();
@@ -43,12 +42,13 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         t1.start();
         server.setClientServerSet(this);
         System.out.println("yeah");
-        client = new Client();
-        Thread t = new Thread(client);
-        t.start();
-        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
-        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
-        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
+//        TimeUnit.SECONDS.sleep(15);
+//        client = new Client();
+//        Thread t = new Thread(client);
+//        t.start();
+//        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
+//        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
+//        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
     /**
@@ -62,6 +62,9 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
+    /**
+     * set the client
+     */
     @Override
     public void clientServerSet(ClientManager manager) {
         manager.setAddUserToServerPanel(jPotifyUser.getJpotifyFrame().getServerPanel());

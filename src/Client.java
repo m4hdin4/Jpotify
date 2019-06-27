@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Client implements Runnable  {
+public class Client implements Runnable {
 
     private Socket socket;
     private DataOutputStream dataOutputStream;
@@ -46,7 +46,7 @@ public class Client implements Runnable  {
     public Client() throws IOException, ClassNotFoundException {
         sharedSongs = new HashMap<>();
 
-        FileInputStream fileInputStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\shared.tuem");
+        FileInputStream fileInputStream = new FileInputStream("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\shared.tuem");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         HashMap temp = (HashMap) objectInputStream.readObject();
         sharedSongs = temp;
@@ -59,7 +59,6 @@ public class Client implements Runnable  {
 //        OutputStream os = socket.getOutputStream();
 //        os.write(fileData, 0, fileData.length);
 //        os.flush();
-
 
 
     }
@@ -77,52 +76,52 @@ public class Client implements Runnable  {
      */
     @Override
     public void run() {
-            System.out.println("fuck");
+        System.out.println("fuck");
 
-            try {
-                socket = new Socket("localhost", 1630);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            socket = new Socket("172.20.10.10", 1631);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         USERNAME = getUserNameToServer.getUserNameToServer();
         SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
 
 
         if (USERNAME != null || SONGNAME != null) {
-                    USERNAME = getUserNameToServer.getUserNameToServer();
-                    SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
-                    try {
-                        dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataInputStream = new DataInputStream(socket.getInputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataOutputStream.writeUTF(USERNAME);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataOutputStream.writeUTF(SONGNAME);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataOutputStream.flush();
+            USERNAME = getUserNameToServer.getUserNameToServer();
+            SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
+            try {
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                dataInputStream = new DataInputStream(socket.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                dataOutputStream.writeUTF(USERNAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                dataOutputStream.writeUTF(SONGNAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                dataOutputStream.flush();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                }
+        }
 
-                Set<String> keys = sharedSongs.keySet();
-                String[] array = keys.toArray(new String[keys.size()]);
+        Set<String> keys = sharedSongs.keySet();
+        String[] array = keys.toArray(new String[keys.size()]);
         try {
 
             ObjectOutputStream oi = new ObjectOutputStream(socket.getOutputStream());

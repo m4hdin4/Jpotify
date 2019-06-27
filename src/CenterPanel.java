@@ -153,6 +153,9 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         albums.setVisible(true);
     }
 
+    /**
+     * showing favoritesPanel
+     */
     @Override
     public void change4() {
         int last = this.getComponents().length;
@@ -162,6 +165,9 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         favorites.setVisible(true);
     }
 
+    /**
+     * showing shared playlist
+     */
     @Override
     public void change5() {
         int last = this.getComponents().length;
