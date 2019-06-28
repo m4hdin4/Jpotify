@@ -1,10 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class ClientReciever extends Thread{
+public class ClientReciever extends Thread {
 
     InputStream reader;
-    ObjectInputStream objectInputStream;
+
     public void setSingleUserToServerPanel(AddSingleUserToServerPanel singleUserToServerPanel) {
         this.singleUserToServerPanel = singleUserToServerPanel;
     }
@@ -16,26 +17,28 @@ public class ClientReciever extends Thread{
     }
 
     @Override
-    public void run(){
-
-            DataInputStream dataInputStream = new DataInputStream(reader);
-            String name = "";
-            String songName = "";
-            ArrayList<File> arrayList;
-            try {
-                name = dataInputStream.readUTF();
-                songName = dataInputStream.readUTF();
-
-               // arrayList=(ArrayList<File>) objectInputStream.readObject();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }// catch (ClassNotFoundException e) {
-            //    e.printStackTrace();
-          //  }
-
+    public void run() {
+        Scanner scanner = new Scanner(reader);
+        DataInputStream dataInputStream = new DataInputStream(reader);
+        ObjectInputStream objectInputStream = null;
+        ArrayList<byte[]> arrayList;
+        String name = "";
+        String songName = "";
+        while (true) {
+            name = scanner.nextLine();
+            songName = scanner.nextLine();
+            System.out.println(name);
+            System.out.println(songName);
             SingleUser newSingleUser = new SingleUser(name, songName);
             singleUserToServerPanel.addSingleUserToServer(newSingleUser);
+            try {
+                arrayList = (ArrayList<byte[]>) objectInputStream.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
+        }
     }
 }

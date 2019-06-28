@@ -88,7 +88,6 @@ public class Client implements Runnable {
     public void run() {
         try {
             socket = new Socket("localhost", 1622);
-
             USERNAME = getUserNameToServer.getUserNameToServer();
             SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
             if (USERNAME != null && SONGNAME != null) {

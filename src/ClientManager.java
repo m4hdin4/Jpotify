@@ -1,8 +1,10 @@
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
-public class ClientManager implements Runnable ,Serializable {
+public class ClientManager implements Runnable, Serializable {
 
     private Socket clientHolder;
     private Server serverHolder;
@@ -10,60 +12,83 @@ public class ClientManager implements Runnable ,Serializable {
     private OutputStream toClientStream;
     private DataInputStream reader;
     private DataOutputStream writer;
-    private boolean flag ;
+    private boolean flag;
 
 
-
-    public ClientManager(Server server , Socket socket){
+    public ClientManager(Server server, Socket socket) {
         this.serverHolder = server;
         clientHolder = socket;
-        flag=false;
+        flag = false;
     }
 
     @Override
     public void run() {
         String name;
-            String songName;
+        String songName;
+        ObjectInputStream f = null;
+        try {
+            writer = new DataOutputStream(clientHolder.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            reader = new DataInputStream(clientHolder.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            f = new ObjectInputStream(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<byte[]> arrayList;
+        Scanner scanner;
 
-        while(true) {
+        while (true) {
             try {
-                writer = new DataOutputStream(clientHolder.getOutputStream());
-                reader = new DataInputStream(clientHolder.getInputStream());
-                name = reader.readUTF();
 
-                songName = reader.readUTF();
+                scanner = new Scanner(reader);
+                name = scanner.next();
+                songName = scanner.next();
                 System.out.println(name);
-                serverHolder.addClientManager(name , this);
-                writer.writeUTF(name);
-                writer.writeUTF(songName);
+                System.out.println(songName);
+                serverHolder.addClientManager(name, this);
+                sendTextToAllClients(name);
+                sendTextToAllClients(songName);
+                arrayList = (ArrayList<byte[]>) f.readObject();
+
+                sendObjectToAllClients(arrayList);
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+
             }
 
         }
     }
-    private void sendObjectToAllClients(Object o) throws IOException {
+
+    private void sendObjectToAllClients(ArrayList<byte[]> a) throws IOException {
         for (ClientManager cm : serverHolder.findAllClientManagers()) {
-            cm.sendObject(o);
+            cm.sendObject(a);
         }
     }
+
     private void sendTextToAllClients(String text) throws IOException {
         for (ClientManager cm : serverHolder.findAllClientManagers()) {
             cm.sendObject(text);
         }
     }
 
-    private void sendObject(Object o) throws IOException {
+    private void sendObject(ArrayList<byte[]> a) throws IOException {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientHolder.getOutputStream());
-        objectOutputStream.writeObject(o);
+        objectOutputStream.writeObject(a);
+        objectOutputStream.flush();
     }
+
     private void sendObject(String text) throws IOException {
-        DataOutputStream dataOutputStream = new DataOutputStream(clientHolder.getOutputStream());
-        dataOutputStream.writeUTF(text);
+        PrintWriter p = new PrintWriter(writer);
+        p.print(text);
     }
-
-
-
 
 
 }
