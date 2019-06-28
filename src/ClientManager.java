@@ -1,14 +1,8 @@
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-import javazoom.jl.decoder.JavaLayerException;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.ArrayList;
 
-public class ClientManager implements Runnable {
+public class ClientManager implements Runnable ,Serializable {
 
     private Socket clientHolder;
     private Server serverHolder;
@@ -16,92 +10,60 @@ public class ClientManager implements Runnable {
     private OutputStream toClientStream;
     private DataInputStream reader;
     private DataOutputStream writer;
-    private AddUserToServerPanel addUserToServerPanel;
-    public void setAddUserToServerPanel(AddUserToServerPanel addUserToServerPanel) {
-        this.addUserToServerPanel = addUserToServerPanel;
-    }
+    private boolean flag ;
+
+
 
     public ClientManager(Server server , Socket socket){
         this.serverHolder = server;
         clientHolder = socket;
+        flag=false;
     }
 
     @Override
     public void run() {
-        while (true) {
+        String name;
+            String songName;
 
+        while(true) {
             try {
                 writer = new DataOutputStream(clientHolder.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 reader = new DataInputStream(clientHolder.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String name = "";
-            String somgName = "";
-            try {
                 name = reader.readUTF();
+
+                songName = reader.readUTF();
                 System.out.println(name);
-                somgName = reader.readUTF();
-                System.out.println(somgName);
-                serverHolder.addClientManager(name, this);
+                serverHolder.addClientManager(name , this);
+                writer.writeUTF(name);
+                writer.writeUTF(songName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            SingleUser newSingleUser = new SingleUser(name,somgName);
-            addUserToServerPanel.addUserToServerPanel(newSingleUser);
-            String[] array = new String[100];
-            try {
-
-                ObjectInputStream objectInputStream = new ObjectInputStream(clientHolder.getInputStream());
-                array = (String[]) objectInputStream.readObject();
-                for (int i = 0; i < array.length; i++) {
-                    System.out.println(array[i]);
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
-
-//        File file = new File("C:\\Users\\mm\\Downloads\\Music\\Bigharar.mp3");
-//        long fileLength = file.length();
-//        byte[] fileData = new byte[(int)fileLength];
-//        try {
-//            reader.readFully(fileData , 0 , fileData.length);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        ByteArrayInputStream b = new ByteArrayInputStream(fileData);
-//        File f = new File("replace.mp3");
-//        try {
-//            OutputStream os = new FileOutputStream(f);
-//            os.write(fileData);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            FileInputStream fileInputStream = new FileInputStream("replace.mp3");
-//            MusicPlayer musicPlayer = new MusicPlayer(fileInputStream);
-//            musicPlayer.play();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (JavaLayerException e) {
-//            e.printStackTrace();
-//        }
 
         }
     }
+    private void sendObjectToAllClients(Object o) throws IOException {
+        for (ClientManager cm : serverHolder.findAllClientManagers()) {
+            cm.sendObject(o);
+        }
+    }
+    private void sendTextToAllClients(String text) throws IOException {
+        for (ClientManager cm : serverHolder.findAllClientManagers()) {
+            cm.sendObject(text);
+        }
+    }
+
+    private void sendObject(Object o) throws IOException {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientHolder.getOutputStream());
+        objectOutputStream.writeObject(o);
+    }
+    private void sendObject(String text) throws IOException {
+        DataOutputStream dataOutputStream = new DataOutputStream(clientHolder.getOutputStream());
+        dataOutputStream.writeUTF(text);
+    }
+
+
+
 
 
 }

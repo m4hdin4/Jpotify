@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,12 +21,6 @@ public class Server implements Runnable {
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
 
-    public void setClientServerSet(ClientServerSet clientServerSet) {
-        this.clientServerSet = clientServerSet;
-    }
-
-    private ClientServerSet clientServerSet;
-
     public HashMap<String, ClientManager> getClientsMap() {
         return clientsMap;
     }
@@ -36,7 +31,14 @@ public class Server implements Runnable {
 
 
     public Server() throws IOException, ClassNotFoundException, JavaLayerException {
-
+        threads = new ArrayList<>();
+        clientsMap = new HashMap<>();
+        this.serverPort = 1622;
+        try {
+            serverSocket = new ServerSocket(serverPort);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -44,39 +46,35 @@ public class Server implements Runnable {
         clientsMap.put(name , clientManager);
     }
 
-//    public static void main(String[] args) throws IOException, JavaLayerException, ClassNotFoundException {
-//        InetAddress inetAddress = InetAddress.getLocalHost();
-//        System.out.println(inetAddress.getHostAddress().trim());
-//        new Server();
-//    }
-
 
     @Override
     public void run() {
-        threads = new ArrayList<>();
-        clientsMap = new HashMap<>();
-        this.serverPort = 1630;
-        try {
-            serverSocket = new ServerSocket(serverPort);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        while (true){
+        while(true){
             try {
                 System.out.println("waiting for client");
                 client = serverSocket.accept();
+                System.out.println("new client connected");
+                ClientManager temp = new ClientManager(this ,client);
+                Thread thread = new Thread(temp);
+                threads.add(thread);
+                thread.start();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("new client connected");
-            ClientManager temp = new ClientManager(this ,client);
-            clientServerSet.clientServerSet(temp);
-            executorService.submit(temp);
-
-            /*Thread thread = new Thread(temp);
-            threads.add(thread);
-            thread.start();*/
         }
     }
+
+
+    public ArrayList<ClientManager> findAllClientManagers(){
+        ArrayList<ClientManager> result=new ArrayList<>();
+        for(Map.Entry<String,ClientManager> entry:clientsMap.entrySet()) {
+            result.add(entry.getValue());
+        }
+        return result;
+
+    }
+
+
+
 }

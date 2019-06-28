@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Client implements Runnable  {
+public class Client implements Runnable {
 
     private Socket socket;
     private DataOutputStream dataOutputStream;
@@ -19,6 +19,25 @@ public class Client implements Runnable  {
     private InputStream inputStream;
     private OutputStream outputStream;
     private HashMap<String, File> sharedSongs;
+    private ClientReciever clientReciever;
+
+    public ClientReciever getClientReciever() {
+        return clientReciever;
+    }
+
+    public void setClientReciever(ClientReciever clientReciever) {
+        this.clientReciever = clientReciever;
+    }
+
+    public ClientSender getClientSender() {
+        return clientSender;
+    }
+
+    public void setClientSender(ClientSender clientSender) {
+        this.clientSender = clientSender;
+    }
+
+    private ClientSender clientSender;
 
     public HashMap<String, File> getSharedSongs() {
         return sharedSongs;
@@ -42,25 +61,15 @@ public class Client implements Runnable  {
     private String USERNAME;
     private String SONGNAME;
 
+    public void setSetClientReciever(SetClientReciever setClientReciever) {
+        this.setClientReciever = setClientReciever;
+    }
+
+    private SetClientReciever setClientReciever;
+
 
     public Client() throws IOException, ClassNotFoundException {
-        sharedSongs = new HashMap<>();
-
-        FileInputStream fileInputStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\shared.tuem");
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        HashMap temp = (HashMap) objectInputStream.readObject();
-        sharedSongs = temp;
-        objectInputStream.close();
-        fileInputStream.close();
-//        long fileLength = file.length();
-//        byte[] fileData = new byte[(int)fileLength];
-//        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-//        bis.read(fileData, 0, fileData.length);
-//        OutputStream os = socket.getOutputStream();
-//        os.write(fileData, 0, fileData.length);
-//        os.flush();
-
-
+        //System.exit(0);
 
     }
 
@@ -77,73 +86,32 @@ public class Client implements Runnable  {
      */
     @Override
     public void run() {
-            System.out.println("fuck");
-
-            try {
-                socket = new Socket("localhost", 1630);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        USERNAME = getUserNameToServer.getUserNameToServer();
-        SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
-
-
-        if (USERNAME != null || SONGNAME != null) {
-                    USERNAME = getUserNameToServer.getUserNameToServer();
-                    SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
-                    try {
-                        dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataInputStream = new DataInputStream(socket.getInputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataOutputStream.writeUTF(USERNAME);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataOutputStream.writeUTF(SONGNAME);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        dataOutputStream.flush();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                Set<String> keys = sharedSongs.keySet();
-                String[] array = keys.toArray(new String[keys.size()]);
         try {
+            socket = new Socket("localhost", 1622);
 
-            ObjectOutputStream oi = new ObjectOutputStream(socket.getOutputStream());
-            oi.writeObject(array);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            USERNAME = getUserNameToServer.getUserNameToServer();
+            SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
+            if (USERNAME != null && SONGNAME != null) {
+                sharedSongs = new HashMap<>();
+                FileInputStream fileInputStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\shared.tuem");
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                HashMap temp = (HashMap) objectInputStream.readObject();
+                sharedSongs = temp;
+                objectInputStream.close();
+                fileInputStream.close();
+                clientSender = new ClientSender(socket.getOutputStream(), USERNAME, SONGNAME, sharedSongs);
+                Thread t = new Thread(clientSender);t.start();
+                clientReciever = new ClientReciever(socket.getInputStream());
+                setClientReciever.setClientReciever(clientReciever);
+                Thread t1 = new Thread(clientReciever);
+                t1.start();
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        for (int i = 0; i < sharedSongs.size(); i++) {
-
-        }
-
-
     }
-
-
-//    public static void main(String[] args) throws IOException {
-//        new Client();
-//    }
-/*public static void main(String[] args) throws IOException {
-    new Client();
-}*/
 }
+
+

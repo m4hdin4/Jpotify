@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
-public class JPotify implements SignNewUser,ClientServerSet , Serializable {
+public class JPotify implements SignNewUser , SetClientReciever ,  Serializable {
     private FirstFrame firstFrame ;
     private JPotifyUser jPotifyUser ;
     private Server server;
@@ -35,17 +35,18 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         });
 
         jPotifyUser = new JPotifyUser();
-        TimeUnit.SECONDS.sleep(20);
         InetAddress inetAddress = InetAddress.getLocalHost();
         System.out.println(inetAddress.getHostAddress().trim());
+        TimeUnit.SECONDS.sleep(15);
         server = new Server();
-        Thread t1 = new Thread(server);
-        t1.start();
-        server.setClientServerSet(this);
-        System.out.println("yeah");
-        client = new Client();
-        Thread t = new Thread(client);
+        Thread t = new Thread(server);
         t.start();
+        System.out.println("yeah");
+        TimeUnit.SECONDS.sleep(3);
+        client = new Client();
+        client.setSetClientReciever(this);
+        Thread t1 = new Thread(client);
+        t1.start();
         client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
         client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
@@ -63,7 +64,7 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
     }
 
     @Override
-    public void clientServerSet(ClientManager manager) {
-        manager.setAddUserToServerPanel(jPotifyUser.getJpotifyFrame().getServerPanel());
+    public void setClientReciever(ClientReciever clientReciever) {
+        clientReciever.setSingleUserToServerPanel(jPotifyUser.getJpotifyFrame().getServerPanel());
     }
 }
