@@ -31,13 +31,13 @@ public class ClientReciever extends Thread {
             System.out.println(songName);
             SingleUser newSingleUser = new SingleUser(name, songName);
             singleUserToServerPanel.addSingleUserToServer(newSingleUser);
-            try {
+            /*try {
                 arrayList = (ArrayList<byte[]>) objectInputStream.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-            }
+            }*/
 
         }
     }

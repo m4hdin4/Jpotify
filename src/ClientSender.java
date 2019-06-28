@@ -25,7 +25,7 @@ public class ClientSender implements Runnable ,Serializable{
     @Override
     public void run() {
         PrintWriter printWriter = new PrintWriter(writer);
-        while (true) {
+
             ObjectOutputStream objectOutputStream = null;
             try {
                 objectOutputStream = new ObjectOutputStream(writer);
@@ -44,17 +44,14 @@ public class ClientSender implements Runnable ,Serializable{
             }
             DataOutputStream dataOutputStream = new DataOutputStream(writer);
 
-            try {
                 printWriter.println(USERNAME);
                 printWriter.flush();
                 printWriter.println(SongName);
                 printWriter.flush();
-                objectOutputStream.writeObject(arrayList);
-                objectOutputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+                //objectOutputStream.writeObject(arrayList);
+               // objectOutputStream.flush();
+
+
 
     }
 }

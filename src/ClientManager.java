@@ -55,14 +55,14 @@ public class ClientManager implements Runnable, Serializable {
                 serverHolder.addClientManager(name, this);
                 sendTextToAllClients(name);
                 sendTextToAllClients(songName);
-                arrayList = (ArrayList<byte[]>) f.readObject();
+                //arrayList = (ArrayList<byte[]>) f.readObject();
 
-                sendObjectToAllClients(arrayList);
+               // sendObjectToAllClients(arrayList);
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            }// catch (ClassNotFoundException e) {
 
-            }
+            //}
 
         }
     }
@@ -87,7 +87,8 @@ public class ClientManager implements Runnable, Serializable {
 
     private void sendObject(String text) throws IOException {
         PrintWriter p = new PrintWriter(writer);
-        p.print(text);
+        p.println(text);
+        p.flush();
     }
 
 
