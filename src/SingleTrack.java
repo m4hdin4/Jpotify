@@ -83,10 +83,19 @@ public class SingleTrack extends JPanel {
 
     private SetPlayingSongProfile playingSongProfile;
     private SetPlayingSongProfile2 playingSongProfile2;
-    private AddTrackToShared addTrackToShared;
+    private AddTrackToShared addTrackToShared;private AddTrackToFavorites addTrackToFavorites;
+
+    public void setAddTrackToFavorites(AddTrackToFavorites addTrackToFavorites) {
+        this.addTrackToFavorites = addTrackToFavorites;
+    }
 
     public void setAddTrackToShared(AddTrackToShared addTrackToShared) {
         this.addTrackToShared = addTrackToShared;
+    }
+    private AddToFavoritesSave addToFavoritesSave;
+
+    public void setAddToFavoritesSave(AddToFavoritesSave addToFavoritesSave) {
+        this.addToFavoritesSave = addToFavoritesSave;
     }
 
 
@@ -96,6 +105,10 @@ public class SingleTrack extends JPanel {
 
     public void setLike(boolean like) {
         this.like = like;
+        if (like) {
+            addToFavoritesSave.addToFavoritesSave(singleTrack);
+            addTrackToFavorites.addTrackToFavorites(returnThis());
+        }
     }
 
     private Boolean like;

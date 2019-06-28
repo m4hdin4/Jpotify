@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Favorites extends JPanel implements AddTrackToFavorites {
+public class Favorites extends JPanel implements AddTrackToFavorites , DeleteFromFavorites {
     private ArrayList<Favorite> favorites;
     private int favoriteCounter;
 
@@ -20,6 +20,7 @@ public class Favorites extends JPanel implements AddTrackToFavorites {
             favorites.add(new Favorite());
             this.add(favorites.get(i));
             favorites.get(i).setVisible(false);
+            favorites.get(i).setDeleteFromFavorites(this);
         }
         this.setLayout(new GridLayout(30 , 1));
     }
@@ -30,5 +31,13 @@ public class Favorites extends JPanel implements AddTrackToFavorites {
         favorites.get(favoriteCounter).setText(singleTrack.getTrackName());
         favorites.get(favoriteCounter).setVisible(true);
         favoriteCounter++;
+    }
+
+    @Override
+    public void DeleteFromFavorites(Favorite favorite) {
+        favorite.setVisible(false);
+        favorites.remove(favorite);
+        remove(favorite);
+        revalidate();
     }
 }

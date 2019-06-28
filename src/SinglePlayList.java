@@ -1,9 +1,11 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class SinglePlayList extends JButton {
+public class SinglePlayList extends JButton implements RemoveFromPlaylists2 {
     private ArrayList<SingleTrack> singleTracks;
     private String playListName;
 
@@ -32,11 +34,22 @@ public class SinglePlayList extends JButton {
 
     public SinglePlayList(String playListName){
         super(playListName);
+        JPopupMenu jPopupMenu = new JPopupMenu();
+        JMenuItem jMenuItem1 = new JMenuItem("delete playlist");
+        jPopupMenu.add(jMenuItem1);
+        jMenuItem1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                returnThis().setVisible(false);
+
+            }
+        });
         this.playListName =playListName;
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PlayListPanel temp = new PlayListPanel();
+                temp.setRemoveFromPlaylists2(returnThis());
                 for (int i = 0; i < singleTracks.size(); i++) {
                     temp.getPlayListTracks().get(i).setSingleTrack(singleTracks.get(i));
                     temp.getPlayListTracks().get(i).setText(singleTracks.get(i).getTrackName());
@@ -45,7 +58,23 @@ public class SinglePlayList extends JButton {
                 centerPanel6.change6(temp , singleTracks);
             }
         });
-
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getButton() == MouseEvent.BUTTON3){
+                    jPopupMenu.show(e.getComponent() , e.getX() , e.getY());
+                }
+            }
+        });
         singleTracks = new ArrayList<>();
+    }
+
+    @Override
+    public void removeFromPlaylists2(SingleTrack singleTrack) {
+        singleTracks.remove(singleTrack);
+    }
+    public SinglePlayList returnThis(){
+        return this;
     }
 }

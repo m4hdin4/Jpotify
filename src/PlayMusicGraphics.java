@@ -40,11 +40,9 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
     private JButton shuffleBtn;
     private SingleTrack singleTrack;
 
-    public void setAddTrackToFavorites(AddTrackToFavorites addTrackToFavorites) {
-        this.addTrackToFavorites = addTrackToFavorites;
+    public JButton getShuffleBtn() {
+        return shuffleBtn;
     }
-
-    private AddTrackToFavorites addTrackToFavorites;
 
     public SingleTrack getSingleTrack() {
         return singleTrack;
@@ -81,6 +79,12 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
     private SongProfile songData;
     private JPanel centerButtons;
 
+    public void setChangeShuffle(ChangeShuffle changeShuffle) {
+        this.changeShuffle = changeShuffle;
+    }
+
+    private ChangeShuffle changeShuffle;
+
 
     public JProgressBar getjProgressBar() {
         return jProgressBar;
@@ -93,15 +97,16 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
     private int soundSliderValue;
     private Thread thread;
 
-    private int shuffleCounter;
-
-    public boolean getLikeCounter() {
-        return likeCounter;
+    public boolean isShuffleCounter() {
+        return shuffleCounter;
     }
 
-    public void setLikeCounter(boolean likeCounter) {
-        this.likeCounter = likeCounter;
+    public void setShuffleCounter(boolean shuffleCounter) {
+        this.shuffleCounter = shuffleCounter;
     }
+
+    private boolean shuffleCounter;
+
 
     private boolean likeCounter;
 
@@ -151,6 +156,7 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
 
     public PlayMusicGraphics() throws JavaLayerException, FileNotFoundException {
         likeCounter =false;
+        shuffleCounter = false;
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(0x636363));
         centerButtons = new JPanel();
@@ -167,6 +173,8 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
         timePassed.setEnabled(false);
         timePassed.setOpaque(false);
         centerButtons.add(timePassed);
+
+
         shuffleBtn = new JButton();
         shuffleBtn.setOpaque(false);
         shuffleBtn.setContentAreaFilled(false);
@@ -181,7 +189,7 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
         shuffleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (shuffleCounter % 2 == 0) {
+                if (!shuffleCounter) {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/shuffled.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);
@@ -189,7 +197,8 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                    shuffleCounter++;
+                    shuffleCounter = true;
+                    changeShuffle.changeShuffle(shuffleCounter);
                 } else {
                     try {
                         Image img = ImageIO.read(getClass().getResource("/unshuffled.png"));
@@ -198,7 +207,8 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                    shuffleCounter++;
+                    shuffleCounter = false;
+                    changeShuffle.changeShuffle(shuffleCounter);
                 }
             }
         });
@@ -279,7 +289,6 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
             public void actionPerformed(ActionEvent e) {
                 if (!singleTrack.isLike() ) {
                     singleTrack.setLike(true);
-                    addTrackToFavorites.addTrackToFavorites(singleTrack);
                     try {
                         Image img = ImageIO.read(getClass().getResource("/liked.png"));
                         Image image = img.getScaledInstance(imageSizeSmall, imageSizeSmall, Image.SCALE_SMOOTH);

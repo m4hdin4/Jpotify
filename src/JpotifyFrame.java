@@ -12,13 +12,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 /**
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
-public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , SetCurrentSongsAlbum,SetCurrentSongsAllSongs,PlayListsLinker , SetCurrentSongsPlaylist , Serializable {
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , SetCurrentSongsAlbum,SetCurrentSongsAllSongs,PlayListsLinker , SetCurrentSongsPlaylist, ChangeShuffle , Serializable {
 
     //private String username ;
 
@@ -37,6 +39,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
     private PlayMusicGraphics playMusic;
     private CenterPanel centerPanel;
     private ArrayList<SingleTrack> currentSongPage;
+    private ArrayList<SingleTrack> currentSongSave;
 
     public ServerPanel getServerPanel() {
         return serverPanel;
@@ -80,6 +83,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
             centerPanel.getAllSongs().getTracks().get(i).setPlayingSongProfile2(playMusic.getSongData());
             centerPanel.getAllSongs().getTracks().get(i).setAddTrackToShared(centerPanel.getSharedPlayListS());
             centerPanel.getAllSongs().getTracks().get(i).setAddTrackToPlaylist(controlPanel.getPlaylist());
+            centerPanel.getAllSongs().getTracks().get(i).setAddTrackToFavorites(centerPanel.getFavorites());
         }
 
         centerPanel.getAllSongs().setUpdateSongsFrame(controlPanel);
@@ -90,12 +94,12 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         currentSongPage = temp;
         playMusic.setPlayNext(this);
         playMusic.setPlayLast(this);
+        playMusic.setChangeShuffle(this);
         controlPanel.setCenterPanel3(centerPanel);
         controlPanel.setCenterPanel4(centerPanel);
         for (int i = 0; i < centerPanel.getAlbums().getAlbums().size(); i++) {
             centerPanel.getAlbums().getAlbums().get(i).setCurrentSongsAlbum(this);
         }
-        playMusic.setAddTrackToFavorites(centerPanel.getFavorites());
         centerPanel.setCurrentSongsAllSongs(this);
         controlPanel.setCenterPanel5(centerPanel);
         controlPanel.setPlayListsLinker(this);
@@ -236,6 +240,8 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
      */
     @Override
     public void setCurrent(ArrayList<SingleTrack> singleTracks) {
+        if (playMusic.isShuffleCounter())
+            playMusic.getShuffleBtn().doClick();
         currentSongPage = singleTracks;
     }
 
@@ -244,6 +250,8 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
      */
     @Override
     public void setCurrentAllSongs(ArrayList<SingleTrack> singleTracks) {
+        if (playMusic.isShuffleCounter())
+            playMusic.getShuffleBtn().doClick();
         currentSongPage = singleTracks;
     }
 
@@ -254,6 +262,22 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 
     @Override
     public void setCurrentSongsPlaylist(ArrayList<SingleTrack> singleTracks) {
+        if (playMusic.isShuffleCounter())
+            playMusic.getShuffleBtn().doClick();
         currentSongPage = singleTracks;
+    }
+
+    @Override
+    public void changeShuffle(boolean b) {
+        if (b){
+            currentSongSave = new ArrayList<>();
+            for (int i = 0; i < currentSongPage.size(); i++) {
+                currentSongSave.add(currentSongPage.get(i));
+            }
+            Collections.shuffle(currentSongPage);
+        }
+        else {
+            currentSongPage = currentSongSave;
+        }
     }
 }
