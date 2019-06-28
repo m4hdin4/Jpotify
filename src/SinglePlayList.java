@@ -9,7 +9,12 @@ public class SinglePlayList extends JButton implements RemoveFromPlaylists2 {
     private ArrayList<SingleTrack> singleTracks;
     private String playListName;
 
+    private DeletePlaylist deletePlaylist;
     private ChangeCenterPanel6 centerPanel6;
+
+    public void setDeletePlaylist(DeletePlaylist deletePlaylist) {
+        this.deletePlaylist = deletePlaylist;
+    }
 
     public void setCenterPanel6(ChangeCenterPanel6 centerPanel6) {
         this.centerPanel6 = centerPanel6;
@@ -41,7 +46,7 @@ public class SinglePlayList extends JButton implements RemoveFromPlaylists2 {
             @Override
             public void actionPerformed(ActionEvent e) {
                 returnThis().setVisible(false);
-
+                deletePlaylist.deletePlaylist(returnThis());
             }
         });
         this.playListName =playListName;

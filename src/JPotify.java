@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
-public class JPotify implements SignNewUser,ClientServerSet , Serializable {
+public class JPotify implements SignNewUser , Serializable {
     private FirstFrame firstFrame ;
     private JPotifyUser jPotifyUser ;
     private Server server;
@@ -37,17 +37,6 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         jPotifyUser = new JPotifyUser();
         InetAddress inetAddress = InetAddress.getLocalHost();
         System.out.println(inetAddress.getHostAddress().trim());
-        server = new Server();
-        Thread t1 = new Thread(server);
-        t1.start();
-        server.setClientServerSet(this);
-        System.out.println("yeah");
-//        TimeUnit.SECONDS.sleep(15);
-//        client = new Client();
-//        Thread t = new Thread(client);
-//        t.start();
-//        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
-//        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
@@ -65,8 +54,4 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
     /**
      * set the client
      */
-    @Override
-    public void clientServerSet(ClientManager manager) {
-        manager.setAddUserToServerPanel(jPotifyUser.getJpotifyFrame().getServerPanel());
-    }
 }

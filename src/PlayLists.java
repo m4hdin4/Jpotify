@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PlayLists extends JPanel implements AddTrackToPlaylist {
+public class PlayLists extends JPanel implements AddTrackToPlaylist , DeletePlaylist {
     private ArrayList<SinglePlayList> playLists;
 
     public ArrayList<SinglePlayList> getPlayLists() {
@@ -33,5 +33,12 @@ public class PlayLists extends JPanel implements AddTrackToPlaylist {
         if (flag){
             JOptionPane.showMessageDialog(singleTrack, "There's no playLists with this name!!!please add it first");
         }
+    }
+
+    @Override
+    public void deletePlaylist(SinglePlayList singlePlayList) {
+        this.remove(singlePlayList);
+        playLists.remove(singlePlayList);
+        revalidate();
     }
 }

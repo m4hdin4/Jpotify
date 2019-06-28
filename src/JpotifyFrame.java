@@ -173,7 +173,6 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
                 System.out.println(ex);
             }
         }
-        System.out.println(singleTrack.isLike());
         File f=singleTrack.getSingleTrack();
         playMusic.setFile(f);
         int frameLength =0;

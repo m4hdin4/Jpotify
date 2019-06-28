@@ -327,6 +327,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
                 String playListName = newNameDialog.showInputDialog(addPlay, "playlist name");
                 if (playListName != null && !playListName.equals("")) {
                     SinglePlayList temp = new SinglePlayList(playListName);
+                    temp.setDeletePlaylist(playlist);
                     playListsLinker.playListLinker(temp);
                     playlist.getPlayLists().add(temp);
                     playlist.add(temp);
