@@ -52,6 +52,12 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
     private ProfilePhotoLinker1 musicLinker;
     private SaveMusicLinker saveMusic;
 
+    public void setPlayListsLinker(PlayListsLinker playListsLinker) {
+        this.playListsLinker = playListsLinker;
+    }
+
+    private PlayListsLinker playListsLinker;
+
     public void setCenterPanel1(ChangeCenterPanel1 centerPanel1) {
         this.centerPanel1 = centerPanel1;
     }
@@ -321,6 +327,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
                 String playListName = newNameDialog.showInputDialog(addPlay, "playlist name");
                 if (playListName != null && !playListName.equals("")) {
                     SinglePlayList temp = new SinglePlayList(playListName);
+                    playListsLinker.playListLinker(temp);
                     playlist.getPlayLists().add(temp);
                     playlist.add(temp);
                     playlist.revalidate();

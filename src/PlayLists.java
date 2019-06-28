@@ -31,7 +31,7 @@ public class PlayLists extends JPanel implements AddTrackToPlaylist {
             }
         }
         if (flag){
-
+            JOptionPane.showMessageDialog(singleTrack, "There's no playLists with this name!!!please add it first");
         }
     }
 }

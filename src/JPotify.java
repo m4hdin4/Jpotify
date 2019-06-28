@@ -49,6 +49,7 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
 //        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
 //        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
 //        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
+        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
     /**
@@ -59,7 +60,6 @@ public class JPotify implements SignNewUser,ClientServerSet , Serializable {
         jPotifyUser.getJpotifyFrame().dispose();
         jPotifyUser.getSignPage().dispose();
         jPotifyUser = new JPotifyUser();
-        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
     /**

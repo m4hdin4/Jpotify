@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class SingleAlbum extends JPanel {
     private Songs albumSongs;
@@ -100,7 +101,11 @@ public class SingleAlbum extends JPanel {
 //                    albumSongs.getTracks().get(i).setVisible(true);
 //                }
 //                albumSongs.setVisible(true);
-                currentSongsAlbum.setCurrent(albumSongs);
+                ArrayList<SingleTrack> temp = new ArrayList<>();
+                for (int i = 0; i < albumSongs.getMusicCounter(); i++) {
+                    temp.add(albumSongs.getTracks().get(i));
+                }
+                currentSongsAlbum.setCurrent(temp);
                 albumSongs.getTracks().get(0).getSinger_Photo().doClick();
             }
         });
