@@ -22,8 +22,10 @@ public class ClientReciever extends Thread {
 
     @Override
     public void run() {
-        Scanner scanner = new Scanner(reader);
 
+
+
+        Scanner scanner = new Scanner(reader);
         ObjectInputStream objectInputStream = null;
 
         ArrayList<byte[]> arrayList = null;
