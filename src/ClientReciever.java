@@ -30,12 +30,13 @@ public class ClientReciever extends Thread {
         String name = "";
         String songName = "";
         HashMap<String,String> friendslist;
-
+        name = scanner.nextLine();
+        songName = scanner.nextLine();
+        SingleUser newSingleUser = new SingleUser(name, songName);
+        singleUserToServerPanel.addSingleUserToServer(newSingleUser);
         while (true) {
-            name = scanner.nextLine();
-            songName = scanner.nextLine();
-            SingleUser newSingleUser = new SingleUser(name, songName);
-            singleUserToServerPanel.addSingleUserToServer(newSingleUser);
+
+
             try {
                 objectInputStream = new ObjectInputStream(reader);
                 arrayList = (ArrayList<byte[]>) objectInputStream.readObject();
