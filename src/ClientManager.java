@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -13,10 +14,12 @@ public class ClientManager implements Runnable, Serializable {
     private DataInputStream reader;
     private DataOutputStream writer;
     private boolean flag;
+    private HashMap<String,String> friendsList;
 
 
-    public ClientManager(Server server, Socket socket) {
+    public ClientManager(Server server, Socket socket , HashMap<String,String> hashMaph) {
         this.serverHolder = server;
+        this.friendsList=hashMaph;
         clientHolder = socket;
         flag = false;
     }
@@ -42,26 +45,31 @@ public class ClientManager implements Runnable, Serializable {
             e.printStackTrace();
         }
         ArrayList<byte[]> arrayList;
-        Scanner scanner;
-
+        Scanner scanner ;
+        PrintWriter printWriter = new PrintWriter(writer);
+        ObjectOutputStream objectOutputStream;
         while (true) {
             try {
-
                 scanner = new Scanner(reader);
                 name = scanner.next();
                 songName = scanner.next();
-                System.out.println(name);
-                System.out.println(songName);
+                serverHolder.addFriend(name,songName);
                 serverHolder.addClientManager(name, this);
                 sendTextToAllClients(name);
                 sendTextToAllClients(songName);
                 arrayList = (ArrayList<byte[]>) f.readObject();
 
                 sendObjectToAllClients(arrayList);
+                AppendingObjectOutputStream a = new AppendingObjectOutputStream(writer);
+                TimeUnit.SECONDS.sleep(3);
+                a.writeObject(friendsList);
+                a.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
         }

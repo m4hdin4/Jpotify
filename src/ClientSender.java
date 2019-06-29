@@ -24,42 +24,41 @@ public class ClientSender implements Runnable ,Serializable{
 
     @Override
     public void run() {
-        PrintWriter printWriter = new PrintWriter(writer);
 
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Collection<File> demoValues = songsToShare.values();
-        ArrayList<File> listOfValues = new ArrayList<File>(demoValues);
-        ArrayList<byte[]> arrayList = new ArrayList<>();
-        for (int i = 0; i < listOfValues.size(); i++) {
+            PrintWriter printWriter = new PrintWriter(writer);
+
+            ObjectOutputStream objectOutputStream = null;
             try {
-                arrayList.add(i , Files.readAllBytes(Paths.get(listOfValues.get(i).getPath())));
+                objectOutputStream = new ObjectOutputStream(writer);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        DataOutputStream dataOutputStream = new DataOutputStream(writer);
-
-        printWriter.println(USERNAME);
-        printWriter.flush();
-        printWriter.println(SongName);
-        printWriter.flush();
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            objectOutputStream.writeObject(arrayList);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+            Collection<File> demoValues = songsToShare.values();
+            ArrayList<File> listOfValues = new ArrayList<File>(demoValues);
+            ArrayList<byte[]> arrayList = new ArrayList<>();
+            for (int i = 0; i < listOfValues.size(); i++) {
+                try {
+                    arrayList.add(i, Files.readAllBytes(Paths.get(listOfValues.get(i).getPath())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            DataOutputStream dataOutputStream = new DataOutputStream(writer);
+            printWriter.println(USERNAME);
+            printWriter.flush();
+            printWriter.println(SongName);
+            printWriter.flush();
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                objectOutputStream.writeObject(arrayList);
+                objectOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
 
