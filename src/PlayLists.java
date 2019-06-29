@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class PlayLists extends JPanel implements AddTrackToPlaylist , DeletePlaylist {
     private ArrayList<SinglePlayList> playLists;
+    private AddNewTrackToPlaylistSave addNewTrackToPlaylistSave;
+
+    public void setAddNewTrackToPlaylistSave(AddNewTrackToPlaylistSave addNewTrackToPlaylistSave) {
+        this.addNewTrackToPlaylistSave = addNewTrackToPlaylistSave;
+    }
 
     public ArrayList<SinglePlayList> getPlayLists() {
         return playLists;
@@ -26,6 +31,7 @@ public class PlayLists extends JPanel implements AddTrackToPlaylist , DeletePlay
         for (int i = 0; i < playLists.size(); i++) {
             if (playLists.get(i).getPlayListName().equals(playlistName)){
                 playLists.get(i).getSingleTracks().add(singleTrack);
+                addNewTrackToPlaylistSave.addNewTrackToPlaylistSave(playlistName,singleTrack.getSingleTrack());
                 flag = false;
                 break;
             }

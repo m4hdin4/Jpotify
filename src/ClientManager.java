@@ -53,7 +53,7 @@ public class ClientManager implements Runnable, Serializable {
                 scanner = new Scanner(reader);
                 name = scanner.next();
                 songName = scanner.next();
-                serverHolder.addFriend(name,songName);
+
                 serverHolder.addClientManager(name, this);
                 sendTextToAllClients(name);
                 sendTextToAllClients(songName);
@@ -64,6 +64,7 @@ public class ClientManager implements Runnable, Serializable {
                 TimeUnit.SECONDS.sleep(3);
                 a.writeObject(friendsList);
                 a.flush();
+                serverHolder.addFriend(name,songName);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {

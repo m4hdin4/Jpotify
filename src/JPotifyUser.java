@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class JPotifyUser implements GetFavoritesFromFile , Serializable {
+public class JPotifyUser implements GetFavoritesFromFile , SetDeletedPlaylistSave , Serializable {
     JpotifyFrame jpotifyFrame;
     //FirstFrame firstFrame ;
 
@@ -86,6 +86,10 @@ public class JPotifyUser implements GetFavoritesFromFile , Serializable {
         jpotifyFrame.getSearch().getProfileSettings().setProfilePhotoSave(saveAccount);
         saveAccount.setProfileLoadPicture1(jpotifyFrame.getSearch());
         saveAccount.setProfileLoadPicture2(jpotifyFrame.getSearch().getProfileSettings());
+
+        jpotifyFrame.getControlPanel().setAddNewPlaylistSave(saveAccount);
+        jpotifyFrame.getControlPanel().getPlaylist().setAddNewTrackToPlaylistSave(saveAccount);
+        jpotifyFrame.getControlPanel().setSetDeletedPlaylistSave(this);
     }
 
 
@@ -97,5 +101,11 @@ public class JPotifyUser implements GetFavoritesFromFile , Serializable {
                 break;
             }
         }
+    }
+
+    @Override
+    public void setDeletedPlaylistSave(SinglePlayList singlePlayList) {
+        singlePlayList.setDeletePlaylistSave(saveAccount);
+        singlePlayList.setDeleteTrackFromPlaylistSave(saveAccount);
     }
 }

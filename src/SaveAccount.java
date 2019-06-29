@@ -4,14 +4,21 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker ,RemoveMusicLinker,ProfilePhotoSave , AddToFavoritesSave , RemoveFromFavoritesSave {
+public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinker2 , ProfileNameLinker ,RemoveMusicLinker
+        ,ProfilePhotoSave , AddToFavoritesSave , RemoveFromFavoritesSave , AddNewPlaylistSave , AddNewTrackToPlaylistSave , DeletePlaylistSave , DeleteTrackFromPlaylistSave {
 
 
     private String username;
     private ArrayList<String> filesPath;
     private ArrayList<String> favoritesPath;
+    private HashMap<String , ArrayList<String>> playLists;
     private String userImagePath;
+
+    public HashMap<String, ArrayList<String>> getPlayLists() {
+        return playLists;
+    }
 
     private String saveMusicAddress = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\saveMusics";
 
@@ -68,9 +75,9 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     }
 
     public SaveAccount() {
-        //username = "tuem";
         filesPath = new ArrayList<>();
         favoritesPath = new ArrayList<>();
+        playLists= new HashMap<>();
         userImagePath = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\user1.png";
     }
 
@@ -140,6 +147,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         this.favoritesPath = saveAccount.getFavoritesPath();
         this.username = saveAccount.getUsername();
         this.userImagePath = saveAccount.getUserImagePath();
+        this.playLists = saveAccount.getPlayLists();
     }
     /**
      * saving the adding file immediately save
@@ -243,6 +251,47 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
     @Override
     public void removeFromFavoritesSave(File f) {
         favoritesPath.remove(f.getPath());
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addNewPlaylistSave(String name) {
+        ArrayList<String> temp = new ArrayList<>();
+        playLists.put(name , temp);
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addNewTrackToPlaylistSave(String name, File f) {
+        playLists.get(name).add(f.getPath());
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deletePlaylistSave(String name) {
+        playLists.remove(name);
+        try {
+            autoSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteTrackFromPlaylistSave(String name , File f) {
+        playLists.get(name).remove(f.getPath());
         try {
             autoSave();
         } catch (IOException e) {

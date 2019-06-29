@@ -49,8 +49,8 @@ public class JPotify implements SignNewUser , SetClientReciever ,  Serializable 
 //        t1.start();
 //        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
 //        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
-//
-//        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
+
+        jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
     /**

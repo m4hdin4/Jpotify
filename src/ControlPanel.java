@@ -51,6 +51,17 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
 
     private ProfilePhotoLinker1 musicLinker;
     private SaveMusicLinker saveMusic;
+    private AddNewPlaylistSave addNewPlaylistSave;
+    private SetDeletedPlaylistSave setDeletedPlaylistSave;
+
+    public void setSetDeletedPlaylistSave(SetDeletedPlaylistSave setDeletedPlaylistSave) {
+        this.setDeletedPlaylistSave = setDeletedPlaylistSave;
+    }
+
+    public void setAddNewPlaylistSave(AddNewPlaylistSave addNewPlaylistSave) {
+        this.addNewPlaylistSave = addNewPlaylistSave;
+    }
+
 
     public void setPlayListsLinker(PlayListsLinker playListsLinker) {
         this.playListsLinker = playListsLinker;
@@ -328,8 +339,10 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
                 if (playListName != null && !playListName.equals("")) {
                     SinglePlayList temp = new SinglePlayList(playListName);
                     temp.setDeletePlaylist(playlist);
+                    setDeletedPlaylistSave.setDeletedPlaylistSave(temp);
                     playListsLinker.playListLinker(temp);
                     playlist.getPlayLists().add(temp);
+                    addNewPlaylistSave.addNewPlaylistSave(playListName);
                     playlist.add(temp);
                     playlist.revalidate();
                 }

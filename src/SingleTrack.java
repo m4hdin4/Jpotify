@@ -83,40 +83,40 @@ public class SingleTrack extends JPanel {
     private JLabel singer_Name;
     private JLabel track_Name;
     private JLabel album_Name;
-
-
     private CounterHandler count;
-    private DragGestureRecognizer dgr;
-    private DragGestureHandler dragGestureHandler;
 
-    @Override
-    public void addNotify() {
 
-        super.addNotify();
-
-        if (dgr == null) {
-
-            dragGestureHandler = new DragGestureHandler(this);
-            dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, dragGestureHandler);
-        }
-
-    }
-
-    @Override
-    public void removeNotify() {
-
-        if (dgr != null) {
-
-            dgr.removeDragGestureListener(dragGestureHandler);
-            dragGestureHandler = null;
-
-        }
-
-        dgr = null;
-
-        super.removeNotify();
-
-    }
+//    private DragGestureRecognizer dgr;
+//    private DragGestureHandler dragGestureHandler;
+//
+//    @Override
+//    public void addNotify() {
+//
+//        super.addNotify();
+//
+//        if (dgr == null) {
+//
+//            dragGestureHandler = new DragGestureHandler(this);
+//            dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, dragGestureHandler);
+//        }
+//
+//    }
+//
+//    @Override
+//    public void removeNotify() {
+//
+//        if (dgr != null) {
+//
+//            dgr.removeDragGestureListener(dragGestureHandler);
+//            dragGestureHandler = null;
+//
+//        }
+//
+//        dgr = null;
+//
+//        super.removeNotify();
+//
+//    }
 
 
     private SetPlayingSongProfile playingSongProfile;
@@ -180,11 +180,11 @@ public class SingleTrack extends JPanel {
     }
 
     public SingleTrack (){
-        DropTarget dropTarget;
-        DropHandler dropHandler;
-        dropHandler = new DropHandler();
-        dropTarget = new DropTarget(this , DnDConstants.ACTION_MOVE , dropHandler , true);
-        this.setTransferHandler(new TransferHandler("icon"));
+//        DropTarget dropTarget;
+//        DropHandler dropHandler;
+//        dropHandler = new DropHandler();
+//        dropTarget = new DropTarget(this , DnDConstants.ACTION_MOVE , dropHandler , true);
+//        this.setTransferHandler(new TransferHandler("icon"));
         like = false;
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");

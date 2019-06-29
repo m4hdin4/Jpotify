@@ -11,6 +11,16 @@ public class SinglePlayList extends JButton implements RemoveFromPlaylists2 {
 
     private DeletePlaylist deletePlaylist;
     private ChangeCenterPanel6 centerPanel6;
+    private DeletePlaylistSave deletePlaylistSave;
+    private DeleteTrackFromPlaylistSave deleteTrackFromPlaylistSave;
+
+    public void setDeleteTrackFromPlaylistSave(DeleteTrackFromPlaylistSave deleteTrackFromPlaylistSave) {
+        this.deleteTrackFromPlaylistSave = deleteTrackFromPlaylistSave;
+    }
+
+    public void setDeletePlaylistSave(DeletePlaylistSave deletePlaylistSave) {
+        this.deletePlaylistSave = deletePlaylistSave;
+    }
 
     public void setDeletePlaylist(DeletePlaylist deletePlaylist) {
         this.deletePlaylist = deletePlaylist;
@@ -46,6 +56,7 @@ public class SinglePlayList extends JButton implements RemoveFromPlaylists2 {
             @Override
             public void actionPerformed(ActionEvent e) {
                 returnThis().setVisible(false);
+                deletePlaylistSave.deletePlaylistSave(playListName);
                 deletePlaylist.deletePlaylist(returnThis());
             }
         });
@@ -78,6 +89,7 @@ public class SinglePlayList extends JButton implements RemoveFromPlaylists2 {
     @Override
     public void removeFromPlaylists2(SingleTrack singleTrack) {
         singleTracks.remove(singleTrack);
+        deleteTrackFromPlaylistSave.deleteTrackFromPlaylistSave(playListName , singleTrack.getSingleTrack());
     }
     public SinglePlayList returnThis(){
         return this;
