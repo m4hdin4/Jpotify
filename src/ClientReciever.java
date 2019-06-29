@@ -22,20 +22,25 @@ public class ClientReciever extends Thread {
 
     @Override
     public void run() {
-        Scanner scanner = new Scanner(reader);
 
+
+
+        Scanner scanner = new Scanner(reader);
         ObjectInputStream objectInputStream = null;
 
         ArrayList<byte[]> arrayList = null;
         String name = "";
         String songName = "";
-        HashMap<String, String> friendslist;
+
+        HashMap<String,String> friendslist;
+        name = scanner.nextLine();
+        songName = scanner.nextLine();
+        SingleUser newSingleUser = new SingleUser(name, songName);
+        singleUserToServerPanel.addSingleUserToServer(newSingleUser);
 
         while (true) {
-            name = scanner.nextLine();
-            songName = scanner.nextLine();
-            SingleUser newSingleUser = new SingleUser(name, songName);
-            singleUserToServerPanel.addSingleUserToServer(newSingleUser);
+
+
             try {
                 objectInputStream = new ObjectInputStream(reader);
                 arrayList = (ArrayList<byte[]>) objectInputStream.readObject();
@@ -56,8 +61,7 @@ public class ClientReciever extends Thread {
             }
 
             if (arrayList != null) {
-                System.out.println("kir");
-                File f = new File("C:\\mehdi.mp3");
+                File f = new File("C:\\Users\\mm\\Desktop\\files\\mehdi.mp3");
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(f);
                     fileOutputStream.write(arrayList.get(0));

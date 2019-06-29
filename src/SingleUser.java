@@ -18,7 +18,7 @@ private JLabel time;
     
     public SingleUser (String user ,String songName){
         this.setLayout(new BoxLayout(this ,BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createLineBorder(new Color(0x2CA3A3) , 3));
+        this.setBorder(BorderFactory.createLineBorder(new Color(0x000000) , 3));
         userName = new JButton("thisName");
         userName.addActionListener(new ActionListener() {
             @Override

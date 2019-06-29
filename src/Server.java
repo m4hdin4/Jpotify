@@ -76,12 +76,12 @@ public class Server implements Runnable  {
     }
 
 
-    public ArrayList<ClientManager> findAllClientManagers(){
+    public HashMap<String  , ClientManager> findAllClientManagers(){
         ArrayList<ClientManager> result=new ArrayList<>();
         for(Map.Entry<String,ClientManager> entry:clientsMap.entrySet()) {
             result.add(entry.getValue());
         }
-        return result;
+        return clientsMap;
 
     }
 

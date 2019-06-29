@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
@@ -11,9 +14,15 @@ public class ClientSender implements Runnable ,Serializable{
 
 
     private OutputStream writer;
+
+    public void setSongName(String songName) {
+        SongName = songName;
+    }
+
     private String USERNAME;
     private String SongName;
     private HashMap<String, File> songsToShare;
+
 
     public ClientSender(OutputStream outputStream, String userName, String songName, HashMap<String, File> hashMap) {
         this.SongName = songName;
@@ -24,7 +33,12 @@ public class ClientSender implements Runnable ,Serializable{
 
     @Override
     public void run() {
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+            }
+        });
             PrintWriter printWriter = new PrintWriter(writer);
 
             ObjectOutputStream objectOutputStream = null;

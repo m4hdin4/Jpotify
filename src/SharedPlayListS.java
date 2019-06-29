@@ -49,7 +49,7 @@ public class SharedPlayListS extends JPanel implements AddTrackToShared {
                 return;
         }
         sharedList.put(singleTrack.getTrackName() , singleTrack.getSingleTrack());
-        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\shared.tuem");
+        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\shared.tuem");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(sharedList);
         objectOutputStream.close();

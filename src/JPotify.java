@@ -37,18 +37,18 @@ public class JPotify implements SignNewUser , SetClientReciever ,  Serializable 
         jPotifyUser = new JPotifyUser();
         InetAddress inetAddress = InetAddress.getLocalHost();
         System.out.println(inetAddress.getHostAddress().trim());
-        //TimeUnit.SECONDS.sleep(15);
+        TimeUnit.SECONDS.sleep(15);
         server = new Server();
         Thread t = new Thread(server);
         t.start();
         System.out.println("yeah");
-//        TimeUnit.SECONDS.sleep(3);
-//        client = new Client();
-//        client.setSetClientReciever(this);
-//        Thread t1 = new Thread(client);
-//        t1.start();
-//        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
-//        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
+        TimeUnit.SECONDS.sleep(3);
+        client = new Client();
+        client.setSetClientReciever(this);
+        Thread t1 = new Thread(client);
+        t1.start();
+        client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
+        client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
 
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }

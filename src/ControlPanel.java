@@ -105,7 +105,7 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
     public ControlPanel() {
         this.setBackground(new Color(0x636363));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
+        this.setPreferredSize(new Dimension(144,50));
         addToSongs = new JButton();
         addToSongs.setOpaque(false);
         addToSongs.setContentAreaFilled(false);
