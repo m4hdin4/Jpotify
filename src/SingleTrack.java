@@ -5,6 +5,10 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +83,41 @@ public class SingleTrack extends JPanel {
     private JLabel singer_Name;
     private JLabel track_Name;
     private JLabel album_Name;
+
+
     private CounterHandler count;
+    private DragGestureRecognizer dgr;
+    private DragGestureHandler dragGestureHandler;
+
+    @Override
+    public void addNotify() {
+
+        super.addNotify();
+
+        if (dgr == null) {
+
+            dragGestureHandler = new DragGestureHandler(this);
+            dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, dragGestureHandler);
+        }
+
+    }
+
+    @Override
+    public void removeNotify() {
+
+        if (dgr != null) {
+
+            dgr.removeDragGestureListener(dragGestureHandler);
+            dragGestureHandler = null;
+
+        }
+
+        dgr = null;
+
+        super.removeNotify();
+
+    }
+
 
     private SetPlayingSongProfile playingSongProfile;
     private SetPlayingSongProfile2 playingSongProfile2;
@@ -142,6 +180,11 @@ public class SingleTrack extends JPanel {
     }
 
     public SingleTrack (){
+        DropTarget dropTarget;
+        DropHandler dropHandler;
+        dropHandler = new DropHandler();
+        dropTarget = new DropTarget(this , DnDConstants.ACTION_MOVE , dropHandler , true);
+        this.setTransferHandler(new TransferHandler("icon"));
         like = false;
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");

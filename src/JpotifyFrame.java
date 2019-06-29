@@ -32,7 +32,7 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
 //        this.username = username;
 //    }
 
-    private final int WIDTH = 870, HEIGHT = 700;
+    private final int WIDTH = 1024, HEIGHT = 680;
     private final String WINDOWS_TITLE = "Jpotify";
     private ControlPanel controlPanel;
     private Search search;

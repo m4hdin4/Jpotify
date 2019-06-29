@@ -5,9 +5,76 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server  {
+public class Server implements Runnable  {
+
+    private ServerSocket serverSocket ;
+    private int serverPort;
+    private ArrayList<Thread> threads ;
+    private HashMap<String, ClientManager> clientsMap ;
+    private Socket client;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+    private ExecutorService executorService = Executors.newCachedThreadPool();
+
+
+    public HashMap<String, ClientManager> getClientsMap() {
+        return clientsMap;
+    }
+
+    public void setClientsMap(HashMap<String, ClientManager> clientsMap) {
+        this.clientsMap = clientsMap;
+    }
+
+
+    public Server() throws IOException, ClassNotFoundException, JavaLayerException {
+        threads = new ArrayList<>();
+        clientsMap = new HashMap<>();
+        this.serverPort = 1622;
+        try {
+            serverSocket = new ServerSocket(serverPort);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void addClientManager(String name , ClientManager clientManager){
+        clientsMap.put(name , clientManager);
+    }
+
+
+    @Override
+    public void run() {
+        while(true){
+            try {
+                System.out.println("waiting for client");
+                client = serverSocket.accept();
+                System.out.println("new client connected");
+                ClientManager temp = new ClientManager(this ,client);
+                Thread thread = new Thread(temp);
+                threads.add(thread);
+                thread.start();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public ArrayList<ClientManager> findAllClientManagers(){
+        ArrayList<ClientManager> result=new ArrayList<>();
+        for(Map.Entry<String,ClientManager> entry:clientsMap.entrySet()) {
+            result.add(entry.getValue());
+        }
+        return result;
+
+    }
+
+
 
 }

@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ServerPanel extends JPanel implements AddUserToServerPanel {
+public class ServerPanel extends JPanel implements AddSingleUserToServerPanel {
 
 
     private ArrayList<SingleUser> singleUsers;
@@ -22,13 +22,10 @@ public class ServerPanel extends JPanel implements AddUserToServerPanel {
         singleUsers.add(singleUser);
     }
 
-    /**
-     * adding a new user to serverPanel
-     */
     @Override
-    public void addUserToServerPanel(SingleUser singleUser) {
+    public void addSingleUserToServer(SingleUser singleUser) {
         singleUsers.add(singleUser);
         this.add(singleUser);
-        this.repaint();
+        revalidate();
     }
 }

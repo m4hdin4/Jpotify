@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javazoom.jl.decoder.*;
+import org.jmusixmatch.MusixMatchException;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -122,6 +123,8 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
     private int frame;
     private MusicPlayer musicPlayer;
 
+    private JButton lyrics;
+
 
     public void setPlayNext(PlayNext playNext) {
         this.playNext = playNext;
@@ -169,6 +172,8 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
 //        JLabel space = new JLabel("                              ");
 //        space.setOpaque(false);
 //        centerButtons.add(space);
+
+
         timePassed = new JLabel("0:00");
         timePassed.setEnabled(false);
         timePassed.setOpaque(false);
@@ -303,8 +308,28 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
         });
 
 
-
-
+        lyrics = new JButton();
+        lyrics.setOpaque(false);
+        lyrics.setContentAreaFilled(false);
+        lyrics.setBorderPainted(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("/lyrics.png"));
+            Image image = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            lyrics.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        lyrics.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Lyrics showLyrics = new Lyrics(songData.getTrackName() , songData.getSingerName());
+                    showLyrics.setVisible(true);
+                } catch (MusixMatchException e1) {
+                    JOptionPane.showMessageDialog(lyrics, "Can't find LYRICS!!!");
+                }
+            }
+        });
 
 
 
@@ -594,6 +619,7 @@ public class PlayMusicGraphics extends JPanel implements GetCurrentSongToServer{
         timeSong.setEnabled(false);
         timeSong.setOpaque(false);
         centerButtons.add(timeSong);
+        centerButtons.add(lyrics);
         this.add(centerButtons, BorderLayout.CENTER);
 
         soundBar = new JPanel();

@@ -7,6 +7,15 @@ public class SongProfile extends JPanel implements SetPlayingSongProfile2 {
     private JLabel songSingerName;
     private JLabel songName;
 
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+
     public JLabel getSongSingerName() {
         return songSingerName;
     }
