@@ -1,6 +1,3 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
@@ -10,19 +7,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * this class is for client to sent informations to other clients
+ */
 public class ClientSender implements Runnable ,Serializable{
 
 
     private OutputStream writer;
-
-    public void setSongName(String songName) {
-        SongName = songName;
-    }
-
     private String USERNAME;
     private String SongName;
     private HashMap<String, File> songsToShare;
-
 
     public ClientSender(OutputStream outputStream, String userName, String songName, HashMap<String, File> hashMap) {
         this.SongName = songName;
@@ -33,46 +27,41 @@ public class ClientSender implements Runnable ,Serializable{
 
     @Override
     public void run() {
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
-            PrintWriter printWriter = new PrintWriter(writer);
+        PrintWriter printWriter = new PrintWriter(writer);
 
-            ObjectOutputStream objectOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            objectOutputStream = new ObjectOutputStream(writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Collection<File> demoValues = songsToShare.values();
+        ArrayList<File> listOfValues = new ArrayList<File>(demoValues);
+        ArrayList<byte[]> arrayList = new ArrayList<>();
+        for (int i = 0; i < listOfValues.size(); i++) {
             try {
-                objectOutputStream = new ObjectOutputStream(writer);
+                arrayList.add(i, Files.readAllBytes(Paths.get(listOfValues.get(i).getPath())));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Collection<File> demoValues = songsToShare.values();
-            ArrayList<File> listOfValues = new ArrayList<File>(demoValues);
-            ArrayList<byte[]> arrayList = new ArrayList<>();
-            for (int i = 0; i < listOfValues.size(); i++) {
-                try {
-                    arrayList.add(i, Files.readAllBytes(Paths.get(listOfValues.get(i).getPath())));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            DataOutputStream dataOutputStream = new DataOutputStream(writer);
-            printWriter.println(USERNAME);
-            printWriter.flush();
-            printWriter.println(SongName);
-            printWriter.flush();
-            try {
-                TimeUnit.SECONDS.sleep(3);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                objectOutputStream.writeObject(arrayList);
-                objectOutputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+        DataOutputStream dataOutputStream = new DataOutputStream(writer);
+        printWriter.println(USERNAME);
+        printWriter.flush();
+        printWriter.println(SongName);
+        printWriter.flush();
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            objectOutputStream.writeObject(arrayList);
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 

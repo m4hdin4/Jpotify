@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * this class is for recieving informations from other clients
+ */
 public class ClientReciever extends Thread {
 
     InputStream reader;
@@ -15,24 +18,23 @@ public class ClientReciever extends Thread {
     }
 
     private AddSingleUserToServerPanel singleUserToServerPanel;
+    private String userName;
 
-    public ClientReciever(InputStream inputStream) throws IOException {
+    public ClientReciever(InputStream inputStream ,String userName) throws IOException {
         this.reader = inputStream;
+        this.userName = userName;
     }
 
     @Override
     public void run() {
-
-
-
         Scanner scanner = new Scanner(reader);
         ObjectInputStream objectInputStream = null;
-
         ArrayList<byte[]> arrayList = null;
         String name = "";
         String songName = "";
 
         HashMap<String,String> friendslist;
+        HashMap<String,ArrayList<byte[]>> friendsFiles;
         name = scanner.nextLine();
         songName = scanner.nextLine();
         SingleUser newSingleUser = new SingleUser(name, songName);
@@ -46,8 +48,11 @@ public class ClientReciever extends Thread {
                 arrayList = (ArrayList<byte[]>) objectInputStream.readObject();
                 TimeUnit.SECONDS.sleep(3);
                 friendslist = (HashMap<String, String>) objectInputStream.readObject();
+                TimeUnit.SECONDS.sleep(3);
+                friendsFiles = (HashMap<String , ArrayList<byte[]>>) objectInputStream.readObject();
                 if (friendslist != null && friendslist.size() != 0) {
                     for (String s : friendslist.keySet()) {
+
                         SingleUser singleUser = new SingleUser(s, friendslist.get(s));
                         singleUserToServerPanel.addSingleUserToServer(singleUser);
                     }
@@ -83,5 +88,6 @@ public class ClientReciever extends Thread {
             }
 
         }
+
     }
 }
