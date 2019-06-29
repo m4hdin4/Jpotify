@@ -20,6 +20,11 @@ public class Client implements Runnable {
     private OutputStream outputStream;
     private HashMap<String, File> sharedSongs;
     private ClientReciever clientReciever;
+    private HashMap<String , String> friendsList;
+    private GetCurrentSongToServer getCurrentSongToServer;
+    private GetUserNameToServer getUserNameToServer;
+    private String USERNAME;
+    private String SONGNAME;
 
     public ClientReciever getClientReciever() {
         return clientReciever;
@@ -56,10 +61,7 @@ public class Client implements Runnable {
         this.getCurrentSongToServer = getCurrentSongToServer;
     }
 
-    private GetCurrentSongToServer getCurrentSongToServer;
-    private GetUserNameToServer getUserNameToServer;
-    private String USERNAME;
-    private String SONGNAME;
+
 
     public void setSetClientReciever(SetClientReciever setClientReciever) {
         this.setClientReciever = setClientReciever;

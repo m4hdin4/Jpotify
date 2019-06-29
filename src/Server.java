@@ -15,6 +15,12 @@ public class Server implements Runnable {
     private int serverPort;
     private ArrayList<Thread> threads ;
     private HashMap<String, ClientManager> clientsMap ;
+
+    public HashMap<String, String> getFriendsList() {
+        return friendsList;
+    }
+
+    private HashMap<String , String> friendsList;
     private Socket client;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -33,6 +39,7 @@ public class Server implements Runnable {
     public Server() throws IOException, ClassNotFoundException, JavaLayerException {
         threads = new ArrayList<>();
         clientsMap = new HashMap<>();
+        friendsList=new HashMap<>();
         this.serverPort = 1622;
         try {
             serverSocket = new ServerSocket(serverPort);
@@ -45,6 +52,9 @@ public class Server implements Runnable {
     public void addClientManager(String name , ClientManager clientManager){
         clientsMap.put(name , clientManager);
     }
+    public void addFriend(String userName , String songName){
+        friendsList.put(userName , songName);
+    }
 
 
     @Override
@@ -54,7 +64,7 @@ public class Server implements Runnable {
                 System.out.println("waiting for client");
                 client = serverSocket.accept();
                 System.out.println("new client connected");
-                ClientManager temp = new ClientManager(this ,client);
+                ClientManager temp = new ClientManager(this ,client , friendsList);
                 Thread thread = new Thread(temp);
                 threads.add(thread);
                 thread.start();
