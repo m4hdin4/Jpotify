@@ -20,7 +20,8 @@ import java.util.Collections;
  * JpotifyFrame is the main frame that user see
  * user can see songs , playlists ,albums,library
  */
-public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast , SetCurrentSongsAlbum,SetCurrentSongsAllSongs,PlayListsLinker , SetCurrentSongsPlaylist, ChangeShuffle , Serializable {
+public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibility,PlaySingleTrack, PlayNext ,PlayLast ,
+        SetCurrentSongsAlbum,SetCurrentSongsAllSongs,PlayListsLinker , SetCurrentSongsPlaylist,SetCurrentSongsFavorites , ChangeShuffle , PlaySharedSongs, SetSharedSongsPlay , Serializable {
 
     //private String username ;
 
@@ -104,6 +105,8 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         controlPanel.setCenterPanel5(centerPanel);
         controlPanel.setPlayListsLinker(this);
         centerPanel.setSetCurrentSongsPlaylist(this);
+        centerPanel.setSetCurrentSongsFavorites(this);
+        centerPanel.setSetSharedSongsPlay(this);
         this.add(centerScroll, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JpotifyFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -278,5 +281,45 @@ public class JpotifyFrame extends JFrame implements ShowNextFrame,JpotifyVisibil
         else {
             currentSongPage = currentSongSave;
         }
+    }
+
+    @Override
+    public void setCurrentSongsFavorites(ArrayList<SingleTrack> singleTracks) {
+        if (playMusic.isShuffleCounter())
+            playMusic.getShuffleBtn().doClick();
+        currentSongPage = singleTracks;
+    }
+
+    @Override
+    public void playSharedSongs(File f) {
+        playMusic.setFile(f);
+        int frameLength =0;
+        try {
+            Mp3File mp3File = new Mp3File(f);
+            frameLength = (int)mp3File.getLengthInSeconds();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedTagException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+
+        playMusic.getjProgressBar().setMaximum(frameLength);
+        String minute = ""+frameLength/60;
+        int second1 = frameLength%60;
+        String second;
+        if (second1<10){
+            second = "0"+frameLength%60;}
+        else
+            second=""+second1;
+        playMusic.getTimeSong().setText(minute+":"+second);
+        playMusic.setFlag();
+        playMusic.getPlayPauseBtn().doClick();
+    }
+
+    @Override
+    public void setSharedSongsPlay(OtherShare otherShare) {
+        otherShare.setPlaySharedSongs(this);
     }
 }

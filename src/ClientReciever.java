@@ -8,7 +8,13 @@ import java.util.concurrent.TimeUnit;
 
 public class ClientReciever extends Thread {
 
-    InputStream reader;
+    private InputStream reader;
+
+    public void setSetSingleUserOptions(SetSingleUserOptions setSingleUserOptions) {
+        this.setSingleUserOptions = setSingleUserOptions;
+    }
+
+    private SetSingleUserOptions setSingleUserOptions;
 
     public void setSingleUserToServerPanel(AddSingleUserToServerPanel singleUserToServerPanel) {
         this.singleUserToServerPanel = singleUserToServerPanel;
@@ -22,10 +28,8 @@ public class ClientReciever extends Thread {
 
     @Override
     public void run() {
-
-
-
         Scanner scanner = new Scanner(reader);
+
         ObjectInputStream objectInputStream = null;
 
         ArrayList<byte[]> arrayList = null;
@@ -36,6 +40,7 @@ public class ClientReciever extends Thread {
         name = scanner.nextLine();
         songName = scanner.nextLine();
         SingleUser newSingleUser = new SingleUser(name, songName);
+        setSingleUserOptions.setSingleUserOptions(newSingleUser);
         singleUserToServerPanel.addSingleUserToServer(newSingleUser);
 
         while (true) {
@@ -61,7 +66,7 @@ public class ClientReciever extends Thread {
             }
 
             if (arrayList != null) {
-                File f = new File("C:\\Users\\mm\\Desktop\\files\\mehdi.mp3");
+                File f = new File("C:\\Users\\BPTEC-32338485\\Desktop\\files\\mehdi.mp3");
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(f);
                     fileOutputStream.write(arrayList.get(0));

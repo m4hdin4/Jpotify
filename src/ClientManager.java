@@ -55,15 +55,14 @@ public class ClientManager implements Runnable, Serializable {
                 songName = scanner.next();
 
                 serverHolder.addClientManager(name, this);
-                sendTextToAllClients(name,name);
-                sendTextToAllClients(songName,name);
+                sendTextToAllClients(name);
+                sendTextToAllClients(songName);
                 arrayList = (ArrayList<byte[]>) f.readObject();
 
-                sendObjectToAllClients(arrayList,name);
+                sendObjectToAllClients(arrayList);
                 AppendingObjectOutputStream a = new AppendingObjectOutputStream(writer);
                 TimeUnit.SECONDS.sleep(3);
-                a.writeObject(friendsList);
-                a.flush();
+                sendObjectToAllClients(arrayList);
                 serverHolder.addFriend(name,songName);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -76,17 +75,15 @@ public class ClientManager implements Runnable, Serializable {
         }
     }
 
-    private void sendObjectToAllClients(ArrayList<byte[]> a , String name) throws IOException {
-        for (String cm : serverHolder.findAllClientManagers().keySet()) {
-            if(!cm.equals(name))
-            serverHolder.findAllClientManagers().get(cm).sendObject(a);
+    private void sendObjectToAllClients(ArrayList<byte[]> a) throws IOException {
+        for (ClientManager cm : serverHolder.findAllClientManagers()) {
+            cm.sendObject(a);
         }
     }
 
-    private void sendTextToAllClients(String text ,String userName) throws IOException {
-        for (String cm : serverHolder.findAllClientManagers().keySet()) {
-            if(!cm.equals(userName))
-            serverHolder.findAllClientManagers().get(cm).sendObject(text);
+    private void sendTextToAllClients(String text) throws IOException {
+        for (ClientManager cm : serverHolder.findAllClientManagers()) {
+            cm.sendObject(text);
         }
     }
 

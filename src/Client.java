@@ -1,10 +1,7 @@
 import javazoom.jl.player.advanced.PlaybackListener;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
@@ -27,8 +24,6 @@ public class Client implements Runnable {
     private GetUserNameToServer getUserNameToServer;
     private String USERNAME;
     private String SONGNAME;
-    private String userName;
-    private String songName;
 
     public ClientReciever getClientReciever() {
         return clientReciever;
@@ -92,17 +87,13 @@ public class Client implements Runnable {
      */
     @Override
     public void run() {
-
         try {
             socket = new Socket("localhost", 1622);
-
             USERNAME = getUserNameToServer.getUserNameToServer();
             SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
             if (USERNAME != null && SONGNAME != null) {
-                userName = USERNAME;
-                songName = SONGNAME;
                 sharedSongs = new HashMap<>();
-                FileInputStream fileInputStream = new FileInputStream("C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\shared.tuem");
+                FileInputStream fileInputStream = new FileInputStream("C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\shared.tuem");
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 HashMap temp = (HashMap) objectInputStream.readObject();
                 sharedSongs = temp;
@@ -120,15 +111,6 @@ public class Client implements Runnable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SONGNAME = getCurrentSongToServer.getCurrentSongToServer();
-                if(  SONGNAME.equals(songName)){
-                    clientSender.setSongName(USERNAME);
-                }
-            }
-        });
     }
 }
 

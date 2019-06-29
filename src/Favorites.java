@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class Favorites extends JPanel implements AddTrackToFavorites , DeleteFromFavorites {
     private ArrayList<Favorite> favorites;
+
+    public int getFavoriteCounter() {
+        return favoriteCounter;
+    }
+
     private int favoriteCounter;
 
     public ArrayList<Favorite> getFavorites() {
@@ -38,6 +43,7 @@ public class Favorites extends JPanel implements AddTrackToFavorites , DeleteFro
         favorite.setVisible(false);
         favorites.remove(favorite);
         remove(favorite);
+        favoriteCounter--;
         revalidate();
     }
 }

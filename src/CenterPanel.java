@@ -2,15 +2,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 , ChangeCenterPanel4 , ChangeCenterPanel5 , ChangeCenterPanel6 {
+public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 , ChangeCenterPanel4 , ChangeCenterPanel5 , ChangeCenterPanel6 ,ChangeCenterPanel7 {
     private HomePage homePage;
     private Songs allSongs;
     private Albums albums;
     private SetCurrentSongsAllSongs currentSongsAllSongs;
     private Favorites favorites;
     private SharedPlayListS sharedPlayListS;
+    private SharedPlaylistPanelOtherUsers sharedPlaylistPanelOtherUsers;
     private PlayListPanel playlistSongs;
+
+    public void setSetSharedSongsPlay(SetSharedSongsPlay setSharedSongsPlay) {
+        this.setSharedSongsPlay = setSharedSongsPlay;
+    }
+
+    private SetSharedSongsPlay setSharedSongsPlay;
     private SetCurrentSongsPlaylist setCurrentSongsPlaylist;
+    private SetCurrentSongsFavorites setCurrentSongsFavorites;
+
+    public void setSetCurrentSongsFavorites(SetCurrentSongsFavorites setCurrentSongsFavorites) {
+        this.setCurrentSongsFavorites = setCurrentSongsFavorites;
+    }
+
 
     public void setSetCurrentSongsPlaylist(SetCurrentSongsPlaylist setCurrentSongsPlaylist) {
         this.setCurrentSongsPlaylist = setCurrentSongsPlaylist;
@@ -186,6 +199,11 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
             this.getComponent(i).setVisible(false);
         }
         favorites.setVisible(true);
+        ArrayList<SingleTrack> trash = new ArrayList<>();
+        for (int i = 0; i < favorites.getFavoriteCounter(); i++) {
+            trash.add(favorites.getFavorites().get(i).getSingleTrack());
+        }
+        setCurrentSongsFavorites.setCurrentSongsFavorites(trash);
     }
 
     /**
@@ -210,5 +228,19 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         }
         playlistSongs.setVisible(true);
         setCurrentSongsPlaylist.setCurrentSongsPlaylist(singleTracks);
+    }
+
+    @Override
+    public void change7(SharedPlaylistPanelOtherUsers sharedPlaylistPanelOtherUsers) {
+        this.sharedPlaylistPanelOtherUsers = sharedPlaylistPanelOtherUsers;
+        this.add(this.sharedPlaylistPanelOtherUsers);
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+            this.getComponent(i).setVisible(false);
+        }
+        sharedPlaylistPanelOtherUsers.setVisible(true);
+        for (int i = 0; i < sharedPlaylistPanelOtherUsers.getOtherShared().size(); i++) {
+            setSharedSongsPlay.setSharedSongsPlay(sharedPlaylistPanelOtherUsers.getOtherShared().get(i));
+        }
     }
 }

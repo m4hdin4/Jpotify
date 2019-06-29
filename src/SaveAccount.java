@@ -20,7 +20,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         return playLists;
     }
 
-    private String saveMusicAddress = "C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\saves\\saveMusics";
+    private String saveMusicAddress = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\saves\\saveMusics";
 
     public ArrayList<String> getFavoritesPath() {
         return favoritesPath;
@@ -90,7 +90,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
         filesPath = new ArrayList<>();
         favoritesPath = new ArrayList<>();
         playLists= new HashMap<>();
-        userImagePath = "C:\\Users\\mm\\Desktop\\Quera\\Jpotify\\src\\user1.png";
+        userImagePath = "C:\\Users\\BPTEC-32338485\\Desktop\\Jpotify\\src\\user1.png";
     }
 
     public void loadAccount() throws IOException, ClassNotFoundException {
@@ -128,7 +128,7 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
                 }
             }
             setByObject(trash);
-
+            autoSave();
         }
         else {
             autoSave();

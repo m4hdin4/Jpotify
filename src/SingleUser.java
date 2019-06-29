@@ -1,9 +1,13 @@
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SingleUser extends JPanel {
@@ -14,6 +18,23 @@ private JLabel trackName;
 private JLabel isOnline;
 private JLabel time;
 
+    public ArrayList<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(ArrayList<File> files) {
+        this.files = files;
+    }
+
+    private ArrayList<File> files;
+private SharedPlaylistPanelOtherUsers sharedPlaylistPanelOtherUsers;
+
+    public void setChangeCenterPanel7(ChangeCenterPanel7 changeCenterPanel7) {
+        this.changeCenterPanel7 = changeCenterPanel7;
+    }
+
+    private ChangeCenterPanel7 changeCenterPanel7;
+
 
     
     public SingleUser (String user ,String songName){
@@ -23,7 +44,17 @@ private JLabel time;
         userName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    sharedPlaylistPanelOtherUsers = new SharedPlaylistPanelOtherUsers();
+                    changeCenterPanel7.change7(sharedPlaylistPanelOtherUsers);
+                    sharedPlaylistPanelOtherUsers.setFiles(files);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InvalidDataException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedTagException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         trackName = new JLabel("trackName");
@@ -35,5 +66,8 @@ private JLabel time;
         this.add(trackName);
         this.add(isOnline);
         this.add(time);
+    }
+    public SingleUser returnThis(){
+        return this;
     }
 }
