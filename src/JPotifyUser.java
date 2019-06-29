@@ -1,10 +1,11 @@
 import javazoom.jl.decoder.JavaLayerException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class JPotifyUser implements Serializable {
+public class JPotifyUser implements GetFavoritesFromFile , SetDeletedPlaylistSave , Serializable {
     JpotifyFrame jpotifyFrame;
     //FirstFrame firstFrame ;
 
@@ -51,6 +52,9 @@ public class JPotifyUser implements Serializable {
         jpotifyFrame.getControlPanel().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
         jpotifyFrame.getCenterPanel().getHomePage().setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
         jpotifyFrame.getCenterPanel().getHomePage().setSaveMusic(saveAccount);
+        for (int i = 0; i < jpotifyFrame.getCenterPanel().getFavorites().getFavorites().size(); i++) {
+            jpotifyFrame.getCenterPanel().getFavorites().getFavorites().get(i).setRemoveFromFavoritesSave(saveAccount);
+        }
 //        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().length; i++) {
 //            jpotifyFrame.getCenterPanel().getAllSongs().getTracks()[i].setPlaySingleTrack(jpotifyFrame.getPlayMusic());
 //        }
@@ -74,13 +78,34 @@ public class JPotifyUser implements Serializable {
         jpotifyFrame.getSearch().getProfileSettings().setSignpageVisibility(signPage);
         jpotifyFrame.getControlPanel().setSaveMusic(saveAccount);
         saveAccount.setMusicLinker(jpotifyFrame.getCenterPanel().getAllSongs());
+        saveAccount.setGetFavoritesFromFile(this);
         for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getTracks().size(); i++) {
             jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).setRemoveMusicLinker(saveAccount);
+            jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).setAddToFavoritesSave(saveAccount);
         }
         jpotifyFrame.getSearch().getProfileSettings().setProfilePhotoSave(saveAccount);
         saveAccount.setProfileLoadPicture1(jpotifyFrame.getSearch());
         saveAccount.setProfileLoadPicture2(jpotifyFrame.getSearch().getProfileSettings());
+
+        jpotifyFrame.getControlPanel().setAddNewPlaylistSave(saveAccount);
+        jpotifyFrame.getControlPanel().getPlaylist().setAddNewTrackToPlaylistSave(saveAccount);
+        jpotifyFrame.getControlPanel().setSetDeletedPlaylistSave(this);
     }
 
 
+    @Override
+    public void getFavoritesFromFile(File f) {
+        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getMusicCounter(); i++) {
+            if (f.equals(jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).getSingleTrack())){
+                jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).setLike(true);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void setDeletedPlaylistSave(SinglePlayList singlePlayList) {
+        singlePlayList.setDeletePlaylistSave(saveAccount);
+        singlePlayList.setDeleteTrackFromPlaylistSave(saveAccount);
+    }
 }

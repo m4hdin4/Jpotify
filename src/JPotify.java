@@ -49,6 +49,7 @@ public class JPotify implements SignNewUser , SetClientReciever ,  Serializable 
         t1.start();
         client.setGetUserNameToServer(jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings());
         client.setGetCurrentSongToServer(jPotifyUser.getJpotifyFrame().getPlayMusic());
+
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
@@ -63,6 +64,9 @@ public class JPotify implements SignNewUser , SetClientReciever ,  Serializable 
         jPotifyUser.getJpotifyFrame().getSearch().getProfileSettings().setUser(this);
     }
 
+    /**
+     * set the client
+     */
     @Override
     public void setClientReciever(ClientReciever clientReciever) {
         clientReciever.setSingleUserToServerPanel(jPotifyUser.getJpotifyFrame().getServerPanel());

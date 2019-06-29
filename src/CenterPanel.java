@@ -1,13 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 , ChangeCenterPanel4 , ChangeCenterPanel5 {
+public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCenterPanel2 ,ChangeCenterPanel3 , ChangeCenterPanel4 , ChangeCenterPanel5 , ChangeCenterPanel6 {
     private HomePage homePage;
     private Songs allSongs;
     private Albums albums;
     private SetCurrentSongsAllSongs currentSongsAllSongs;
     private Favorites favorites;
     private SharedPlayListS sharedPlayListS;
+    private PlayListPanel playlistSongs;
+    private SetCurrentSongsPlaylist setCurrentSongsPlaylist;
+
+    public void setSetCurrentSongsPlaylist(SetCurrentSongsPlaylist setCurrentSongsPlaylist) {
+        this.setCurrentSongsPlaylist = setCurrentSongsPlaylist;
+    }
+
+
+    public PlayListPanel getPlaylistSongs() {
+        return playlistSongs;
+    }
+
+    public void setPlaylistSongs(PlayListPanel playlistSongs) {
+        this.playlistSongs = playlistSongs;
+    }
 
     public SharedPlayListS getSharedPlayListS() {
         return sharedPlayListS;
@@ -70,6 +86,8 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         favorites.setVisible(false);
         sharedPlayListS = new SharedPlayListS();
         sharedPlayListS.setVisible(false);
+        //playlistSongs = new PlayListPanel();
+        //playlistSongs.setVisible(false);
         allSongs.setMatchSongsAndAlbums(albums);
         homePage.setCenterPanel3(this);
         allSongs.setAlbumRemoving(albums);
@@ -78,6 +96,7 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         this.add(homePage);
         this.add(favorites);
         this.add(sharedPlayListS);
+        //this.add(playlistSongs);
         homePage.setVisible(true);
 //        allSongs.setVisible(false);
     }
@@ -107,7 +126,11 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         }
 //        homePage.setVisible(false);
         allSongs.setVisible(true);
-        currentSongsAllSongs.setCurrentAllSongs(allSongs);
+        ArrayList<SingleTrack> temp = new ArrayList<>();
+        for (int i = 0; i < allSongs.getMusicCounter(); i++) {
+            temp.add(allSongs.getTracks().get(i));
+        }
+        currentSongsAllSongs.setCurrentAllSongs(temp);
 //        this.setVisible(true);
     }
 
@@ -153,6 +176,9 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         albums.setVisible(true);
     }
 
+    /**
+     * showing favoritesPanel
+     */
     @Override
     public void change4() {
         int last = this.getComponents().length;
@@ -162,6 +188,9 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
         favorites.setVisible(true);
     }
 
+    /**
+     * showing shared playlist
+     */
     @Override
     public void change5() {
         int last = this.getComponents().length;
@@ -169,5 +198,17 @@ public class CenterPanel extends JPanel implements ChangeCenterPanel1,ChangeCent
             this.getComponent(i).setVisible(false);
         }
         sharedPlayListS.setVisible(true);
+    }
+
+    @Override
+    public void change6(PlayListPanel playListPanel , ArrayList<SingleTrack> singleTracks) {
+        playlistSongs = playListPanel;
+        this.add(playlistSongs);
+        int last = this.getComponents().length;
+        for (int i = last - 1; i >= 0; i--) {
+            this.getComponent(i).setVisible(false);
+        }
+        playlistSongs.setVisible(true);
+        setCurrentSongsPlaylist.setCurrentSongsPlaylist(singleTracks);
     }
 }

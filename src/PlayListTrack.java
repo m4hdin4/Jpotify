@@ -4,7 +4,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Favorite extends JButton {
+public class PlayListTrack extends JButton {
+    private SingleTrack singleTrack;
+    private RemoveFromPlaylists removeFromPlaylists;
+
+    public void setRemoveFromPlaylists(RemoveFromPlaylists removeFromPlaylists) {
+        this.removeFromPlaylists = removeFromPlaylists;
+    }
+
     public SingleTrack getSingleTrack() {
         return singleTrack;
     }
@@ -13,30 +20,18 @@ public class Favorite extends JButton {
         this.singleTrack = singleTrack;
     }
 
-    public void setDeleteFromFavorites(DeleteFromFavorites deleteFromFavorites) {
-        this.deleteFromFavorites = deleteFromFavorites;
-    }
-    private SingleTrack singleTrack;
-    private DeleteFromFavorites deleteFromFavorites;
-    private RemoveFromFavoritesSave removeFromFavoritesSave;
-
-    public void setRemoveFromFavoritesSave(RemoveFromFavoritesSave removeFromFavoritesSave) {
-        this.removeFromFavoritesSave = removeFromFavoritesSave;
-    }
-
-    public Favorite(){
+    public PlayListTrack(){
         JPopupMenu jPopupMenu = new JPopupMenu();
-        JMenuItem jMenuItem1 = new JMenuItem("remove from favorites");
+        JMenuItem jMenuItem1 = new JMenuItem("remove from playList");
         jPopupMenu.add(jMenuItem1);
         jMenuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                singleTrack.setLike(false);
                 returnThis().setVisible(false);
-                deleteFromFavorites.DeleteFromFavorites(returnThis());
-                removeFromFavoritesSave.removeFromFavoritesSave(singleTrack.getSingleTrack());
+                removeFromPlaylists.removeFromPlaylists(returnThis());
             }
         });
+        singleTrack = new SingleTrack();
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,7 +48,7 @@ public class Favorite extends JButton {
             }
         });
     }
-    public Favorite returnThis(){
+    public PlayListTrack returnThis(){
         return this;
     }
 }

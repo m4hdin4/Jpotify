@@ -39,6 +39,9 @@ public class SharedPlayListS extends JPanel implements AddTrackToShared {
         this.setLayout(new GridLayout(30 , 1));
     }
 
+    /**
+     * add track to shared and write shared to a file
+     */
     @Override
     public void addTrackToShared(SingleTrack singleTrack) throws IOException {
         for (int i = 0; i < sharedCounter; i++) {

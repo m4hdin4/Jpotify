@@ -98,12 +98,11 @@ public class Songs extends JPanel implements ProfilePhotoLinker1,CounterHandler 
         }
         tracks.get(musicCounter).setOptions(songName , albumName  , songArtist , image , f );
         tracks.get(musicCounter).setVisible(true);
-        updateSongsFrame.update();
         if (mp3file.hasId3v1Tag() && mp3file.getId3v1Tag().getAlbum() != null && !mp3file.getId3v1Tag().getAlbum().equals("")){
             matchSongsAndAlbums.match(albumName , songArtist , image , tracks.get(musicCounter));
         }
-
         musicCounter++;
+        updateSongsFrame.update();
     }
 
 

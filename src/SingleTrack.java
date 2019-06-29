@@ -5,6 +5,10 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
@@ -81,12 +85,55 @@ public class SingleTrack extends JPanel {
     private JLabel album_Name;
     private CounterHandler count;
 
+
+//    private DragGestureRecognizer dgr;
+//    private DragGestureHandler dragGestureHandler;
+//
+//    @Override
+//    public void addNotify() {
+//
+//        super.addNotify();
+//
+//        if (dgr == null) {
+//
+//            dragGestureHandler = new DragGestureHandler(this);
+//            dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, dragGestureHandler);
+//        }
+//
+//    }
+//
+//    @Override
+//    public void removeNotify() {
+//
+//        if (dgr != null) {
+//
+//            dgr.removeDragGestureListener(dragGestureHandler);
+//            dragGestureHandler = null;
+//
+//        }
+//
+//        dgr = null;
+//
+//        super.removeNotify();
+//
+//    }
+
+
     private SetPlayingSongProfile playingSongProfile;
     private SetPlayingSongProfile2 playingSongProfile2;
-    private AddTrackToShared addTrackToShared;
+    private AddTrackToShared addTrackToShared;private AddTrackToFavorites addTrackToFavorites;
+
+    public void setAddTrackToFavorites(AddTrackToFavorites addTrackToFavorites) {
+        this.addTrackToFavorites = addTrackToFavorites;
+    }
 
     public void setAddTrackToShared(AddTrackToShared addTrackToShared) {
         this.addTrackToShared = addTrackToShared;
+    }
+    private AddToFavoritesSave addToFavoritesSave;
+
+    public void setAddToFavoritesSave(AddToFavoritesSave addToFavoritesSave) {
+        this.addToFavoritesSave = addToFavoritesSave;
     }
 
 
@@ -96,12 +143,22 @@ public class SingleTrack extends JPanel {
 
     public void setLike(boolean like) {
         this.like = like;
+        if (like) {
+            addToFavoritesSave.addToFavoritesSave(singleTrack);
+            addTrackToFavorites.addTrackToFavorites(returnThis());
+        }
     }
 
     private Boolean like;
 
     private RemoveMusicLinker removeMusicLinker;
     private PlaySingleTrack playSingleTrack;
+    private AddTrackToPlaylist addTrackToPlaylist;
+
+    public void setAddTrackToPlaylist(AddTrackToPlaylist addTrackToPlaylist) {
+        this.addTrackToPlaylist = addTrackToPlaylist;
+    }
+
 
     public void setPlayingSongProfile2(SetPlayingSongProfile2 playingSongProfile2) {
         this.playingSongProfile2 = playingSongProfile2;
@@ -123,6 +180,11 @@ public class SingleTrack extends JPanel {
     }
 
     public SingleTrack (){
+//        DropTarget dropTarget;
+//        DropHandler dropHandler;
+//        dropHandler = new DropHandler();
+//        dropTarget = new DropTarget(this , DnDConstants.ACTION_MOVE , dropHandler , true);
+//        this.setTransferHandler(new TransferHandler("icon"));
         like = false;
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem jMenuItem1 = new JMenuItem("Add to playlist");
@@ -134,7 +196,11 @@ public class SingleTrack extends JPanel {
         jMenuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JOptionPane newNameDialog = new JOptionPane();
+                String playListName = newNameDialog.showInputDialog(returnThis(), "which one do you want to add ?");
+                if (playListName != null && !playListName.equals("")) {
+                    addTrackToPlaylist.addTrackToPlaylist(playListName , returnThis());
+                }
             }
         });
         jMenuItem2.addActionListener(new ActionListener() {
