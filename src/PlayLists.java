@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PlayLists extends JPanel implements AddTrackToPlaylist , DeletePlaylist {
+public class PlayLists extends JPanel implements AddTrackToPlaylist , DeletePlaylist , AddTrackToPlaylistLoad {
     private ArrayList<SinglePlayList> playLists;
     private AddNewTrackToPlaylistSave addNewTrackToPlaylistSave;
 
@@ -46,5 +46,15 @@ public class PlayLists extends JPanel implements AddTrackToPlaylist , DeletePlay
         this.remove(singlePlayList);
         playLists.remove(singlePlayList);
         revalidate();
+    }
+
+    @Override
+    public void addTrackToPlaylistLoad(String playlistName, SingleTrack singleTrack) {
+        for (int i = 0; i < playLists.size(); i++) {
+            if (playLists.get(i).getPlayListName().equals(playlistName)){
+                playLists.get(i).getSingleTracks().add(singleTrack);
+                break;
+            }
+        }
     }
 }

@@ -121,7 +121,8 @@ public class SingleTrack extends JPanel {
 
     private SetPlayingSongProfile playingSongProfile;
     private SetPlayingSongProfile2 playingSongProfile2;
-    private AddTrackToShared addTrackToShared;private AddTrackToFavorites addTrackToFavorites;
+    private AddTrackToShared addTrackToShared;
+    private AddTrackToFavorites addTrackToFavorites;
 
     public void setAddTrackToFavorites(AddTrackToFavorites addTrackToFavorites) {
         this.addTrackToFavorites = addTrackToFavorites;

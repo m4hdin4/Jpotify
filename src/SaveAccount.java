@@ -38,6 +38,18 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
 
     private ProfileLoadPicture1 profileLoadPicture1;
 
+    private PlaylistLoadAddingPlaylist playlistLoadAddingPlaylist;
+    private PlaylistLoadAddingTrackToPlaylist playlistLoadAddingTrackToPlaylist;
+
+    public void setPlaylistLoadAddingTrackToPlaylist(PlaylistLoadAddingTrackToPlaylist playlistLoadAddingTrackToPlaylist) {
+        this.playlistLoadAddingTrackToPlaylist = playlistLoadAddingTrackToPlaylist;
+    }
+
+
+    public void setPlaylistLoadAddingPlaylist(PlaylistLoadAddingPlaylist playlistLoadAddingPlaylist) {
+        this.playlistLoadAddingPlaylist = playlistLoadAddingPlaylist;
+    }
+
     public void setGetFavoritesFromFile(GetFavoritesFromFile getFavoritesFromFile) {
         this.getFavoritesFromFile = getFavoritesFromFile;
     }
@@ -108,6 +120,12 @@ public class SaveAccount implements SaveMusicLinker, Serializable, UsernameLinke
             for (int i = 0; i < trash.getFavoritesPath().size(); i++) {
                 File temp = new File(trash.getFavoritesPath().get(i));
                 getFavoritesFromFile.getFavoritesFromFile(temp);
+            }
+            for (String name : trash.getPlayLists().keySet()){
+                playlistLoadAddingPlaylist.playlistLoadAddingPlaylist(name);
+                for (int i = 0; i < trash.getPlayLists().get(name).size(); i++) {
+                    playlistLoadAddingTrackToPlaylist.playlistLoadAddingTrackToPlaylist(name , trash.getPlayLists().get(name).get(i));
+                }
             }
             setByObject(trash);
 

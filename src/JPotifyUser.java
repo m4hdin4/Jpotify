@@ -5,12 +5,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class JPotifyUser implements GetFavoritesFromFile , SetDeletedPlaylistSave , Serializable {
-    JpotifyFrame jpotifyFrame;
-    //FirstFrame firstFrame ;
+public class JPotifyUser implements GetFavoritesFromFile , SetDeletedPlaylistSave , PlaylistLoadAddingTrackToPlaylist , Serializable {
+    private JpotifyFrame jpotifyFrame;
+    private SaveAccount saveAccount ;
+    private SignPage signPage;
 
-    SaveAccount saveAccount ;
-    SignPage signPage;
+    AddTrackToPlaylistLoad addTrackToPlaylistLoad;
+    public void setAddTrackToPlaylistLoad(AddTrackToPlaylistLoad addTrackToPlaylist) {
+        this.addTrackToPlaylistLoad = addTrackToPlaylist;
+    }
 
     public JpotifyFrame getJpotifyFrame() {
         return jpotifyFrame;
@@ -90,6 +93,9 @@ public class JPotifyUser implements GetFavoritesFromFile , SetDeletedPlaylistSav
         jpotifyFrame.getControlPanel().setAddNewPlaylistSave(saveAccount);
         jpotifyFrame.getControlPanel().getPlaylist().setAddNewTrackToPlaylistSave(saveAccount);
         jpotifyFrame.getControlPanel().setSetDeletedPlaylistSave(this);
+        saveAccount.setPlaylistLoadAddingPlaylist(jpotifyFrame.getControlPanel());
+        saveAccount.setPlaylistLoadAddingTrackToPlaylist(this);
+        this.setAddTrackToPlaylistLoad(jpotifyFrame.getControlPanel().getPlaylist());
     }
 
 
@@ -107,5 +113,15 @@ public class JPotifyUser implements GetFavoritesFromFile , SetDeletedPlaylistSav
     public void setDeletedPlaylistSave(SinglePlayList singlePlayList) {
         singlePlayList.setDeletePlaylistSave(saveAccount);
         singlePlayList.setDeleteTrackFromPlaylistSave(saveAccount);
+    }
+
+    @Override
+    public void playlistLoadAddingTrackToPlaylist(String name, String filePath) {
+        for (int i = 0; i < jpotifyFrame.getCenterPanel().getAllSongs().getMusicCounter(); i++) {
+            if (filePath.equals(jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i).getSingleTrack().getPath())){
+                addTrackToPlaylistLoad.addTrackToPlaylistLoad(name , jpotifyFrame.getCenterPanel().getAllSongs().getTracks().get(i));
+                break;
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@ import java.util.Vector;
  * class ControlPanel is the west JPanel on JpotifyFrame
  * it contains songs and playlists and albums and singer photo
  */
-public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayingSongProfile {
+public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayingSongProfile , PlaylistLoadAddingPlaylist {
 
     private final int heightDefault = 25;
     private final int widthDefault = 100;
@@ -337,14 +337,24 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
                 JOptionPane newNameDialog = new JOptionPane();
                 String playListName = newNameDialog.showInputDialog(addPlay, "playlist name");
                 if (playListName != null && !playListName.equals("")) {
-                    SinglePlayList temp = new SinglePlayList(playListName);
-                    temp.setDeletePlaylist(playlist);
-                    setDeletedPlaylistSave.setDeletedPlaylistSave(temp);
-                    playListsLinker.playListLinker(temp);
-                    playlist.getPlayLists().add(temp);
-                    addNewPlaylistSave.addNewPlaylistSave(playListName);
-                    playlist.add(temp);
-                    playlist.revalidate();
+                    boolean flag = true;
+                    for (int i = 0; i < playlist.getPlayLists().size(); i++) {
+                        if (playListName.equals(playlist.getPlayLists().get(i).getPlayListName())){
+                            JOptionPane.showMessageDialog(addPlay, "you have playlist with this name!! try again");
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        SinglePlayList temp = new SinglePlayList(playListName);
+                        temp.setDeletePlaylist(playlist);
+                        setDeletedPlaylistSave.setDeletedPlaylistSave(temp);
+                        playListsLinker.playListLinker(temp);
+                        playlist.getPlayLists().add(temp);
+                        addNewPlaylistSave.addNewPlaylistSave(playListName);
+                        playlist.add(temp);
+                        playlist.revalidate();
+                    }
                 }
             }
         });
@@ -397,5 +407,16 @@ public class ControlPanel extends JPanel implements UpdateSongsFrame , SetPlayin
             image = img.getScaledInstance(imageSizeBig, imageSizeBig, Image.SCALE_SMOOTH);
         }
         singer.setIcon(new ImageIcon(image));
+    }
+
+    @Override
+    public void playlistLoadAddingPlaylist(String name) {
+        SinglePlayList temp = new SinglePlayList(name);
+        temp.setDeletePlaylist(playlist);
+        setDeletedPlaylistSave.setDeletedPlaylistSave(temp);
+        playListsLinker.playListLinker(temp);
+        playlist.getPlayLists().add(temp);
+        playlist.add(temp);
+        playlist.revalidate();
     }
 }
