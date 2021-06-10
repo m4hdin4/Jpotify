@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
+
+/**
+ * a class for a new Client
+ */
 public class Client implements Runnable {
 
     private Socket socket;
@@ -61,7 +65,9 @@ public class Client implements Runnable {
     }
 
 
-
+    /**
+     * set a client receiver for every client
+     */
     public void setSetClientReciever(SetClientReciever setClientReciever) {
         this.setClientReciever = setClientReciever;
     }
@@ -101,7 +107,7 @@ public class Client implements Runnable {
                 fileInputStream.close();
                 clientSender = new ClientSender(socket.getOutputStream(), USERNAME, SONGNAME, sharedSongs);
                 Thread t = new Thread(clientSender);t.start();
-                clientReciever = new ClientReciever(socket.getInputStream());
+                clientReciever = new ClientReciever(socket.getInputStream() ,USERNAME);
                 setClientReciever.setClientReciever(clientReciever);
                 Thread t1 = new Thread(clientReciever);
                 t1.start();

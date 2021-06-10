@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * this class manages every client
+ */
 public class ClientManager implements Runnable, Serializable {
 
     private Socket clientHolder;
@@ -15,11 +18,13 @@ public class ClientManager implements Runnable, Serializable {
     private DataOutputStream writer;
     private boolean flag;
     private HashMap<String,String> friendsList;
+    private HashMap<String,ArrayList<byte[]>> friendsFiles;
 
 
-    public ClientManager(Server server, Socket socket , HashMap<String,String> hashMaph) {
+    public ClientManager(Server server, Socket socket , HashMap<String,String> hashMaph , HashMap<String ,ArrayList<byte[]>> h) {
         this.serverHolder = server;
         this.friendsList=hashMaph;
+        this.friendsFiles=h;
         clientHolder = socket;
         flag = false;
     }
@@ -62,8 +67,14 @@ public class ClientManager implements Runnable, Serializable {
                 sendObjectToAllClients(arrayList);
                 AppendingObjectOutputStream a = new AppendingObjectOutputStream(writer);
                 TimeUnit.SECONDS.sleep(3);
+
                 sendObjectToAllClients(arrayList);
+
+                a.writeObject(friendsList);
+                a.writeObject(friendsFiles);
+                a.flush();
                 serverHolder.addFriend(name,songName);
+                serverHolder.addFriendsFiles(name , arrayList);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -75,18 +86,33 @@ public class ClientManager implements Runnable, Serializable {
         }
     }
 
+    /**
+     * sending object to all clients
+     * @param a the object tat you want to sent
+     * @throws IOException
+     */
     private void sendObjectToAllClients(ArrayList<byte[]> a) throws IOException {
         for (ClientManager cm : serverHolder.findAllClientManagers()) {
             cm.sendObject(a);
         }
     }
 
+    /**
+     * sending text to all clients
+     * @param text the text that you want to send
+     * @throws IOException
+     */
     private void sendTextToAllClients(String text) throws IOException {
         for (ClientManager cm : serverHolder.findAllClientManagers()) {
             cm.sendObject(text);
         }
     }
 
+    /**
+     * sending object
+     * @param a the object that you want to send
+     * @throws IOException
+     */
     private void sendObject(ArrayList<byte[]> a) throws IOException {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientHolder.getOutputStream());
         objectOutputStream.writeObject(a);

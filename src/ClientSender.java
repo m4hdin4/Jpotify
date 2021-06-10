@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * this class is for client to sent informations to other clients
+ */
 public class ClientSender implements Runnable ,Serializable{
 
 
